@@ -40,4 +40,8 @@ public class AddressServiceImpl implements AddressService {
 	public int deleteByPrimaryKey(Integer id) {
 		return addressMapper.deleteByPrimaryKey(id);
 	}
+	@Override
+	public Address selectByPrimaryKey(Integer id){
+		return addressMapper.selectByPrimaryKey(id);
+	}
 }

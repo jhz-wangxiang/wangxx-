@@ -52,7 +52,7 @@ public class SysUserController {
 		// log.debug("执行用户更新功能");
 
 		// 校验登陆用户名密码
-		if (null == sysUser.getUserId()) {
+		if (null == sysUser.getId()) {
 			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
 		}
 		// try {
@@ -77,7 +77,7 @@ public class SysUserController {
 		
 	    passWordOld = md5.getMD5String(passWordOld);
 		// 校验登陆用户名密码
-		if (null == sysUser.getUserId()) {
+		if (null == sysUser.getId()) {
 			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
 		}
 		if(!passWordOld.equals(sysUser.getPassword())){

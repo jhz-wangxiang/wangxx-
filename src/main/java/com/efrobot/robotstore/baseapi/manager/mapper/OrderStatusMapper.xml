@@ -26,17 +26,20 @@
   </delete>
  
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus" >
-    insert into order_status (id, status, remark, 
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_status (status, remark, 
       button, exp1, exp2)
-    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+    values (#{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
       #{button,jdbcType=VARCHAR}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into order_status
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="status != null" >
         status,
       </if>
@@ -54,9 +57,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>

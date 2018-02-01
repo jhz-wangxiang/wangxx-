@@ -26,5 +26,7 @@ public interface OrderService {
 	public List<Area> getArea(Area record);
 	
 	public List<FlightNum> getFlightNum(FlightNum record);
+	
+	public  Order selectByPrimaryKey(Integer id);
 
 }

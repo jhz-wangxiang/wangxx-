@@ -22,17 +22,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Channel" >
-    insert into channel (id, channel, discount, 
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into channel (channel, discount, 
       exp1, exp2)
-    values (#{id,jdbcType=INTEGER}, #{channel,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
+    values (#{channel,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
       #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Channel" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into channel
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="channel != null" >
         channel,
       </if>
@@ -47,9 +50,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="channel != null" >
         #{channel,jdbcType=VARCHAR},
       </if>

@@ -27,6 +27,7 @@
   </delete>
   
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
+  
     insert into sys_menu (MENU_ID, MENU_NAME, MENU_URL, 
       PARENT_ID, MENU_ORDER, MENU_ICON, 
       MENU_ROLE)

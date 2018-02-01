@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
+import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.manager.service.AddressService;
 import com.efrobot.robotstore.util.CommonUtil;
 
@@ -71,9 +72,20 @@ public class AddressController {
 	}
 	@RequestMapping(value = "/deletAddress")
 	@ResponseBody
-	public Map<String, Object> deletAddress(Integer id) throws Exception {
+	public Map<String, Object> deletAddress(Address record) throws Exception {
 		int result = -1;
-		result = addressService.deleteByPrimaryKey(id);
+		Address record2=addressService.selectByPrimaryKey(record.getId());
+		if(record2.getStatus()==0){
+			result = addressService.deleteByPrimaryKey(record.getId());
+		}else{
+			result = addressService.deleteByPrimaryKey(record.getId());
+			List<Address> list=addressService.getAddress(record);
+			if(list.size()!=0){
+				Address a=list.get(0);
+				a.setStatus(1);
+				result = addressService.updateByPrimaryKeySelective(a);
+			}
+		}
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的生产信息");
 		} else if (result == 1)
@@ -81,5 +93,12 @@ public class AddressController {
 		else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
+	}
+	
+	@RequestMapping(value = "/getAddress", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Address> getAddress(Address record) throws Exception {
+		List<Address> list=addressService.getAddress(record);
+		return list;
 	}
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.efrobot.robotstore.baseapi.manager.SysUserMapper">
 	<resultMap id="BaseResultMap"
 		type="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
-		<id column="USER_ID" property="userId" jdbcType="INTEGER" />
+		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="USERNAME" property="username" jdbcType="VARCHAR" />
 		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
 		<result column="NAME" property="name" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
 		<result column="exp2" property="exp2" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		USER_ID, USERNAME, PASSWORD, NAME, ROLE_ID, STATUS, EMAIL, PHONE, exp1, exp2
+		id, USERNAME, PASSWORD, NAME, ROLE_ID, STATUS, EMAIL, PHONE, exp1, exp2
 	</sql>
 	<!-- 根据用户名查询用户 -->
 	<select id="selectByUserName" resultMap="BaseResultMap"
@@ -26,11 +26,11 @@
 		where USERNAME = #{userName,jdbcType=INTEGER}
 	</select>
 	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser" >
+	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        USER_ID,
-      </if>
       <if test="username != null" >
         USERNAME,
       </if>
@@ -60,9 +60,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
-      </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
@@ -123,12 +120,12 @@
         exp2 = #{exp2,jdbcType=VARCHAR},
       </if>
     </set>
-    where USER_ID = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sys_user
-    where USER_ID = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>

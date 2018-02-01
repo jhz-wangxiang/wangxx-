@@ -28,21 +28,24 @@
   </delete>
   
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.FlightNum" >
-    insert into flight_num (id, flight_num, compay, 
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into flight_num (flight_num, compay, 
       start_time, end_time, status, 
       cteate_date, exp1, exp2
       )
-    values (#{id,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, #{compay,jdbcType=VARCHAR}, 
+    values (#{flightNum,jdbcType=VARCHAR}, #{compay,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
       #{cteateDate,jdbcType=TIMESTAMP}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.FlightNum" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into flight_num
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="flightNum != null" >
         flight_num,
       </if>
@@ -69,9 +72,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="flightNum != null" >
         #{flightNum,jdbcType=VARCHAR},
       </if>

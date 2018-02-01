@@ -60,7 +60,10 @@
   </delete>
  
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
-    insert into orders (id, user_id, flight_num, 
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into orders (user_id, flight_num, 
       now_time, baggage_num, baggage, 
       register_name, register_phone, channel_id, 
       consignee, consignee_phone, address, 
@@ -72,7 +75,7 @@
       remark, refund_reason, cancel_reason, 
       operator, create_date, update_date
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, 
       #{nowTime,jdbcType=TIMESTAMP}, #{baggageNum,jdbcType=VARCHAR}, #{baggage,jdbcType=VARCHAR}, 
       #{registerName,jdbcType=VARCHAR}, #{registerPhone,jdbcType=VARCHAR}, #{channelId,jdbcType=INTEGER}, 
       #{consignee,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
@@ -86,11 +89,11 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="userId != null" >
         user_id,
       </if>
@@ -189,9 +192,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>

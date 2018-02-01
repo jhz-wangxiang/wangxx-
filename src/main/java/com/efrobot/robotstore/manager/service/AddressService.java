@@ -12,8 +12,11 @@ public interface AddressService {
 	 public int updateByPrimaryKey(Address record);
 	 
 	 public int updateByPrimaryKeySelective(Address record);
+	 
 	 public int updateAddressStatus(Address record);
 	 
 	 public int deleteByPrimaryKey(Integer id);
+	 
+	 public Address selectByPrimaryKey(Integer id);
 	
 }

@@ -8,7 +8,7 @@ public class SysUser implements Serializable {
 	*/
 	private static final long serialVersionUID = 1L;
 
-	private Integer userId;
+	private Integer id;
 
 	private String username;
 
@@ -28,12 +28,13 @@ public class SysUser implements Serializable {
 
 	private String exp2;
 
-	public Integer getUserId() {
-		return userId;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {

@@ -73,11 +73,35 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
 	}
+	//修改订单过程状态
 	@RequestMapping(value = "/updateOrderStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updateOrderStatus(Order record ) throws Exception {
+	public Map<String, Object> updateOrderStatus(Order record) throws Exception {
 		int result = -1;
+		Order order2= orderService.selectByPrimaryKey(record.getId());
+		
+		record.setOrderStatus(order2.getOrderStatus()+1);
 		result = orderService.updateByPrimaryKeySelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1)
+			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
+		else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
+	//修改取消过程状态
+	@RequestMapping(value = "/updateOrderCancel", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateOrderCancel(Order record) throws Exception {
+		int result = -1;
+		Order order2= orderService.selectByPrimaryKey(record.getId());
+		if(order2.getOrderStatus()<2){
+			record.setOrderStatus(8);
+			result = orderService.updateByPrimaryKeySelective(record);
+		}else{
+			return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
+		}
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)

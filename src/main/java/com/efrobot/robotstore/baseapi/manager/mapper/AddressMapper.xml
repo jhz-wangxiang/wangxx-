@@ -27,21 +27,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Address" >
-    insert into address (id, province, city, 
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into address (province, city, 
       address, area, areafrom, 
       status, consignee, consignee_phone, 
       userid)
-    values (#{id,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+    values (#{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{areafrom,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR}, 
       #{userid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Address" >
+  <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into address
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="province != null" >
         province,
       </if>
@@ -71,9 +74,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="province != null" >
         #{province,jdbcType=VARCHAR},
       </if>
