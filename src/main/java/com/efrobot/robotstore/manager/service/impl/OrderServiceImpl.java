@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderStatus> selectSelectList(String selected) {
 		if(selected==null){
-			return orderStatusMapper.selectSelectList(null);
+			return orderStatusMapper.selectAll();
 		}else{
 			return orderStatusMapper.selectSelectList(Arrays.asList(selected.split(",")));
 		}

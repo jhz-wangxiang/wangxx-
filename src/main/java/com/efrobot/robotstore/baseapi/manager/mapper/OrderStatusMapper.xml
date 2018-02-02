@@ -117,4 +117,9 @@
 			#{id,jdbcType=INTEGER}
 		</foreach>
 	</select>
+  <select id="selectAll" resultMap="BaseResultMap" resultType="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus">
+		SELECT 
+              *
+		FROM order_status
+	</select>
 </mapper>

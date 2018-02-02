@@ -15,6 +15,8 @@ public interface OrderStatusMapper {
     OrderStatus selectByPrimaryKey(Integer id);
     
     List<OrderStatus> selectSelectList(List<String> list);
+    
+    List<OrderStatus> selectAll();
 
     int updateByPrimaryKeySelective(OrderStatus record);
 
