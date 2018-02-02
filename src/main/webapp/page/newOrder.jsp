@@ -5,18 +5,13 @@
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<jsp:include page="_meta.jsp"></jsp:include>
-
+<%@ include  file="../common/commonHead.jsp"%>
 <title>文件管理 </title>
 <meta name="keywords" content="文件管理">
 <meta name="description" content="文件管理">
 </head>
 <body>
-<jsp:include page="_header.jsp"></jsp:include>
-<jsp:include page="_menu.jsp">
-    <jsp:param value="file" name="classify"/>
-    <jsp:param value="file_list" name="level"/>
-</jsp:include>
+<%@ include  file="../common/_header.jsp"%>
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
         <span class="c-gray en">&gt;</span>
@@ -124,8 +119,6 @@
         </article>
     </div>
 </section>
-<jsp:include page="_footer.jsp"></jsp:include>
-
 <link rel="stylesheet" type="text/css" href="<%=basePath %>lib/laypage/skin/laypage.css" />
 <script type="text/javascript" src="<%=basePath %>lib/laypage/layui.js"></script>
 <script type="text/javascript">
