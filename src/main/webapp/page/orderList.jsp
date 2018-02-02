@@ -106,18 +106,20 @@
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var colArr = [
-        {field:"orderNo",title:"订单编号"},
-        {field:"name",title:"客户姓名"},
-        {field:"phone",title:"联系方式"},
-        {field:"channel",title:"客户渠道"},
-        {field:"createDate",title:"下单时间"},
-        {field:"consignee",title:"收货人"},
-        {field:"totalFee",title:"服务费"},
-        {field:"orderStatus",title:"订单状态"},
-        {field:"abnormalStatus",title:"订单异常"},
-        {field:"operation",title:"操作",templet: function(d){
-            return '<a class="btn btn-primary-outline radius" href="javascript:;">详情</a><a class="btn btn-success-outline radius" href="javascript:;">收款完成</a><a class="btn btn-danger-outline radius" href="javascript:;">取消订单</a><a class="btn btn-warning-outline radius" href="javascript:;">订单异常</a>'
+        {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
+        {field:"name",title:"客户姓名",align:"center",minWidth:"100"},
+        {field:"phone",title:"联系方式",align:"center",minWidth:"150"},
+        {field:"channel",title:"客户渠道",align:"center",minWidth:"100"},
+        {field:"createDate",title:"下单时间",align:"center",minWidth:"200",templet:function(d){
+        	return Common.getLocalDate(d.createDate)
         }},
+        {field:"consignee",title:"收货人",align:"center",minWidth:"100"},
+        {field:"totalFee",title:"服务费",align:"center",minWidth:"100"},
+        {field:"orderStatus",title:"订单状态",align:"center",minWidth:"100"},
+        {field:"abnormalStatus",title:"订单异常",align:"center",minWidth:"100"},
+        {field:"operation",title:"操作",templet: function(d){
+            return '<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a><a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:layer_show(\'收款完成\',\'备注\',\'600\',skwc);">收款完成</a><a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:layer_show(\'取消订单\',\'取消原因\',\'600\',qxdd);">取消订单</a><a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:layer_show(\'订单异常\',\'异常原因\',\'600\',ddyc);">订单异常</a>'
+        },minWidth:"240",align:"center"},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;
@@ -153,11 +155,12 @@
             datatype : 'json',
             success : function(data) {
             	var json = JSON.parse(data);
+            	console.log(json)
                 if(json){
                     var programme_sel=[];
                     programme_sel.push('<option value="" selected>请选择</option>')
                     for(var i=0,len=json.length;i<len;i++){
-                        programme_sel.push('<option value="'+json[i].id+'">'+json[i].channel+'</option>')
+                        programme_sel.push('<option value="'+json[i].id+'">'+json[i].describe+'</option>')
                     }
                     $("select[name='orderStatus']").html(programme_sel.join(' '));
                 }
@@ -167,6 +170,33 @@
             }
         });
     }
+    function layer_show(t,b,w,fn){
+    	var html = [];
+    	html.push('<article class="cl pd-20"><form action="" method="post" class="form form-horizontal" id="form-admin-add">');
+    	html.push('<div class="row cl"><label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>'+b+'：</label>');
+    	html.push('<div class="formControls col-xs-9 col-sm-10"><textarea class="textarea" value="" placeholder="" name=""></textarea>');
+    	html.push('</div></div></form></article>');
+    	layer.open({
+   		  title: t,
+   		  content: html.join(""),
+   		  area:w+'px',
+   		  success:function(layero, index){
+   		  },
+   		  yes: function(index, layero){
+   			fn(layero);
+   		    layer.close();
+   		  }
+   		}); 
+    }
+    var skwc = function(obj){
+    	console.log($(obj).find("textarea").val())
+    }
+	var qxdd = function(obj){
+		console.log($(obj).find("textarea").val())
+	}
+	var ddyc = function(obj){
+		console.log($(obj).find("textarea").val())
+	}
     loadSelect();
     layui.use("table",function(){
     	var table = layui.table;
