@@ -9,10 +9,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
 		<dl id="menu-article">
-			<dt <c:if test="${param.classify=='file'}">class="selected"</c:if>><i class="Hui-iconfont">&#xe616;</i> 文件管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd <c:if test="${param.classify=='file'}">style="display: block;"</c:if>>
+			<dt <c:if test="${param.classify=='order'}">class="selected"</c:if>><i class="Hui-iconfont">&#xe616;</i> 订单管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd <c:if test="${param.classify=='order'}">style="display: block;"</c:if>>
 				<ul>
-					<li <c:if test="${param.level=='file_list'}">class="current"</c:if>><a href="<%=basePath%>files-list.jsp" title="文件列表">文件列表</a></li>
+					<li <c:if test="${param.level=='order_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/orderList" title="订单列表">订单列表</a></li>
+					<li <c:if test="${param.level=='order_add'}">class="current"</c:if>><a href="<%=basePath%>v1/page/newOrder" title="新建订单">新建订单</a></li>
 				</ul>
 			</dd>
 		</dl>

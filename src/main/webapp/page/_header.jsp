@@ -18,8 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li><a href="javascript:;" onClick="myselfinfo()">修改密码</a></li>
 							<!-- <li><a href="#">切换账户</a></li> -->
 							<li><a href="<%=basePath %>web/logout">退出</a></li>
-				</ul>
-			</li>
+						</ul>
+					</li>
 					<!-- <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li> -->
 					<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
 						<ul class="dropDown-menu menu radius box-shadow">
