@@ -12,7 +12,7 @@ import com.github.pagehelper.PageInfo;
 public interface OrderService {
 	public PageInfo<Order> getOrderListPage(Order order, Integer pageNum, Integer pageSize)
 			throws Exception;
-	
+	public List<Order> selectByParms(Order record) ;
 	public int insertSelective(Order record);
 	
 	public int updateByPrimaryKey(Order record);
