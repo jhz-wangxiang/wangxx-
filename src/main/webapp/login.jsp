@@ -3,70 +3,116 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>官网管理后台</title>
-<!-- <title>物流管理后台</title> -->
-<link type='text/css' rel='stylesheet' href='<%=basePath %>style/style.css'/>
-<link type='text/css' rel='stylesheet' href='<%=basePath %>js/plugin/jquery-easyui/themes/default/easyui.css'/>
-<link type='text/css' rel='stylesheet' href='<%=basePath %>js/plugin/jquery-easyui/themes/icon.css'/>
-<link type='text/css' rel='stylesheet' href='<%=basePath %>style/login.css'/>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/html5.js"></script>
+	<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/respond.min.js"></script>
+	<![endif]-->
+	<link href="<%=basePath%>js/plugin/h-ui/static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+	<link href="<%=basePath%>js/plugin/h-ui/static/h-ui.admin/css/H-ui.login.css" rel="stylesheet" type="text/css" />
+	<link href="<%=basePath%>js/plugin/h-ui/static/h-ui.admin/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="<%=basePath%>js/plugin/h-ui/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
+	<!--[if IE 6]>
+	<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script><![endif]-->
+	<title>后台登录</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
 </head>
 <body>
-<div class="body-container0718">
-	<div class="container0718">
-		<div class="login-header0718">
-			<img src="<%=basePath %>/image/logo.png" width="65" height="67" alt="北京进化者机器人科技有限公司">
-			<div class="logo-title0718">
-				<p>北京进化者机器人科技有限公司</p>
-                <p>官网管理后台</p>
-				<!-- <p>物流管理后台</p> -->
-			</div>
-		</div>
-	</div>
-	<div class="login-content0718">
-		<div class="container0718 clearfix">
-			<div class="left">
-				<img src="<%=basePath %>/image/login_bg.jpg">
-			</div>
-			<div class="right">
-				<div class="right-info0718">
-					<form id="login" class="easyui-form login-form0718" method="post" data-options="novalidate:true">
-					<h2 class='form-title0718'>管理员登录</h2>
-					<div class="form-div0715">
-								<input class="easyui-textbox" type="text" name="username" data-options="prompt:'用户名',required:true" missingMessage="请输入用户名" style="width:300px;;height:32px"/>
-						</div>
-						<div class="form-div0715">
-							<input id="pwd" class="easyui-textbox" type="password"  name="password"  data-options="prompt:'密码',required:true" missingMessage="请输入密码" style="width:300px;;height:32px"/>
-						</div>
-						<div class="form-div0715 validate">
-							<input id="validate" class="easyui-textbox" type="text" name="verifyCode"  data-options="prompt:'验证码',required:true" missingMessage="请输入验证码"  style="width:193px;;height:32px"/>
-							<img src="<%=request.getContextPath()%>/v1/login/getVerifyCodeImage" width='100' height='30' id="verifyCodeImage" />
-						</div>
-						<div class="form-action">
-							<a href="javascript:;" class="easyui-linkbutton login-btn0718" id="loginbtn" style="height:32px">登录</a>
-						</div>
-					</form>
-					<p class="com-wenhua0718">成为代表地球智慧的企业</p>
+<div class="loginWraper">
+	<div id="loginform" class="loginBox">
+		<form class="form form-horizontal" method="post">
+			<div class="row cl">
+				<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+				<div class="formControls col-xs-8">
+					<input type="text" name="username" placeholder="账户" class="input-text size-L">
 				</div>
-				
 			</div>
-			
-		</div>
+			<div class="row cl">
+				<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+				<div class="formControls col-xs-8">
+					<input type="password" name="password" placeholder="密码" class="input-text size-L">
+				</div>
+			</div>
+			<div class="row cl">
+				<div class="formControls col-xs-8 col-xs-offset-3">
+					<input class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;" name="verifyCode">
+					<img src="<%=request.getContextPath()%>/v1/login/getVerifyCodeImage" width='100' height='30' id="code" />
+					<a id="kanbuq" href="javascript:;">看不清，换一张</a>
+				</div>
+			</div>
+			<div class="row cl">
+				<div class="formControls col-xs-8 col-xs-offset-3">
+					<input id="button" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+				</div>
+			</div>
+		</form>
 	</div>
 </div>
-<script src='<%=basePath %>js/plugin/jquery-easyui/jquery.min.js'></script>
-<script src='<%=basePath %>js/plugin/jquery-easyui/jquery.easyui.min.js'></script>
-<script src='<%=basePath %>js/plugin/jquery-easyui/locale/easyui-lang-zh_CN.js'></script>
-<script src='<%=basePath %>js/common.js'></script>
-<script src='<%=basePath %>js/login.js'></script>
-<script>
-var basePath = "<%=basePath %>";
-Login.init();
 
+<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/plugin/layui/layui.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/plugin/h-ui/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<script>
+	var basePath = "<%=basePath%>";
+	var imgPath = "<%=request.getContextPath()%>/v1/login/getVerifyCodeImage";
+    $("#kanbuq").click(function(){
+        $("#code").attr("src",imgPath+"?"+Math.random())
+    });
+    $("#button").click(function(){
+        var username = Common.ltrim($("input[name='username']").val());
+        var password = Common.ltrim($("input[name='password']").val());
+        var captcha = Common.ltrim($("input[name='verifyCode']").val());
+        if(username!=""&&password!=""&&captcha!=""){
+            $.ajax({
+                url: basePath+"v1/login/login",
+                type:"POST",
+                //dataType:'json',
+                //contentType: 'application/json;charset=utf-8',
+				//data:JSON.stringify(),
+				data:{username:username,
+                    password:password,
+                    verifyCode:captcha},
+                success:function(json){
+                    var res=eval('('+json.split("<aud")[0]+')');
+                    if(res.resultCode == "SUCCESS"){
+                        window.location.href = basePath + "v1/login/new-order.jsp";
+                    }else{
+                        layui.use('layer', function(){
+                            var layer = layui.layer;
+                            layer.msg(res.msg, {
+                                time: 3000,
+                                btn: ['好的'],
+                                shade: 0.4,
+                                zIndex:100
+                            });
+						});
+
+                    }
+                }
+            })
+        }else{
+            layui.use('layer', function() {
+                var layer = layui.layer;
+                layer.msg('请正确填写', {
+                    time: 30000,
+                    btn: ['好的'],
+                    shade: 0.4,
+                    zIndex: 100
+                });
+            })
+        }
+
+    });
 </script>
 </body>
 </html>

@@ -1,19 +1,15 @@
-@CHARSET "UTF-8";
-.body-container0718{width: 100%;min_width: 1200px;overflow: auto;}
-.body-container0718 .container0718{width:1200px;margin: 0 auto;}
-.container0718 .login-header0718{width: 1180px;padding: 66px 0 45px 120px;}
-.login-header0718 .logo-title0718{display: inline-block;width: 340px;margin-left:15px;font-size: 24px;color: #016dbd;}
-.logo-title0718 p{line-height: 45px;}
-.body-container0718 .login-content0718{width: 100%;background-color: #043a7b;}
-.container0718 .right-info0718{width: 531px;}
-.container0718 .login-form0718{width: 376px;margin: 80px 79px auto 74px;border: 1px solid #016dbd;-moz-border-radius: 10px; /* Firefox */
-  -webkit-border-radius: 10px; /* Safari 和 Chrome */
-  border-radius: 10px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */}
-.login-form0718 .form-title0718{ font-size: 24px;font-weight: normal;text-align: center;color: #ffffff; margin-top: 25px;margin-bottom: 25px;}
-.container0718 .panel{width: 378;margin: 0 auto;}
-.container0718 .con-panel0715{padding:30px 60px;}
-.login-form0718 .form-div0715{margin-bottom:20px; margin-left: 37px;}
-.validate .textbox{margin-top: -23px;}
-.login-form0718 .form-action{width: 400px;}
-.form-action .login-btn0718{width: 180px;margin-left: 95px;background-color: #ff9500;margin-bottom: 57px;}
-.right-info0718 p.com-wenhua0718{font-size: 18px;color: #016dbd;text-align: center;line-height: 65px;}
+html, body{ height:100%}
+body{font-size:14px}
+.loginWraper{ position:absolute;width:100%; left:0; top:0; bottom:0; right:0; z-index:1; background:#3283AC url(img/admin-login-bg.jpg) no-repeat center}
+.loginBox{ position:absolute; width:617px; height:330px; background:url(img/admin-loginform-bg.png) no-repeat; left:50%; top:50%; margin-left:-309px; margin-top:-184px; padding-top:38px}
+.loginBox .layui-col-xs3{ width:25%; }
+.loginBox .layui-col-xs8{ margin-left:0;}
+
+
+
+
+
+
+
+
+
