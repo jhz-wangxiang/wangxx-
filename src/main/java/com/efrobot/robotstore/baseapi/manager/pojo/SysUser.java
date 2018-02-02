@@ -16,7 +16,7 @@ public class SysUser implements Serializable {
 
 	private String name;
 
-	private String roleId;
+	private Integer roleId;
 
 	private String status;
 
@@ -61,12 +61,13 @@ public class SysUser implements Serializable {
 		this.name = name == null ? null : name.trim();
 	}
 
-	public String getRoleId() {
+	
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId == null ? null : roleId.trim();
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getStatus() {

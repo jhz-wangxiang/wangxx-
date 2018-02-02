@@ -12,14 +12,16 @@ import com.efrobot.robotstore.baseapi.manager.ChannelMapper;
 import com.efrobot.robotstore.baseapi.manager.FlightNumMapper;
 import com.efrobot.robotstore.baseapi.manager.OrderMapper;
 import com.efrobot.robotstore.baseapi.manager.OrderStatusMapper;
+import com.efrobot.robotstore.baseapi.manager.OrderStatusRecordMapper;
 import com.efrobot.robotstore.baseapi.manager.pojo.Area;
 import com.efrobot.robotstore.baseapi.manager.pojo.Channel;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
+import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
 import com.efrobot.robotstore.manager.service.OrderService;
+import com.efrobot.robotstore.util.PageInfo;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -34,6 +36,8 @@ public class OrderServiceImpl implements OrderService {
 	private AreaMapper areaMapper;
 	@Resource
 	private FlightNumMapper flightNumMapper;
+	@Resource
+	private OrderStatusRecordMapper orderStatusRecordMapper;
 
 
 	@Override
@@ -84,4 +88,13 @@ public class OrderServiceImpl implements OrderService {
 	public  Order selectByPrimaryKey(Integer id) {
 		return orderMapper.selectByPrimaryKey(id);
 	}
+	
+	@Override
+	public  int updateByPrimaryKeySelective(OrderStatusRecord record) {
+		return orderStatusRecordMapper.updateByPrimaryKeySelective(record);
+	}
+	public List<OrderStatusRecord> selectByparms(String exp1){
+		return orderStatusRecordMapper.selectByparms(exp1);
+	}
+	
 }

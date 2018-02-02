@@ -4,14 +4,14 @@
   <resultMap id="BaseResultMap" type="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
     <result column="button" property="button" jdbcType="VARCHAR" />
     <result column="exp1" property="exp1" jdbcType="VARCHAR" />
     <result column="exp2" property="exp2" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, status, remark, button, exp1, exp2
+    id, status, describe, button, exp1, exp2
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -29,9 +29,9 @@
   <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into order_status (status, remark, 
+    insert into order_status (status, describe, 
       button, exp1, exp2)
-    values (#{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+    values (#{status,jdbcType=INTEGER}, #{describe,jdbcType=VARCHAR}, 
       #{button,jdbcType=VARCHAR}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus" >
@@ -43,8 +43,8 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="remark != null" >
-        remark,
+      <if test="describe != null" >
+        describe,
       </if>
       <if test="button != null" >
         button,
@@ -60,8 +60,8 @@
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
       </if>
       <if test="button != null" >
         #{button,jdbcType=VARCHAR},
@@ -82,8 +82,8 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
       </if>
       <if test="button != null" >
         button = #{button,jdbcType=VARCHAR},
@@ -100,7 +100,7 @@
   <update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus" >
     update order_status
     set status = #{status,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
       button = #{button,jdbcType=VARCHAR},
       exp1 = #{exp1,jdbcType=VARCHAR},
       exp2 = #{exp2,jdbcType=VARCHAR}

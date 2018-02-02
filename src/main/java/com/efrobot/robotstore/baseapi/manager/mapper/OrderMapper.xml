@@ -24,6 +24,8 @@
     <result column="additional_fee" property="additionalFee" jdbcType="DECIMAL" />
     <result column="pay_cost" property="payCost" jdbcType="DECIMAL" />
     <result column="refund_fee" property="refundFee" jdbcType="DECIMAL" />
+    <result column="paid_fee" property="paidFee" jdbcType="DECIMAL" />
+    <result column="exp_fee" property="expFee" jdbcType="DECIMAL" />
     <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
     <result column="pay_type" property="payType" jdbcType="VARCHAR" />
     <result column="pay_status" property="payStatus" jdbcType="VARCHAR" />
@@ -38,6 +40,8 @@
     <result column="operator" property="operator" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="button" property="button" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -45,7 +49,7 @@
     consignee, consignee_phone, address, area_id, mileage, basic_fee, discount, additional_fee, 
     pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no, order_wx_no, order_status, 
     abnormal_status, abnorma_reason, remark, refund_reason, cancel_reason, operator, 
-    create_date, update_date
+    create_date, update_date,paid_fee,exp_fee
   </sql>
  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -73,7 +77,7 @@
       pay_status, order_no, order_wx_no, 
       order_status, abnormal_status, abnorma_reason, 
       remark, refund_reason, cancel_reason, 
-      operator, create_date, update_date
+      operator, create_date, update_date,paid_fee,exp_fee
       )
     values (#{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, 
       #{nowTime,jdbcType=TIMESTAMP}, #{baggageNum,jdbcType=VARCHAR}, #{baggage,jdbcType=VARCHAR}, 
@@ -85,7 +89,8 @@
       #{payStatus,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderWxNo,jdbcType=VARCHAR}, 
       #{orderStatus,jdbcType=INTEGER}, #{abnormalStatus,jdbcType=VARCHAR}, #{abnormaReason,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, 
-      #{operator,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      #{operator,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+       #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
@@ -190,6 +195,12 @@
       <if test="updateDate != null" >
         update_date,
       </if>
+      <if test="updateDate != null" >
+        paid_fee,
+      </if>
+      <if test="updateDate != null" >
+        exp_fee,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -288,6 +299,12 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="payCost != null" >
+        #{paidFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payCost != null" >
+        #{expFee,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   
@@ -348,6 +365,12 @@
       </if>
       <if test="refundFee != null" >
         refund_fee = #{refundFee,jdbcType=DECIMAL},
+      </if>
+      <if test="paidFee != null" >
+        paid_fee = #{paidFee,jdbcType=DECIMAL},
+      </if>
+      <if test="expFee != null" >
+        exp_fee = #{expFee,jdbcType=DECIMAL},
       </if>
       <if test="totalFee != null" >
         total_fee = #{totalFee,jdbcType=DECIMAL},
@@ -413,6 +436,8 @@
       discount = #{discount,jdbcType=DECIMAL},
       additional_fee = #{additionalFee,jdbcType=DECIMAL},
       pay_cost = #{payCost,jdbcType=DECIMAL},
+      paid_fee = #{paidFee,jdbcType=DECIMAL},
+      exp_fee = #{expFee,jdbcType=DECIMAL},
       refund_fee = #{refundFee,jdbcType=DECIMAL},
       total_fee = #{totalFee,jdbcType=DECIMAL},
       pay_type = #{payType,jdbcType=VARCHAR},
@@ -436,11 +461,14 @@
 		o.*, 
 		u.name,
 		u.phone,
-		c.channel
+		c.channel,
+		s.describe,
+		s.button
 	FROM
 		orders o
 	LEFT JOIN channel c ON o.channel_id = c.id
 	LEFT JOIN USER u ON o.user_id = u.id
+	LEFT JOIN order_status s ON o.order_status = s.status
 	where 1=1
 	<if test="id != null">
 		AND o.id=#{id,jdbcType=INTEGER}

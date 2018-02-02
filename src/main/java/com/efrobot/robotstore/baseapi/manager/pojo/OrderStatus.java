@@ -11,7 +11,7 @@ public class OrderStatus implements Serializable {
 
     private Integer status;
 
-    private String remark;
+    private String describe;
 
     private String button;
 
@@ -35,15 +35,15 @@ public class OrderStatus implements Serializable {
         this.status = status;
     }
 
-    public String getRemark() {
-        return remark;
-    }
+    public String getDescribe() {
+		return describe;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
 
-    public String getButton() {
+	public String getButton() {
         return button;
     }
 

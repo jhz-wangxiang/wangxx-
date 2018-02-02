@@ -17,6 +17,10 @@ public class OrderStatusRecord implements Serializable {
     private Integer userId;
 
     private Integer roleId;
+    
+    private String userName;
+    
+    private String roleName;
 
     private Date createDate;
 
@@ -87,4 +91,21 @@ public class OrderStatusRecord implements Serializable {
     public void setExp2(String exp2) {
         this.exp2 = exp2 == null ? null : exp2.trim();
     }
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+    
 }

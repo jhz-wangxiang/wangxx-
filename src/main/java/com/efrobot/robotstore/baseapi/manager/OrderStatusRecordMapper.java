@@ -2,8 +2,6 @@ package com.efrobot.robotstore.baseapi.manager;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
 
 public interface OrderStatusRecordMapper {
@@ -15,6 +13,8 @@ public interface OrderStatusRecordMapper {
     int insertSelective(OrderStatusRecord record);
 
     OrderStatusRecord selectByPrimaryKey(Integer id);
+    
+    List<OrderStatusRecord> selectByparms(String exp1);
 
     int updateByPrimaryKeySelective(OrderStatusRecord record);
 

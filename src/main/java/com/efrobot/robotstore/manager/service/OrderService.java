@@ -7,7 +7,8 @@ import com.efrobot.robotstore.baseapi.manager.pojo.Channel;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
-import com.github.pagehelper.PageInfo;
+import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
+import com.efrobot.robotstore.util.PageInfo;
 
 public interface OrderService {
 	public PageInfo<Order> getOrderListPage(Order order, Integer pageNum, Integer pageSize)
@@ -23,10 +24,14 @@ public interface OrderService {
 	
 	public List<Channel> getChannel(Channel record);
 	
+	public List<OrderStatusRecord> selectByparms(String exp1);
+	
 	public List<Area> getArea(Area record);
 	
 	public List<FlightNum> getFlightNum(FlightNum record);
 	
 	public  Order selectByPrimaryKey(Integer id);
+	
+	public  int updateByPrimaryKeySelective(OrderStatusRecord record);
 
 }

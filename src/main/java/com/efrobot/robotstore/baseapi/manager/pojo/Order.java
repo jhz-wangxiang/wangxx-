@@ -50,6 +50,10 @@ public class Order implements Serializable {
     private BigDecimal additionalFee;//附加费用
 
     private BigDecimal payCost;//补交费用
+    
+    private BigDecimal paidFee;//实付费用
+    
+    private BigDecimal expFee;//扩展费用
 
     private BigDecimal refundFee;//退款费用
 
@@ -80,6 +84,10 @@ public class Order implements Serializable {
     private Date createDate;//下单时间
 
     private Date updateDate;
+    
+    private String describe;
+
+    private String button;
 
     public Integer getId() {
         return id;
@@ -258,7 +266,23 @@ public class Order implements Serializable {
         this.refundFee = refundFee;
     }
 
-    public BigDecimal getTotalFee() {
+    public BigDecimal getPaidFee() {
+		return paidFee;
+	}
+
+	public void setPaidFee(BigDecimal paidFee) {
+		this.paidFee = paidFee;
+	}
+
+	public BigDecimal getExpFee() {
+		return expFee;
+	}
+
+	public void setExpFee(BigDecimal expFee) {
+		this.expFee = expFee;
+	}
+
+	public BigDecimal getTotalFee() {
         return totalFee;
     }
 
@@ -369,4 +393,21 @@ public class Order implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+
+	public String getButton() {
+		return button;
+	}
+
+	public void setButton(String button) {
+		this.button = button;
+	}
+    
 }

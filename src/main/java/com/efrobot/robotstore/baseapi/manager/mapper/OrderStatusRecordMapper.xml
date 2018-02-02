@@ -22,6 +22,20 @@
     from order_status_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByparms" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    o.remark,
+    o.create_date,
+    o.status,
+    s.USERNAME,
+    r.ROLE_NAME
+    from order_status_record o
+    LEFT JOIN sys_user s ON s.id = o.user_id
+    LEFT JOIN sys_role r ON r.id = o.role_id
+    where o.exp1 = #{exp1,jdbcType=VARCHAR}
+    ORDER BY
+	o.create_date asc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from order_status_record
     where id = #{id,jdbcType=INTEGER}
