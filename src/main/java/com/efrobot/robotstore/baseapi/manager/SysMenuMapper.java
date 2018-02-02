@@ -4,13 +4,13 @@ import com.efrobot.robotstore.baseapi.manager.pojo.SysMenu;
 
 public interface SysMenuMapper {
 
-    int deleteByPrimaryKey(Integer menuId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(SysMenu record);
 
     int insertSelective(SysMenu record);
 
-    SysMenu selectByPrimaryKey(Integer menuId);
+    SysMenu selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(SysMenu record);
 

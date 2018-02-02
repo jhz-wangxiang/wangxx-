@@ -11,5 +11,5 @@ public interface SysUserMapper {
     
     int updateByPrimaryKeySelective(SysUser record);
     
-    SysUser selectByPrimaryKey(Integer userId);
+    SysUser selectByPrimaryKey(Integer id);
 }
