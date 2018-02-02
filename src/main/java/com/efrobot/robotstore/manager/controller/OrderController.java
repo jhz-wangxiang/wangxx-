@@ -45,11 +45,21 @@ public class OrderController {
 		return jsonObject;
 	}
 	
+	@RequestMapping(value = "/getOrderDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public Order getOrderDetail(Order record) throws Exception {
+		List<Order> orderList= orderService.selectByParms(record);
+		return orderList.get(0);
+	}
+	
 	@RequestMapping(value = "/insertOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertOrder(Order record) throws Exception {
 		int result = -1;
 		// 异常处理
+		record.setOrderStatus(1);
+		record.setPayStatus("未支付");
+		record.setAbnormalStatus("正常");
 		result = orderService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -102,6 +112,26 @@ public class OrderController {
 		}else{
 			return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
 		}
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1)
+			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
+		else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
+	//修改取消过程状态
+	@RequestMapping(value = "/updateAbnormalStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateAbnormalStatus(Order record) throws Exception {
+		int result = -1;
+		Order order2= orderService.selectByPrimaryKey(record.getId());
+		if("是".equals(order2.getAbnormalStatus())){
+			record.setAbnormalStatus("是");
+		}else{
+			record.setAbnormalStatus("否");
+		}
+		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)

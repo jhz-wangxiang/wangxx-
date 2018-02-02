@@ -25,6 +25,9 @@ public class AddressController {
 	@ResponseBody
 	public Map<String, Object> insertAddress(Address record) throws Exception {
 		int result = -1;
+		if(null==record.getUserid()){
+			return CommonUtil.resultMsg("FAIL", "用户信息不存在!");
+		}
 		List<Address> list=addressService.getAddress(record);
 		if(list.size()==0){
 			record.setStatus(1);

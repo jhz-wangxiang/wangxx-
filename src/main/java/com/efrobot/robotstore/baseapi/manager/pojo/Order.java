@@ -11,73 +11,73 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
     private Integer id;
 
-    private Integer userId;
+    private Integer userId;//注册用户id
     
-    private String name;
+    private String name;//注册用户名称
 
-    private String phone;
+    private String phone;//注册用户手机
 
-    private String flightNum;
+    private String flightNum;//航班号
 
-    private Date nowTime;
+    private Date nowTime;//航班时间
 
-    private String baggageNum;
+    private String baggageNum;//行李数量
 
-    private String baggage;
+    private String baggage;//行李
 
-    private String registerName;
+    private String registerName;//登记人姓名
 
-    private String registerPhone;
+    private String registerPhone;//登记人手机号
 
-    private Integer channelId;
+    private Integer channelId;//渠道id
     
-    private String channel;
+    private String channel;//渠道名称
 
-    private String consignee;
+    private String consignee;//收货人姓名
 
-    private String consigneePhone;
+    private String consigneePhone;//收货人手机号
 
-    private String address;
+    private String address;//收货地址
 
-    private Integer areaId;
+    private Integer areaId;//送货区域id
 
-    private Integer mileage;
+    private Integer mileage;//送货里程
 
-    private BigDecimal basicFee;
+    private BigDecimal basicFee;//基础费用
 
-    private BigDecimal discount;
+    private BigDecimal discount;//折扣
 
-    private BigDecimal additionalFee;
+    private BigDecimal additionalFee;//附加费用
 
-    private BigDecimal payCost;
+    private BigDecimal payCost;//补交费用
 
-    private BigDecimal refundFee;
+    private BigDecimal refundFee;//退款费用
 
-    private BigDecimal totalFee;
+    private BigDecimal totalFee;//总费用
 
-    private String payType;
+    private String payType;//支付方式
 
-    private String payStatus;
+    private String payStatus;//支付状态
 
-    private String orderNo;
+    private String orderNo;//订单号
 
-    private String orderWxNo;
+    private String orderWxNo;//微信订单号
 
-    private Integer orderStatus;
+    private Integer orderStatus;//订单状态
 
-    private String abnormalStatus;
+    private String abnormalStatus;//异常状态
 
-    private String abnormaReason;
+    private String abnormaReason;//异常原因
 
-    private String remark;
+    private String remark;//备注
 
-    private String refundReason;
+    private String refundReason;//退款原因
 
-    private String cancelReason;
+    private String cancelReason;//取消原因
 
-    private Integer operator;
+    private Integer operator;//操作人id
 
-    private Date createDate;
+    private Date createDate;//下单时间
 
     private Date updateDate;
 

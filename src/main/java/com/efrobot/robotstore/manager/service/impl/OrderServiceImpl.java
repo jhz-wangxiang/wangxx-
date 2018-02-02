@@ -46,6 +46,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+	public List<Order> selectByParms(Order record) {
+		return orderMapper.selectByParms(record);
+	}
+	
+	@Override
 	public int insertSelective(Order record) {
 		return orderMapper.insertSelective(record);
 	}
