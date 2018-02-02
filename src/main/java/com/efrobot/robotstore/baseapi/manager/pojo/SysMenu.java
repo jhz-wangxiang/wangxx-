@@ -7,7 +7,7 @@ public class SysMenu implements Serializable {
 	* 
 	*/
 	private static final long serialVersionUID = 1L;
-    private Integer menuId;
+    private Integer id;
 
     private String menuName;
 
@@ -21,15 +21,17 @@ public class SysMenu implements Serializable {
 
     private String menuRole;
 
-    public Integer getMenuId() {
-        return menuId;
-    }
 
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
 
-    public String getMenuName() {
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getMenuName() {
         return menuName;
     }
 
