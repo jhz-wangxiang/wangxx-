@@ -5,13 +5,16 @@
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<title>文件管理 </title>
-<meta name="keywords" content="文件管理">
-<meta name="description" content="文件管理">
+
+<jsp:include page="_meta.jsp"></jsp:include>
+<title>后台管理 </title>
+<meta name="keywords" content="后台">
+<meta name="description" content="后台">
 </head>
 <body>
-<jsp:include page="_header.jsp">
-</jsp:include>
+
+<jsp:include page="_header.jsp"></jsp:include>
+<jsp:include page="_menu.jsp"></jsp:include>
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
         <span class="c-gray en">&gt;</span>
@@ -119,8 +122,9 @@
         </article>
     </div>
 </section>
-<link rel="stylesheet" type="text/css" href="<%=basePath %>lib/laypage/skin/laypage.css" />
-<script type="text/javascript" src="<%=basePath %>lib/laypage/layui.js"></script>
+<jsp:include page="_footer.jsp"></jsp:include>
+<link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
+<script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var colArr = [
         {name:'id',title:'文件标示',show:true,width:'50px'},

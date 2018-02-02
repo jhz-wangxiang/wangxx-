@@ -87,13 +87,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     if(res.resultCode == "SUCCESS"){
                         window.location.href = basePath + "v1/page/newOrder";
                     }else{
-                            layer.msg(res.msg, {
-                                time: 3000,
-                                btn: ['好的'],
-                                shade: 0.4,
-                                zIndex:100
-                            });
-
+	                    layer.msg(res.msg, {
+	                        time: 3000,
+	                        btn: ['好的'],
+	                        shade: 0.4,
+	                        zIndex:100
+	                    });
+	                    $("#code").attr("src",imgPath+"?"+Math.random());
                     }
                 }
             })
