@@ -5,7 +5,7 @@ import java.util.List;
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
 
 public interface AddressMapper {
-
+ 
     int deleteByPrimaryKey(Integer id);
 
     int insert(Address record);
