@@ -14,7 +14,10 @@
 <body>
 
 <jsp:include page="_header.jsp"></jsp:include>
-<jsp:include page="_menu.jsp"></jsp:include>
+<jsp:include page="_menu.jsp">
+	<jsp:param value="order" name="classify"/>
+	<jsp:param value="order_add" name="level"/>
+</jsp:include>
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
         <span class="c-gray en">&gt;</span>
@@ -30,33 +33,33 @@
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="row cl">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">客户姓名：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">身份证号码：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">管理员：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">管理员：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
@@ -67,21 +70,21 @@
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="row cl">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">航班号：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">航班号：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">管理员：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">管理员：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
@@ -92,21 +95,21 @@
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="row cl">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">收件人：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">收件人：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <label class="form-label col-xs-4 col-sm-3">管理员：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">管理员：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6">
-                            <label class="form-label col-xs-4 col-sm-3">收获地址：</label>
-                            <div class="formControls col-xs-8 col-sm-9">
+                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">收获地址：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
                                 <textarea class="textarea"></textarea>
                             </div>
                         </div>

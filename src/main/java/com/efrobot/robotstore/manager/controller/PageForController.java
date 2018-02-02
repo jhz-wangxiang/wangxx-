@@ -15,6 +15,11 @@ public class PageForController {
 		request.setAttribute("navName", "结算信息-修改");
 		return "test";
 	}
+	@RequestMapping(value = "/orderList")
+	public String orderList(HttpServletRequest request) {
+		request.setAttribute("navName", "订单管理");
+		return "orderList";
+	}
 	@RequestMapping(value = "/newOrder")
 	public String newOrder(HttpServletRequest request) {
 		request.setAttribute("navName", "新建订单");

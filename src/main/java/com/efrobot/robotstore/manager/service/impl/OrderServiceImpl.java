@@ -70,7 +70,11 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderStatus> selectSelectList(String selected) {
-		return orderStatusMapper.selectSelectList(Arrays.asList(selected.split(",")));
+		if(selected==null){
+			return orderStatusMapper.selectSelectList(null);
+		}else{
+			return orderStatusMapper.selectSelectList(Arrays.asList(selected.split(",")));
+		}
 	}
 	@Override
 	public  List<Channel> getChannel(Channel record) {

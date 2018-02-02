@@ -19,7 +19,7 @@
 	String operName = user.getName();
 	System.out.println(operName);
 	//角色
-	String roleId = user.getRoleId();
+	Integer roleId = user.getRoleId();
 %>
 <script type="text/javascript">
 	//定义变量

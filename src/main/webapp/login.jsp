@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 success:function(json){
                     var res=eval('('+json.split("<aud")[0]+')');
                     if(res.resultCode == "SUCCESS"){
-                        window.location.href = basePath + "v1/page/newOrder";
+                        window.location.href = basePath + "v1/page/orderList";
                     }else{
 	                    layer.msg(res.msg, {
 	                        time: 3000,
