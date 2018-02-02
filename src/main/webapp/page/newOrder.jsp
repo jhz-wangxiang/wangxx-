@@ -5,13 +5,13 @@
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<%@ include  file="../common/commonHead.jsp"%>
 <title>文件管理 </title>
 <meta name="keywords" content="文件管理">
 <meta name="description" content="文件管理">
 </head>
 <body>
-<%@ include  file="../common/_header.jsp"%>
+<jsp:include page="_header.jsp">
+</jsp:include>
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
         <span class="c-gray en">&gt;</span>
