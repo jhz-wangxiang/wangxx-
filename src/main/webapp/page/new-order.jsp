@@ -128,8 +128,6 @@
 
 <link rel="stylesheet" type="text/css" href="<%=basePath %>lib/laypage/skin/laypage.css" />
 <script type="text/javascript" src="<%=basePath %>lib/laypage/layui.js"></script>
-<script type="text/javascript" src="<%=basePath %>lib/laypage/laypage.js"></script>
-<script type="text/javascript" src="<%=basePath %>static/h-ui.admin/js/dataFun.js"></script>
 <script type="text/javascript">
     var colArr = [
         {name:'id',title:'文件标示',show:true,width:'50px'},

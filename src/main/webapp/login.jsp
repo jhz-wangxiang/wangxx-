@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/static/h-ui/js/H-ui.js"></script>
-<script type="text/javascript" src="<%=basePath %>js/plugin/layui/layui.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/plugin/h-ui/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="<%=basePath %>js/plugin/h-ui/static/h-ui.admin/js/H-ui.admin.page.js"></script>
 <script>
 	var basePath = "<%=basePath%>";
@@ -87,29 +87,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     if(res.resultCode == "SUCCESS"){
                         window.location.href = basePath + "v1/login/new-order.jsp";
                     }else{
-                        layui.use('layer', function(){
-                            var layer = layui.layer;
                             layer.msg(res.msg, {
                                 time: 3000,
                                 btn: ['好的'],
                                 shade: 0.4,
                                 zIndex:100
                             });
-						});
 
                     }
                 }
             })
         }else{
-            layui.use('layer', function() {
-                var layer = layui.layer;
                 layer.msg('请正确填写', {
                     time: 30000,
                     btn: ['好的'],
                     shade: 0.4,
                     zIndex: 100
                 });
-            })
         }
 
     });
