@@ -38,13 +38,14 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	public static Map<Integer, String> status_order = new ConcurrentHashMap<Integer,String>();
-	@PostConstruct
-	public void init() {
-		List<OrderStatus> list=orderService.selectSelectList("");
-		for(OrderStatus s: list){
-			status_order.put(s.getStatus(), s.getDescribe());
-		}
-	}
+	
+//	@PostConstruct
+//	public void init() {
+//		List<OrderStatus> list=orderService.selectSelectList("");
+//		for(OrderStatus s: list){
+//			status_order.put(s.getStatus(), s.getDescribe());
+//		}
+//	}
 	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getOrderListPage")
@@ -116,7 +117,7 @@ public class OrderController {
 				record.setPayStatus("已支付");
 			}
 			record.setOrderStatus(order2.getOrderStatus()+1);
-			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo());
+//			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo());
 		}else{
 			return CommonUtil.resultMsg("FAIL", "已经签收完结");
 		}
@@ -138,7 +139,7 @@ public class OrderController {
 		if(order2.getOrderStatus()<2){
 			record.setOrderStatus(10);
 			result = orderService.updateByPrimaryKeySelective(record);
-			setHistory(status_order.get("订单取消"),order2.getOrderNo());
+//			setHistory(status_order.get("订单取消"),order2.getOrderNo());
 		}else{
 			return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
 		}
