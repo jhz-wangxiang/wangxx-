@@ -10,7 +10,7 @@
 	//获取当前的Subject
     SysUser user = (SysUser)request.getSession().getAttribute(Const.SESSION_USER);
 	//操作员ID
-	Integer userId = user.getUserId();
+	Integer userId = user.getId();
 	System.out.println(userId);
 	//操作员登陆用户名
 	String userName = user.getUsername();
