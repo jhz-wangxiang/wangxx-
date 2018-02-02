@@ -37,7 +37,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="refund_reason" property="refundReason" jdbcType="VARCHAR" />
     <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
-    <result column="operator" property="operator" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="describe" property="describe" jdbcType="VARCHAR" />
@@ -89,7 +89,7 @@
       #{payStatus,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderWxNo,jdbcType=VARCHAR}, 
       #{orderStatus,jdbcType=INTEGER}, #{abnormalStatus,jdbcType=VARCHAR}, #{abnormaReason,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, 
-      #{operator,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+      #{operator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
        #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}
       )
   </insert>
@@ -291,7 +291,7 @@
         #{cancelReason,jdbcType=VARCHAR},
       </if>
       <if test="operator != null" >
-        #{operator,jdbcType=INTEGER},
+        #{operator,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -406,7 +406,7 @@
         cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       </if>
       <if test="operator != null" >
-        operator = #{operator,jdbcType=INTEGER},
+        operator = #{operator,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -450,7 +450,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       refund_reason = #{refundReason,jdbcType=VARCHAR},
       cancel_reason = #{cancelReason,jdbcType=VARCHAR},
-      operator = #{operator,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

@@ -2,6 +2,10 @@ package com.efrobot.robotstore.baseapi.manager.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -20,6 +24,8 @@ public class Order implements Serializable {
     private String flightNum;//航班号
 
     private Date nowTime;//航班时间
+    
+    private String nowTimeStr;//航班时间
 
     private String baggageNum;//行李数量
 
@@ -79,7 +85,7 @@ public class Order implements Serializable {
 
     private String cancelReason;//取消原因
 
-    private Integer operator;//操作人id
+    private String operator;//操作人姓名
 
     private Date createDate;//下单时间
 
@@ -89,7 +95,15 @@ public class Order implements Serializable {
 
     private String button;
 
-    public Integer getId() {
+    public String getNowTimeStr() {
+		return nowTimeStr;
+	}
+
+	public void setNowTimeStr(String nowTimeStr) {
+		this.nowTimeStr = nowTimeStr;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -130,7 +144,17 @@ public class Order implements Serializable {
     }
 
     public Date getNowTime() {
-        return nowTime;
+    	if (null == nowTimeStr || "".equals(nowTimeStr)) {
+			return nowTime;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		try {
+			nowTime = sdf.parse(nowTimeStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nowTime;
     }
 
     public void setNowTime(Date nowTime) {
@@ -370,15 +394,15 @@ public class Order implements Serializable {
         this.cancelReason = cancelReason == null ? null : cancelReason.trim();
     }
 
-    public Integer getOperator() {
-        return operator;
-    }
+    public String getOperator() {
+		return operator;
+	}
 
-    public void setOperator(Integer operator) {
-        this.operator = operator;
-    }
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
-    public Date getCreateDate() {
+	public Date getCreateDate() {
         return createDate;
     }
 
