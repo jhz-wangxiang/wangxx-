@@ -497,7 +497,7 @@
 	<if test="name != null and !name.isEmpty() and name != ''">
 		AND u.name = #{name,jdbcType=VARCHAR}
 	</if>
-	<if test="userId != null and !userId.isEmpty()">
+	<if test="userId != null">
 		AND o.user_id = #{userId,jdbcType=INTEGER}
 	</if>
 	<if test="channelId != null">
