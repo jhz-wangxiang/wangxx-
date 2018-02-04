@@ -153,6 +153,9 @@ public class Order implements Serializable {
 		if(orderStatus!=null&&orderStatus==10){
 			cancelDisplay = "0";
 		}
+		if (orderStatus!=null&&orderStatus==11) {
+			cancelDisplay = "0";
+		}
 		return cancelDisplay;
 	}
 
@@ -169,6 +172,9 @@ public class Order implements Serializable {
 		if(orderStatus!=null&&orderStatus==10){
 			abnormaDisplay="0";
 		}
+		if (orderStatus!=null&&orderStatus==11) {
+			abnormaDisplay = "0";
+		}
 		return abnormaDisplay;
 	}
 
@@ -183,8 +189,14 @@ public class Order implements Serializable {
 		}else{
 			orderStatusDisplay="1";
 		}
+		if(orderStatus!=null&&orderStatus==6){
+			orderStatusDisplay="0";
+		}
 		if(orderStatus!=null&&orderStatus==10){
 			orderStatusDisplay="0";
+		}
+		if (orderStatus!=null&&orderStatus==11) {
+			orderStatusDisplay = "0";
 		}
 		return orderStatusDisplay;
 	}

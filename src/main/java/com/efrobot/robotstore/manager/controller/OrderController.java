@@ -128,7 +128,7 @@ public class OrderController {
 				record.setPayStatus("已支付");
 			}
 			record.setOrderStatus(order2.getOrderStatus()+1);
-//			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo());
+			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo());
 		}else{
 			return CommonUtil.resultMsg("FAIL", "已经签收完结");
 		}
@@ -147,8 +147,10 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> updateOrderStop(Order record) throws Exception {
 		int result = -1;
+		Order order2= orderService.selectByPrimaryKey(record.getId());
 		record.setOrderStatus(11);
 		result = orderService.updateByPrimaryKeySelective(record);
+		setHistory(status_order.get(11),order2.getOrderNo());
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)
