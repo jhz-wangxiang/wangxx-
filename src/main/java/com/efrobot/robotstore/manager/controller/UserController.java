@@ -76,6 +76,12 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> insertUser(User record) throws Exception {
 		int result = -1;
+		User user2=new User();
+		user2.setPhone(record.getPhone());
+		List<User> list=userService.selectByUser(user2);
+		if(list.size()>0){
+			return CommonUtil.resultMsg("FAIL", "用户信息已经存在!!!");
+		}
 		result = userService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
