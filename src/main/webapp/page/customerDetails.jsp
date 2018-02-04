@@ -41,31 +41,31 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="name" name="name" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="name" name="name" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">信息认证：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="exp1" name="exp1" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="exp1" name="exp1" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly  placeholder="" id="phone" name="phone"readonly>
+                                <input type="text" class="input-text air_input_readonly" value="" readonly  placeholder="" id="phone" name="phone"readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">微信号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="openid" name="openid" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="openid" name="openid" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">创建时间：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="createDate" name="createDate" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="createDate" name="createDate" readonly>
                             </div>
                         </div>
                     </div>
@@ -77,13 +77,13 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">未完成订单：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="exp2" name="exp2" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="exp2" name="exp2" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">上次下单时间：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="orderDate" name="orderDate" readonly>
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="orderDate" name="orderDate" readonly>
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,6 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
-<link rel="stylesheet" type="text/css" href="<%=basePath%>style/style.css" />
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
 	<jsp:param value="order" name="classify"/>
