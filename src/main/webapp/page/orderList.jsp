@@ -279,7 +279,6 @@
     	});
 	}
 	var searchTable = function(){
-		console.log($("select[name='channel']").get(0).selectedIndex)
 		var data = {
 			orderNo:Common.ltrim($("input[name='orderNo']").val()),
 			name:Common.ltrim($("input[name='name']").val()),
