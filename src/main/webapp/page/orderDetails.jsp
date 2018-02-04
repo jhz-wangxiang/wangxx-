@@ -43,13 +43,13 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单编号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="id" name="id">
+                                <input type="text" class="input-text" value=""  readonly placeholder="" id="orderNo" name="orderNo">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="orderStatus" name="orderStatus">
+                                <input type="text" class="input-text" value=""  readonly placeholder="" id="describe" name="describe">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
@@ -61,13 +61,13 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="channel" name="channel">
+                                <input type="text" class="input-text" value=""  placeholder="" readonly id="channel" name="channel">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">下单人：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="registerName" name="registerName">
+                                <input type="text" class="input-text" value=""  placeholder="" readonly id="operator" name="operator">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
@@ -89,15 +89,27 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">身份证号码：</label>
+                            <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="adminName" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="phone" name="phone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4>登机人信息</h4>
+                <div class="line"></div>
+                <div class="mt-20">
+                    <div class="row cl">
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">登机人姓名：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <input type="text" class="input-text" value=""  placeholder="" id="registerName" name="registerName">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="phone" name="phone">
+                                <input type="text" class="input-text" value=""  placeholder="" id="registerPhone" name="registerPhone">
                             </div>
                         </div>
                     </div>
@@ -121,7 +133,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李号码：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="baggage" name="baggage">
+                                <input type="text" class="input-text" value="" placeholder="" id="baggageNo" name="baggageNo">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
