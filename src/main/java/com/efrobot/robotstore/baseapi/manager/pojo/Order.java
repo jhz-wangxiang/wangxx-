@@ -112,16 +112,17 @@ public class Order implements Serializable {
 	}
 
 	public String getCancelDisplay() {
-		if (null == cancelDisplay) {
-			return "1";
-		}
-		if ("是".equals(abnormalStatus)) {
+		
+		if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
 			cancelDisplay = "0";
 		}
-		if (orderStatus > 2) {
+		if (orderStatus!=null&&orderStatus > 2) {
 			cancelDisplay = "0";
 		} else {
 			cancelDisplay = "1";
+		}
+		if(orderStatus!=null&&orderStatus==10){
+			cancelDisplay = "0";
 		}
 		return cancelDisplay;
 	}
@@ -131,13 +132,10 @@ public class Order implements Serializable {
 	}
 
 	public String getAbnormaDisplay() {
-		if(null==orderStatus){
-			return "1";
-		}
-		if(orderStatus==10){
+		if(orderStatus!=null&&orderStatus==10){
 			orderStatusDisplay="0";
 		}
-		if(orderStatus==6){
+		if(orderStatus!=null&&orderStatus==6){
 			abnormaDisplay="0";
     	}else{
     		abnormaDisplay="1";
@@ -151,14 +149,14 @@ public class Order implements Serializable {
 	}
 
 	public String getOrderStatusDisplay() {
-		if(null==abnormalStatus){
-			return "1";
-		}
-		if(orderStatus==10){
+		if(orderStatus!=null&&orderStatus==10){
 			orderStatusDisplay="0";
+			cancelDisplay = "0";
+			abnormaDisplay="0";
 		}
-		if("是".equals(abnormalStatus)){
+		if(abnormalStatus!=null&&"是".equals(abnormalStatus)){
 			orderStatusDisplay="0";
+			
 		}else{
 			orderStatusDisplay="1";
 		}
