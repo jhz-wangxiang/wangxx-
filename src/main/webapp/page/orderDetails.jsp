@@ -43,37 +43,37 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单编号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="id">
+                                <input type="text" class="input-text" value=""  placeholder="" id="id" name="id">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="orderStatus" name="orderStatus">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">下单时间：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" readonly  placeholder="" id="createDate" name="createDate">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="channel" name="channel">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">下单人：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="registerName" name="registerName">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">服务费：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="totalFee" name="totalFee">
                             </div>
                         </div>
                     </div>
@@ -85,19 +85,19 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="name" name="name">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">身份证号码：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="adminName" name="adminName">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value=""  placeholder="" id="phone" name="phone">
                             </div>
                         </div>
                     </div>
@@ -109,31 +109,31 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">航班号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="flightNum" name="flightNum">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">日期：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="nowTime" name="nowTime">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李号码：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="baggage" name="baggage">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李内物品：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="baggage" name="baggage">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李数量：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="baggageNum" name="baggageNum">
                             </div>
                         </div>
                     </div>
@@ -145,19 +145,19 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">收件人：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="consignee" name="consignee">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">联系方式：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="" name="adminName">
+                                <input type="text" class="input-text" value="" placeholder="" id="consigneePhone" name="consigneePhone">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">详细地址：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <textarea class="textarea"></textarea>
+                                <textarea class="textarea" id = "address" name="address"></textarea>
                             </div>
                         </div>
                     </div>
@@ -175,15 +175,39 @@
 	if(id == "" || id == null || id == undefined){
 		location.href = basePath + "v1/page/orderList";
 	}   
+	var dtime = function(id,t){
+		layui.use('laydate', function(){
+			  var laydate = layui.laydate;
+			  laydate.render({
+			    elem: '#'+id,
+			    value: new Date(t),
+			    type:"datetime",
+			    ready: function(date){
+			        console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+			    }
+			  });
+		})
+	}
     $.ajax({
     	url: basePath+"v1/order/getOrderDetail",
     	type:"POST",
     	data:{id:id},
     	success:function(data){
-    		var json = JSON.parse(data)
-    		
+    		var json = JSON.parse(data);
     		for(var i in json){
-    			$("input[name='"+i+"']").val(json[i]);
+    			switch (i) {
+				case "createDate":
+					console.log(i,json[i])
+					dtime(i,json[i])
+					break;
+				case "nowTime":
+					dtime(i,json[i])
+					break;
+				default:
+					$("#"+i).val(json[i]);
+					break;
+				}
+    			
     		}
     	}
     })

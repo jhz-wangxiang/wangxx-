@@ -115,10 +115,24 @@
         }},
         {field:"consignee",title:"收货人",align:"center",minWidth:"100"},
         {field:"totalFee",title:"服务费",align:"center",minWidth:"100"},
-        {field:"orderStatus",title:"订单状态",align:"center",minWidth:"100"},
+        {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
         {field:"abnormalStatus",title:"订单异常",align:"center",minWidth:"100"},
+        {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
+        {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
+        {field:"remark",title:"备注",align:"center",minWidth:"100"},
         {field:"operation",title:"操作",templet: function(d){
-            return '<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a><a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:layer_show(\'收款完成\',\'备注\',\'600\',skwc);">收款完成</a><a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:layer_show(\'取消订单\',\'取消原因\',\'600\',qxdd);">取消订单</a><a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:layer_show(\'订单异常\',\'异常原因\',\'600\',ddyc);">订单异常</a>'
+        	var h = [];
+        	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
+        	if(d.orderStatusDisplay == "1"){
+        		h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+        	}
+        	if(d.cancelDisplay=="1"){
+        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
+        	}
+        	if(d.abnormaDisplay=="1"){
+        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">订单异常</a>')
+        	}
+            return h.join("");
         },minWidth:"240",align:"center"},
     ];
     var basePath = "<%=basePath %>";
@@ -127,6 +141,7 @@
     var start = 0;
     var limit = 10;
     var formData = "";
+    var tableIns ;
     function loadSelect(){
         $.ajax({
             url : basePath+'v1/order/getChannel',
@@ -155,7 +170,6 @@
             datatype : 'json',
             success : function(data) {
             	var json = JSON.parse(data);
-            	console.log(json)
                 if(json){
                     var programme_sel=[];
                     programme_sel.push('<option value="" selected>请选择</option>')
@@ -170,7 +184,7 @@
             }
         });
     }
-    function layer_show(t,b,w,fn){
+    function layer_show(t,b,w,id,fn){
     	var html = [];
     	html.push('<article class="cl pd-20"><form action="" method="post" class="form form-horizontal" id="form-admin-add">');
     	html.push('<div class="row cl"><label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>'+b+'：</label>');
@@ -183,24 +197,91 @@
    		  success:function(layero, index){
    		  },
    		  yes: function(index, layero){
-   			fn(layero);
+   			fn(layero,id);
    		    layer.close();
    		  }
    		}); 
     }
-    var skwc = function(obj){
+    var zfzt = function(obj,id){
     	console.log($(obj).find("textarea").val())
+    	$.ajax({
+    		url: basePath+"v1/order/updateOrderStatus",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}else{
+    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}
+    		}
+    	});
+    	
     }
-	var qxdd = function(obj){
+	var qxdd = function(obj,id){
 		console.log($(obj).find("textarea").val())
+		$.ajax({
+    		url: basePath+"v1/order/updateOrderCancel",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}else{
+    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}
+    		}
+    	});
 	}
-	var ddyc = function(obj){
+	var ddyc = function(obj,id){
 		console.log($(obj).find("textarea").val())
+		$.ajax({
+    		url: basePath+"v1/order/updateAbnormalStatus",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}else{
+    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}
+    		}
+    	});
 	}
     loadSelect();
     layui.use("table",function(){
     	var table = layui.table;
-    	table.render({
+    	tableIns = table.render({
     		elem:"#table",
     		url: basePath+"v1/order/getOrderListPage",
     		method:"POST",
@@ -210,6 +291,7 @@
     		cols:[colArr],
     		page:true
     	});
+    	
     });
 </script>
 </body>
