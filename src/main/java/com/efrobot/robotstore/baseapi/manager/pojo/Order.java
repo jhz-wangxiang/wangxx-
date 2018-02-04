@@ -101,9 +101,19 @@ public class Order implements Serializable {
     
     private String orderStatusDisplay;
     
+    private String baggageNo;//baggage_no//行李号
+    
     private String singleWay;//single_way下单方式;
 
-    public String getSingleWay() {
+    public String getBaggageNo() {
+		return baggageNo;
+	}
+
+	public void setBaggageNo(String baggageNo) {
+		this.baggageNo = baggageNo;
+	}
+
+	public String getSingleWay() {
 		return singleWay;
 	}
 
