@@ -1,1 +1,17 @@
 .air_input_readonly{ border:0 none !important;}
+.fee-box{
+	float: left;
+    margin: 0 60px;
+    text-align: center;
+}
+.fee-box p.label{
+	line-height: 2;
+    margin-bottom: 10px;
+}
+.fee-box p.fee{
+	line-height: 2;
+    font-size: 18px;
+}
+.fee-box p.fee span{
+	color: red;
+}

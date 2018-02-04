@@ -76,7 +76,7 @@
         {field:"operation",title:"操作",templet: function(d){
         	var h = [];
         	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/customerDetails?id='+d.id+'&name='+d.name+'">查看详情</a>');
-        	h.push('<a class="layui-btn layui-btn-xs">创建订单</a>');
+        	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/newOrder?id='+d.id+'">创建订单</a>');
             return h.join("");
         },minWidth:"240",align:"center"},
     ];

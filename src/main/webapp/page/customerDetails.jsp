@@ -30,7 +30,7 @@
         <article class="cl pd-20">
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
         		<span class="r">
-        			<a href="javascript:;" onclick="" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 创建订单</a>
+        			<a href="javascript:;" onclick="addOrderFn()" id="addOrderDom" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 创建订单</a>
         		</span>
         	</div>
             <form action="" method="post" class="form form-horizontal" id="form-admin-add">
@@ -262,7 +262,7 @@
     var start = 0;
     var limit = 10;
     var colArrOrder = [
-    	{field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
+        {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
         {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
         {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
         {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
@@ -279,25 +279,39 @@
         {field:"operation",title:"操作",templet: function(d){
         	var h = [];
         	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
-        	if(d.orderStatusDisplay == "1"){
-        		h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+        	/* if(d.orderStatusDisplay == "1"){
+        		if(d.orderStatus=="6"){
+        			h.push('<a class="layui-btn layui-btn-disabled layui-btn-xs" href="javascript:;">'+d.button+'</a>')
+        		}else{
+        			h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:Common.layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+        		}
         	}
+        	
         	if(d.cancelDisplay=="1"){
-        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
+        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:Common.layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
         	}
         	if(d.abnormaDisplay=="1"){
-        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">订单异常</a>')
+        		var b = ""
+        		if(d.abnormalStatus=="是"){
+        			b = "取消异常"
+        		}else{
+        			b = "订单异常"
+        		}
+        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">'+b+'</a>')
         	}
+        	if(d.stopDisplay == "1"){
+        		h.push('<a class="layui-btn layui-btn-warm layui-btn-xs" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+d.id+'\',ddzz);">终止订单</a>')
+        	} */
             return h.join("");
         },minWidth:"240",align:"center"},
-    ]
+    ];
     layui.use("table",function(){
     	var table = layui.table;
     	tableIns = table.render({
     		elem:"#tableOrder",
     		url: basePath+"v1/order/getOrderListPage",
     		method:"POST",
-    		where: {pageSize:pageSize,start:start,userid:id},
+    		where: {pageSize:pageSize,start:start,userId:id},
     		request: {pageName:"pageNumber",limitName:"limit"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArrOrder],
@@ -305,6 +319,9 @@
     	});
     	
     });
+    function addOrderFn (){
+    	$('#addOrderDom').attr('href',basePath+'v1/page/newOrder?id='+id);
+    }
 </script>
 </body>
 </html>
