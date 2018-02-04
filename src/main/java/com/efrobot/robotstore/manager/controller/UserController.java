@@ -58,9 +58,9 @@ public class UserController {
 	}
 	
 	@SuppressWarnings("static-access")
-	@RequestMapping(value = "/getOrderListPage")
+	@RequestMapping(value = "/getUserListPage")
 	@ResponseBody
-	public JSONObject getOrderListPage(User record, Integer pageNumber, Integer pageSize) throws Exception {
+	public JSONObject getUserListPage(User record, Integer pageNumber, Integer pageSize) throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		PageInfo<User> rows = null;
 		JSONObject obj = new JSONObject();

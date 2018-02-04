@@ -134,6 +134,9 @@ public class Order implements Serializable {
 		if(null==orderStatus){
 			return "1";
 		}
+		if(orderStatus==10){
+			orderStatusDisplay="0";
+		}
 		if(orderStatus==6){
 			abnormaDisplay="0";
     	}else{
@@ -150,6 +153,9 @@ public class Order implements Serializable {
 	public String getOrderStatusDisplay() {
 		if(null==abnormalStatus){
 			return "1";
+		}
+		if(orderStatus==10){
+			orderStatusDisplay="0";
 		}
 		if("是".equals(abnormalStatus)){
 			orderStatusDisplay="0";
