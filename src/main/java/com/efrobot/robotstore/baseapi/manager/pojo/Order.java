@@ -92,10 +92,48 @@ public class Order implements Serializable {
     private Date updateDate;
     
     private String describe;
-
+    
     private String button;
 
-    public String getNowTimeStr() {
+    private String cancelDisplay;
+    
+    private String abnormaDisplay;
+    
+    private String orderStatusDisplay;
+
+    public String getCancelDisplay() {
+    	cancelDisplay="1";
+		return cancelDisplay;
+	}
+
+	public void setCancelDisplay(String cancelDisplay) {
+		this.cancelDisplay = cancelDisplay;
+	}
+
+	public String getAbnormaDisplay() {
+		abnormaDisplay="1";
+		return abnormaDisplay;
+	}
+
+	public void setAbnormaDisplay(String abnormaDisplay) {
+		
+		this.abnormaDisplay = abnormaDisplay;
+	}
+
+	public String getOrderStatusDisplay() {
+		orderStatusDisplay="1";
+		return orderStatusDisplay;
+	}
+
+	public void setOrderStatusDisplay(String orderStatusDisplay) {
+		this.orderStatusDisplay = orderStatusDisplay;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getNowTimeStr() {
 		return nowTimeStr;
 	}
 
