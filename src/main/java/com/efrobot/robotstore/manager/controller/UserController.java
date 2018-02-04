@@ -32,10 +32,9 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> getAddressByUser(User user) throws Exception {
 		Map<String,Object> map = new HashMap<String, Object>();
-		List<Address> adressList=new ArrayList<>();
 		Address record=new Address();
 		record.setUserid(user.getId());
-		adressList=addressService.getAddress(record);
+		List<Address> adressList=addressService.getAddress(record);
 		for(Address record2:adressList){
 			if(record2.getStatus()==1){
 				map.put("address", record2);
