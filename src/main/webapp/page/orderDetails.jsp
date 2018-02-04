@@ -12,7 +12,8 @@
 <meta name="description" content="后台">
 </head>
 <body>
-
+<link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>style/style.css" />
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
 	<jsp:param value="order" name="classify"/>
@@ -42,38 +43,38 @@
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单编号：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  readonly placeholder="" id="orderNo" name="orderNo">
+                            <div class="formControls col-xs-8 col-sm-8" >
+                                <input type="text" class="input-text air_input_readonly" value=""  readonly placeholder="" id="orderNo" name="orderNo">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  readonly placeholder="" id="describe" name="describe">
+                                <input type="text" class="input-text air_input_readonly" value=""  readonly placeholder="" id="describe" name="describe">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">下单时间：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" readonly  placeholder="" id="createDate" name="createDate">
+                                <input type="text" class="input-text air_input_readonly" value="" readonly  placeholder="" id="createDate" name="createDate">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" readonly id="channel" name="channel">
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" readonly id="channel" name="channel">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">下单人：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" readonly id="operator" name="operator">
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" readonly id="operator" name="operator">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">服务费：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value=""  placeholder="" id="totalFee" name="totalFee">
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="totalFee" name="totalFee">
                             </div>
                         </div>
                     </div>
@@ -179,7 +180,6 @@
     </div>
 </section>
 <jsp:include page="_footer.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
 	var id = Common.GetUrlRequest()['id'];
@@ -194,6 +194,7 @@
 			    elem: '#'+id,
 			    value: new Date(t),
 			    type:"datetime",
+			    format: 'yyyy/MM/dd HH:mm:ss',
 			    ready: function(date){
 			        console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
 			    }
@@ -209,7 +210,7 @@
     		for(var i in json){
     			switch (i) {
 				case "createDate":
-					dtime(i,json[i])
+					$("#"+i).val(Common.getLocalDate(json[i]))
 					break;
 				case "nowTime":
 					dtime(i,json[i])

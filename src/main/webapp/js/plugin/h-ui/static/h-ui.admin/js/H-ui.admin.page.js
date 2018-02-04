@@ -114,9 +114,9 @@ var Common = function () {
             }else{
                 var date = new Date()
             }
-            var Y = date.getFullYear() + '-',
+            var Y = date.getFullYear() + '/',
 
-                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-',
+                M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/',
 
                 D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ',
 

@@ -285,14 +285,12 @@
 			channelId:$("select[name='channel']").val()==""?null:$("select[name='channel']").val(),
 			abnormalStatus:$("select[name='abnormal']").val()==""?null:$("select[name='abnormal']").val(),
 			orderStatus:$("select[name='orderStatus']").val()==""?null:$("select[name='orderStatus']").val(),
-			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val()
+			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val(),
+			pageSize:pageSize,
+			start:start
 		}
-		console.log(data)
 		tableIns.reload({
 		  where: data
-		  ,page: {
-		    curr: 1
-		  }
 		});
 	}
     loadSelect();
