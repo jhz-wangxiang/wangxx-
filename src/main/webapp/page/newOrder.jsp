@@ -180,6 +180,7 @@ border: 1px solid #eeeeee;
                     </div>
                 </div>
                 <input type="hidden" name="userId" id="userId">
+                <input type="hidden" name="channel" id="channel" value="微信">
             </form>
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort" id="table">
