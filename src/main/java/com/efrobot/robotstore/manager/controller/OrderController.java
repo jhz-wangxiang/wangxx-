@@ -90,7 +90,6 @@ public class OrderController {
 		}else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
-		
 	}
 	
 	@RequestMapping(value = "/updateOrder", method = RequestMethod.POST)
