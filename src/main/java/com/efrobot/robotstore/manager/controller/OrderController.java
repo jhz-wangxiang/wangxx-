@@ -86,6 +86,7 @@ public class OrderController {
 		record.setAbnormalStatus("正常");
 		record.setCreateDate(new Date());
 		record.setOrderNo(orderNo);
+		record.setSingleWay("柜台");
 		record.setOperator("柜台"+sysUser.getName());
 		result = orderService.insertSelective(record);
 		if (result == 0) {
