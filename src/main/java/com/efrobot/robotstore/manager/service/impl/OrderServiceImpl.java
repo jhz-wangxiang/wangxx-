@@ -50,6 +50,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+	public PageInfo<OrderStatusRecord> getOrderStatusRecordListPage(String orderNo, Integer pageNum, Integer pageSize)
+			throws Exception {
+		PageHelper.startPage(pageNum, pageSize);
+		List<OrderStatusRecord> list = orderStatusRecordMapper.selectByparms(orderNo);
+		PageInfo<OrderStatusRecord> page = new PageInfo<OrderStatusRecord>(list);
+		return page;
+	}
+	
+	@Override
 	public List<Order> selectByParms(Order record) {
 		return orderMapper.selectByParms(record);
 	}

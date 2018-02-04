@@ -229,10 +229,21 @@ public class OrderController {
 		return list;
 	}
 	//查询历史状态
+	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/selectHistory", method = RequestMethod.POST)
 	@ResponseBody
-	public List<OrderStatusRecord> selectHistory(String orderNo){
-		return orderService.selectByparms(orderNo);
+	public JSONObject selectHistory(String orderNo, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<OrderStatusRecord> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		rows = orderService.getOrderStatusRecordListPage(orderNo, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
+
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+//		return orderService.selectByparms(orderNo);
 	}
 	public int setHistory(String remark,String orderNo){
 		Subject subject = SecurityUtils.getSubject();

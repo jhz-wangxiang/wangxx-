@@ -13,7 +13,12 @@ import com.efrobot.robotstore.util.PageInfo;
 public interface OrderService {
 	public PageInfo<Order> getOrderListPage(Order order, Integer pageNum, Integer pageSize)
 			throws Exception;
+	
+	public PageInfo<OrderStatusRecord> getOrderStatusRecordListPage(String orderNo, Integer pageNum, Integer pageSize)
+			throws Exception;
+	
 	public List<Order> selectByParms(Order record) ;
+	
 	public int insertSelective(Order record);
 	
 	public int updateByPrimaryKey(Order record);
