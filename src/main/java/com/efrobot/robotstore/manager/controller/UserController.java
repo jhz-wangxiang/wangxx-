@@ -32,20 +32,9 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> getAddressByUser(User user) throws Exception {
 		Map<String,Object> map = new HashMap<String, Object>();
-		Integer userid=0;
-		List<Address> adressList=new ArrayList<>();
-		User user2=new User();
-		user2.setPhone(user.getPhone());
-		List<User> list=userService.selectByUser(user2);
-		if(list.size()==0){
-			userService.insertSelective(user);
-			userid=user.getId();
-		}else{
-			userid=list.get(0).getId();
-			Address record=new Address();
-			record.setUserid(userid);
-			adressList=addressService.getAddress(record);
-		}
+		Address record=new Address();
+		record.setUserid(user.getId());
+		List<Address> adressList=addressService.getAddress(record);
 		for(Address record2:adressList){
 			if(record2.getStatus()==1){
 				map.put("address", record2);
@@ -53,7 +42,6 @@ public class UserController {
 		}
 		map.put("resultCode", "SUCCESS");
 		map.put("addressList", adressList);
-		map.put("userid", userid);		
 		return map;
 	}
 	

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.efrobot.robotstore.baseapi.manager.AddressMapper;
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
+import com.efrobot.robotstore.baseapi.manager.pojo.User;
 import com.efrobot.robotstore.manager.service.AddressService;
+import com.efrobot.robotstore.util.PageInfo;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -43,5 +46,14 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public Address selectByPrimaryKey(Integer id){
 		return addressMapper.selectByPrimaryKey(id);
+	}
+	
+	@Override
+	public PageInfo<Address> getAddressListPage(Address record, Integer pageNum, Integer pageSize)
+			throws Exception {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Address> list = addressMapper.getAddress(record);
+		PageInfo<Address> page = new PageInfo<Address>(list);
+		return page;
 	}
 }

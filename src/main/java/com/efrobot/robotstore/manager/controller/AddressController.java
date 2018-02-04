@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
+import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.manager.service.AddressService;
 import com.efrobot.robotstore.util.CommonUtil;
+import com.efrobot.robotstore.util.PageInfo;
 
 @RequestMapping("/v1/address")
 @RestController
@@ -103,5 +107,21 @@ public class AddressController {
 	public List<Address> getAddress(Address record) throws Exception {
 		List<Address> list=addressService.getAddress(record);
 		return list;
+	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getAddressListPage")
+	@ResponseBody
+	public JSONObject getAddressListPage(Address record, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<Address> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		rows = addressService.getAddressListPage(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
+
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
 	}
 }
