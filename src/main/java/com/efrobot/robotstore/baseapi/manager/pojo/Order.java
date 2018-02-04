@@ -100,8 +100,18 @@ public class Order implements Serializable {
     private String abnormaDisplay;
     
     private String orderStatusDisplay;
+    
+    private String singleWay;//single_way下单方式;
 
-    public String getCancelDisplay() {
+    public String getSingleWay() {
+		return singleWay;
+	}
+
+	public void setSingleWay(String singleWay) {
+		this.singleWay = singleWay;
+	}
+
+	public String getCancelDisplay() {
     	if(orderStatus>2){
     		cancelDisplay="0";
     	}else{

@@ -42,6 +42,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="describe" property="describe" jdbcType="VARCHAR" />
     <result column="button" property="button" jdbcType="VARCHAR" />
+    <result column="single_way" property="singleWay" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -49,7 +50,7 @@
     consignee, consignee_phone, address, area_id, mileage, basic_fee, discount, additional_fee, 
     pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no, order_wx_no, order_status, 
     abnormal_status, abnorma_reason, remark, refund_reason, cancel_reason, operator, 
-    create_date, update_date,paid_fee,exp_fee
+    create_date, update_date,paid_fee,exp_fee,single_way
   </sql>
  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -77,7 +78,7 @@
       pay_status, order_no, order_wx_no, 
       order_status, abnormal_status, abnorma_reason, 
       remark, refund_reason, cancel_reason, 
-      operator, create_date, update_date,paid_fee,exp_fee
+      operator, create_date, update_date,paid_fee,exp_fee,single_way
       )
     values (#{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, 
       #{nowTime,jdbcType=TIMESTAMP}, #{baggageNum,jdbcType=VARCHAR}, #{baggage,jdbcType=VARCHAR}, 
@@ -90,7 +91,7 @@
       #{orderStatus,jdbcType=INTEGER}, #{abnormalStatus,jdbcType=VARCHAR}, #{abnormaReason,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, 
       #{operator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
-       #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}
+       #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}, #{singleWay,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
@@ -201,6 +202,9 @@
       <if test="updateDate != null" >
         exp_fee,
       </if>
+      <if test="singleWay != null" >
+        single_way,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -304,6 +308,9 @@
       </if>
       <if test="payCost != null" >
         #{expFee,jdbcType=DECIMAL},
+      </if>
+      <if test="singleWay != null" >
+        #{singleWay,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -414,6 +421,9 @@
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="singleWay != null" >
+        single_way = #{singleWay,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -452,7 +462,8 @@
       cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       operator = #{operator,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      single_way = #{singleWay,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByParms" resultMap="BaseResultMap"
