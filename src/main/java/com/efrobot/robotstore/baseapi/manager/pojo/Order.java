@@ -189,6 +189,9 @@ public class Order implements Serializable {
 		}else{
 			orderStatusDisplay="1";
 		}
+		if(orderStatus!=null&&orderStatus==6){
+			orderStatusDisplay="0";
+		}
 		if(orderStatus!=null&&orderStatus==10){
 			orderStatusDisplay="0";
 		}
