@@ -75,12 +75,16 @@ public class OrderController {
 	public Map<String, Object> insertOrder(Order record) throws Exception {
 		int result = -1;
 		String orderNo=CommonUtil.bulidOrderNum("A");
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
 		// 异常处理
 		record.setOrderStatus(1);//支付变成2
 		record.setPayStatus("未支付");
 		record.setAbnormalStatus("正常");
 		record.setCreateDate(new Date());
 		record.setOrderNo(orderNo);
+		record.setOperator("柜台"+sysUser.getName());
 		result = orderService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");

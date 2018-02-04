@@ -212,6 +212,24 @@ var Common = function () {
 	   			  }
 	   		 }
 	   		 return theRequest;
-	   	}
+	   	},
+	   	 layer_show:function(t,b,w,id,fn){
+	    	var html = [];
+	    	html.push('<article class="cl pd-20"><form action="" method="post" class="form form-horizontal" id="form-admin-add">');
+	    	html.push('<div class="row cl"><label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>'+b+'：</label>');
+	    	html.push('<div class="formControls col-xs-9 col-sm-10"><textarea class="textarea" value="" placeholder="" name=""></textarea>');
+	    	html.push('</div></div></form></article>');
+	    	layer.open({
+	   		  title: t,
+	   		  content: html.join(""),
+	   		  area:w+'px',
+	   		  success:function(layero, index){
+	   		  },
+	   		  yes: function(index, layero){
+	   			fn(layero,id);
+	   		    layer.close();
+	   		  }
+	   		}); 
+	    }
     }
 }();

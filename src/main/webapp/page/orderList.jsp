@@ -107,30 +107,41 @@
 <script type="text/javascript">
     var colArr = [
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
-        {field:"name",title:"客户姓名",align:"center",minWidth:"100"},
-        {field:"phone",title:"联系方式",align:"center",minWidth:"150"},
-        {field:"channel",title:"客户渠道",align:"center",minWidth:"100"},
-        {field:"createDate",title:"下单时间",align:"center",minWidth:"200",templet:function(d){
+        {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
+        {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
+        {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
+        {field:"createDate",title:"下单时间",align:"center",minWidth:"150",templet:function(d){
         	return Common.getLocalDate(d.createDate)
         }},
-        {field:"consignee",title:"收货人",align:"center",minWidth:"100"},
-        {field:"totalFee",title:"服务费",align:"center",minWidth:"100"},
+        {field:"consignee",title:"收货人",align:"center",minWidth:"50"},
+        {field:"totalFee",title:"服务费",align:"center",minWidth:"10"},
         {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
-        {field:"abnormalStatus",title:"订单异常",align:"center",minWidth:"100"},
+        {field:"abnormalStatus",title:"异常状态",align:"center",minWidth:"90"},
         {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
         {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
-        {field:"remark",title:"备注",align:"center",minWidth:"100"},
+       {field:"remark",title:"备注",align:"center",minWidth:"100"},
         {field:"operation",title:"操作",templet: function(d){
         	var h = [];
         	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
         	if(d.orderStatusDisplay == "1"){
-        		h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+        		if(d.orderStatus=="6"){
+        			h.push('<a class="layui-btn layui-btn-disabled layui-btn-xs" href="javascript:;">'+d.button+'</a>')
+        		}else{
+        			h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:Common.layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+        		}
         	}
+        	
         	if(d.cancelDisplay=="1"){
-        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
+        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:Common.layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
         	}
         	if(d.abnormaDisplay=="1"){
-        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">订单异常</a>')
+        		var b = ""
+        		if(d.abnormalStatus=="是"){
+        			b = "取消异常"
+        		}else{
+        			b = "订单异常"
+        		}
+        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">'+b+'</a>')
         	}
             return h.join("");
         },minWidth:"240",align:"center"},
@@ -183,24 +194,6 @@
                 alert('查询异常');
             }
         });
-    }
-    function layer_show(t,b,w,id,fn){
-    	var html = [];
-    	html.push('<article class="cl pd-20"><form action="" method="post" class="form form-horizontal" id="form-admin-add">');
-    	html.push('<div class="row cl"><label class="form-label col-xs-3 col-sm-2"><span class="c-red">*</span>'+b+'：</label>');
-    	html.push('<div class="formControls col-xs-9 col-sm-10"><textarea class="textarea" value="" placeholder="" name=""></textarea>');
-    	html.push('</div></div></form></article>');
-    	layer.open({
-   		  title: t,
-   		  content: html.join(""),
-   		  area:w+'px',
-   		  success:function(layero, index){
-   		  },
-   		  yes: function(index, layero){
-   			fn(layero,id);
-   		    layer.close();
-   		  }
-   		}); 
     }
     var zfzt = function(obj,id){
     	console.log($(obj).find("textarea").val())
@@ -285,12 +278,14 @@
 			channelId:$("select[name='channel']").val()==""?null:$("select[name='channel']").val(),
 			abnormalStatus:$("select[name='abnormal']").val()==""?null:$("select[name='abnormal']").val(),
 			orderStatus:$("select[name='orderStatus']").val()==""?null:$("select[name='orderStatus']").val(),
-			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val(),
-			pageSize:pageSize,
-			start:start
+			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val()
 		}
+		console.log(data)
 		tableIns.reload({
 		  where: data
+		  ,page: {
+		    curr: 1
+		  }
 		});
 	}
     loadSelect();

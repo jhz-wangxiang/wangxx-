@@ -31,12 +31,13 @@
         <article class="cl pd-20">
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
         		<span class="r">
-        			<a href="javascript:;" onclick="" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 打印订单</a>
+        			<a href="javascript:;" onclick="" class="btn btn-primary radius" id="modifyDetails"><i class="Hui-iconfont Hui-iconfont-save"></i> 订单修改</a>
+        			<a href="javascript:;" onclick="" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 打印订单</a>
         			<a href="javascript:;" onclick="" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-shenhe-tongguo"></i> 行李提取</a>
-        			<a href="javascript:;" onclick="" class="btn btn-danger radius"><i class="Hui-iconfont Hui-iconfont-shenhe-weitongguo"></i> 订单异常</a>
+        			<a href="javascript:;" onclick="" class="btn btn-danger radius" id="orderAbnormalBox"></a>
         		</span>
         	</div>
-            <form action="" method="post" class="form form-horizontal" id="form-admin-add">
+            <form action="" method="post" class="form form-horizontal" id="form-details">
                 <h4>订单信息</h4>
                 <div class="line"></div>
                 <div class="mt-20">
@@ -128,7 +129,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">日期：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="nowTime" name="nowTime">
+                                <input type="text" class="input-text" readonly value="" placeholder="" id="nowTime" name="nowTime">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
@@ -175,6 +176,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name = "id" id="id"/>
             </form>
         </article>
     </div>
@@ -194,10 +196,7 @@
 			    elem: '#'+id,
 			    value: new Date(t),
 			    type:"datetime",
-			    format: 'yyyy/MM/dd HH:mm:ss',
-			    ready: function(date){
-			        console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-			    }
+			    format: 'yyyy/MM/dd HH:mm:ss'
 			  });
 		})
 	}
@@ -207,6 +206,17 @@
     	data:{id:id},
     	success:function(data){
     		var json = JSON.parse(data);
+    		if(json.abnormaDisplay=="1"){
+        		var b = ""
+        		if(json.abnormalStatus=="是"){
+        			b = "取消异常"
+        		}else{
+        			b = "订单异常"
+        		}
+        		$("#orderAbnormalBox").html('<i class="Hui-iconfont Hui-iconfont-shenhe-weitongguo"></i>'+b).click(function(){
+        			Common.layer_show('订单异常','异常原因','600',''+json.id+'',ddyc);
+        		});
+        	}
     		for(var i in json){
     			switch (i) {
 				case "createDate":
@@ -219,10 +229,50 @@
 					$("#"+i).val(json[i]);
 					break;
 				}
-    			
     		}
+    		updateOrder();
     	}
-    })
+    });
+    
+    var updateOrder = function(){
+    	$("#modifyDetails").click(function(){
+    		$.ajax({
+    			url: basePath+"v1/order/updateOrder",
+    			type:"POST",
+    	    	data:$("#form-details").serializeArray(),
+    	    	success:function(json){
+    	    		var json = JSON.parse(json);
+    	    		if(json.resultCode=="SUCCESS"){
+    	    			layer.msg('修改成功!',{icon: 6,time:1000});
+    	    		}else{
+    	    			layer.msg('修改失败!',{icon: 5,time:1000});
+    	    		}
+    	    	}
+    		})
+    	})
+    }
+    var ddyc = function(obj,id){
+		$.ajax({
+    		url: basePath+"v1/order/updateAbnormalStatus",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg('成功!',{icon: 6,time:1000,shade:0.3},function(){
+    					location.replace(location.href)
+    				});
+    			}else{
+    				layer.msg('失败!',{icon: 5,time:1000,shade:0.3},function(){
+    					location.replace(location.href)
+    				});
+    			}
+    		}
+    	});
+	}
 </script>
 </body>
 </html>
