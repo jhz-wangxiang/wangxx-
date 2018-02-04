@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
 import com.efrobot.robotstore.manager.service.AddressService;
 import com.efrobot.robotstore.manager.service.UserService;
+import com.efrobot.robotstore.util.CommonUtil;
+import com.efrobot.robotstore.util.PageInfo;
 
 @RequestMapping("/v1/user")
 @RestController
@@ -52,4 +56,42 @@ public class UserController {
 		map.put("userid", userid);		
 		return map;
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getOrderListPage")
+	@ResponseBody
+	public JSONObject getOrderListPage(User record, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<User> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		rows = userService.getUserListPage(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
+
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
+	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertUser(User record) throws Exception {
+		int result = -1;
+		result = userService.insertSelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1){
+			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
+		}else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+		
+	}
+	
+	@RequestMapping(value = "/getUserDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public User getUserDetail(User record) throws Exception {
+		List<User> list = userService.selectByUser(record);
+		return list.get(0);
+	}
+	
 }

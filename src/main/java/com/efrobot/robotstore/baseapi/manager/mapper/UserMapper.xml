@@ -161,4 +161,28 @@
       exp2 = #{exp2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByParms" resultMap="BaseResultMap"
+	parameterType="com.efrobot.robotstore.baseapi.manager.pojo.User">
+	SELECT
+		*
+	FROM
+		user
+	where 1=1
+	<if test="id != null">
+		id=#{id,jdbcType=INTEGER}
+	</if>
+	
+	<if test="name != null and !name.isEmpty()">
+		AND phone = #{phone,jdbcType=VARCHAR}
+	</if>
+	<if test="name != null and !name.isEmpty()">
+		AND name = #{name,jdbcType=VARCHAR}
+	</if>
+	<if test="channelId != null">
+		AND channel_id = #{channelId,jdbcType=INTEGER}
+	</if>
+	
+	ORDER BY
+	o.create_date desc
+</select>
 </mapper>

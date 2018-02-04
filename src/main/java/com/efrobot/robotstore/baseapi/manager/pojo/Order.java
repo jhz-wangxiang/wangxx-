@@ -115,7 +115,11 @@ public class Order implements Serializable {
 	}
 
 	public String getAbnormaDisplay() {
-		abnormaDisplay="1";
+		if(orderStatus==6){
+			abnormaDisplay="0";
+    	}else{
+    		abnormaDisplay="1";
+    	}
 		return abnormaDisplay;
 	}
 
