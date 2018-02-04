@@ -25,8 +25,22 @@ public class User implements Serializable {
     private String exp1;
 
     private String exp2;
+    
+    private Integer channelId;
 
-    public Integer getId() {
+    public Integer getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(Integer channelId) {
+		this.channelId = channelId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Integer getId() {
         return id;
     }
 
