@@ -259,7 +259,7 @@ public class OrderController {
 		orderStatusRecord.setUserId(sysUser.getId());
 		orderStatusRecord.setCreateDate(new Date());
 		orderStatusRecord.setStatus(1);//1-后台,2-客户
-		int result =orderService.updateByPrimaryKeySelective(orderStatusRecord);
+		int result =orderService.insertSelective(orderStatusRecord);
 		return result;
 		
 	}

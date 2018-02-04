@@ -38,5 +38,7 @@ public interface OrderService {
 	public  Order selectByPrimaryKey(Integer id);
 	
 	public  int updateByPrimaryKeySelective(OrderStatusRecord record);
+	
+	public  int insertSelective(OrderStatusRecord record);
 
 }

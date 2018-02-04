@@ -106,6 +106,10 @@ public class OrderServiceImpl implements OrderService {
 	public  int updateByPrimaryKeySelective(OrderStatusRecord record) {
 		return orderStatusRecordMapper.updateByPrimaryKeySelective(record);
 	}
+	@Override
+	public  int insertSelective(OrderStatusRecord record) {
+		return orderStatusRecordMapper.insertSelective(record);
+	}
 	public List<OrderStatusRecord> selectByparms(String exp1){
 		return orderStatusRecordMapper.selectByparms(exp1);
 	}
