@@ -83,10 +83,10 @@ public class OrderController {
 		// 异常处理
 		record.setOrderStatus(1);//支付变成2
 		record.setPayStatus("未支付");
-		record.setAbnormalStatus("正常");
 		record.setCreateDate(new Date());
 		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
+		record.setAbnormalStatus("否");
 		record.setOperator("柜台"+sysUser.getName());
 		result = orderService.insertSelective(record);
 		if (result == 0) {
