@@ -197,7 +197,6 @@
     		for(var i in json){
     			switch (i) {
 				case "createDate":
-					console.log(i,json[i])
 					dtime(i,json[i])
 					break;
 				case "nowTime":

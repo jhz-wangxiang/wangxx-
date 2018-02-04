@@ -23,7 +23,7 @@
         <span class="c-gray en">&gt;</span>
         订单管理
         <span class="c-gray en">&gt;</span>
-        新建订单
+        订单列表
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
@@ -282,11 +282,12 @@
 		var data = {
 			orderNo:Common.ltrim($("input[name='orderNo']").val()),
 			name:Common.ltrim($("input[name='name']").val()),
-			channelId:$("select[name='channel']").get(0).selectedIndex,
-			abnormalStatus:$("select[name='abnormal']").val(),
-			orderStatus:$("select[name='orderStatus']").get(0).selectedIndex,
-			payStatus:$("select[name='payStatus']").val()
+			channelId:$("select[name='channel']").val()==""?null:$("select[name='channel']").val(),
+			abnormalStatus:$("select[name='abnormal']").val()==""?null:$("select[name='abnormal']").val(),
+			orderStatus:$("select[name='orderStatus']").val()==""?null:$("select[name='orderStatus']").val(),
+			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val()
 		}
+		console.log(data)
 		tableIns.reload({
 		  where: data
 		  ,page: {
