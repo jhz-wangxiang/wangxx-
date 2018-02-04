@@ -60,8 +60,8 @@
                                 <span class="select-box inline">
 									<select name="abnormal" class="select">
 										<option value="">请选择</option>
-										<option value="">是</option>
-										<option value="">否</option>
+										<option value="是">是</option>
+										<option value="否">否</option>
 									</select>
 								</span>
                             </div>
@@ -82,16 +82,16 @@
                                 <span class="select-box inline">
 									<select name="payStatus" class="select">
 										<option value="">请选择</option>
-										<option value="1">未支付</option>
-										<option value="2">已支付</option>
-										<option value="2">已退款</option>
+										<option value="未支付">未支付</option>
+										<option value="已支付">已支付</option>
+										<option value="已退款">已退款</option>
 									</select>
 								</span>
                             </div>
                         </div>
                     </div>
                     <div class='row cl text-c'>
-                    	<button name="" id="" class="btn btn-success" type="button"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
+                    	<button name="" id="" class="btn btn-success" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                     </div>
             </form>
             <div class="mt-20">
@@ -156,7 +156,7 @@
                     for(var i=0,len=json.length;i<len;i++){
                         programme_sel.push('<option value="'+json[i].id+'">'+json[i].channel+'</option>')
                     }
-                    $("select[name='channel']").html(programme_sel.join(' '));
+                    $("select[name='channel']").html(programme_sel.join(''));
                 }
             },
             error : function() {
@@ -277,6 +277,23 @@
     			}
     		}
     	});
+	}
+	var searchTable = function(){
+		console.log($("select[name='channel']").get(0).selectedIndex)
+		var data = {
+			orderNo:Common.ltrim($("input[name='orderNo']").val()),
+			name:Common.ltrim($("input[name='name']").val()),
+			channelId:$("select[name='channel']").get(0).selectedIndex,
+			abnormalStatus:$("select[name='abnormal']").val(),
+			orderStatus:$("select[name='orderStatus']").get(0).selectedIndex,
+			payStatus:$("select[name='payStatus']").val()
+		}
+		tableIns.reload({
+		  where: data
+		  ,page: {
+		    curr: 1
+		  }
+		});
 	}
     loadSelect();
     layui.use("table",function(){
