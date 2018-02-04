@@ -30,12 +30,11 @@
     <div class="Hui-article">
         <article class="cl pd-20">
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
-        		<span class="r">
+        		<span class="l">
         			<a href="javascript:;" onclick="" class="btn btn-primary radius" id="modifyDetails"><i class="Hui-iconfont Hui-iconfont-save"></i> 订单修改</a>
         			<a href="javascript:;" onclick="" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 打印订单</a>
-        			<a href="javascript:;" onclick="" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-shenhe-tongguo"></i> 行李提取</a>
-        			<a href="javascript:;" onclick="" class="btn btn-danger radius" id="orderAbnormalBox"></a>
         		</span>
+        		<span id="statusBox" class="r"></span>
         	</div>
             <form action="" method="post" class="form form-horizontal" id="form-details">
                 <h4>订单信息</h4>
@@ -178,6 +177,15 @@
                 </div>
                 <input type="hidden" name = "id" id="id"/>
             </form>
+            <h4>订单历史记录</h4>
+            <div class="line"></div>
+            <div class="mt-20">
+                <div class="row cl">
+                    <div class="col-md-1" id="history">
+                        
+                    </div>
+                </div>
+            </div>
         </article>
     </div>
 </section>
@@ -206,6 +214,18 @@
     	data:{id:id},
     	success:function(data){
     		var json = JSON.parse(data);
+    		var h = [];
+    		if(json.orderStatusDisplay == "1"){
+        		if(json.orderStatus=="6"){
+        			h.push('<a class="btn disabled radius ml-5 mr-5" href="javascript:;">'+json.button+'</a>')
+        		}else{
+        			h.push('<a class="btn btn-primary radius ml-5 mr-5" href="javascript:Common.layer_show(\'状态确认\',\'备注\',\'600\',\''+json.id+'\',zfzt);"><i class="Hui-iconfont Hui-iconfont-shenhe-weitongguo"></i> '+json.button+'</a>')
+        		}
+        	}
+        	
+        	if(json.cancelDisplay=="1"){
+        		h.push('<a class="btn btn-warning radius ml-5 mr-5" href="javascript:Common.layer_show(\'取消订单\',\'取消原因\',\'600\',\''+json.id+'\',qxdd);"><i class="Hui-iconfont Hui-iconfont-shenhe-butongguo2"></i> 取消订单</a>')
+        	}
     		if(json.abnormaDisplay=="1"){
         		var b = ""
         		if(json.abnormalStatus=="是"){
@@ -213,9 +233,10 @@
         		}else{
         			b = "订单异常"
         		}
-        		$("#orderAbnormalBox").html('<i class="Hui-iconfont Hui-iconfont-shenhe-weitongguo"></i>'+b).click(function(){
-        			Common.layer_show('订单异常','异常原因','600',''+json.id+'',ddyc);
-        		});
+        		h.push('<a href="javascript:;" onclick="Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+json.id+'\',ddyc)" class="btn btn-danger radius ml-5 mr-5" id="orderAbnormalBox"><i class="Hui-iconfont Hui-iconfont-shenhe-weitongguo"></i> '+b+'</a>');
+        	}
+    		if(json.stopDisplay == "1"){
+        		h.push('<a class="btn btn-warning radius" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+json.id+'\',ddzz);"><i class="Hui-iconfont Hui-iconfont-close"></i> 终止订单</a>')
         	}
     		for(var i in json){
     			switch (i) {
@@ -230,6 +251,8 @@
 					break;
 				}
     		}
+    		$("#statusBox").html(h.join(""));
+    		$("#history").html('<a class="btn btn-default radius" href="'+basePath+'v1/page/orderHistory?id='+json.orderNo+'">订单历史记录</a>');
     		updateOrder();
     	}
     });
@@ -243,14 +266,59 @@
     	    	success:function(json){
     	    		var json = JSON.parse(json);
     	    		if(json.resultCode=="SUCCESS"){
-    	    			layer.msg('修改成功!',{icon: 6,time:1000});
+    	    			layer.msg(json.msg,{icon: 6,time:1000});
     	    		}else{
-    	    			layer.msg('修改失败!',{icon: 5,time:1000});
+    	    			layer.msg(json.msg,{icon: 5,time:1000});
     	    		}
     	    	}
     		})
     	})
     }
+    var zfzt = function(obj,id){
+    	$.ajax({
+    		url: basePath+"v1/order/updateOrderStatus",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+    					location.replace(location.href);
+    				});
+    			}else{
+    				layer.msg(json.msg,{icon: 5,time:1000,shade:0.3},function(){
+    					location.replace(location.href);
+    				});
+    			}
+    		}
+    	});
+    	
+    }
+	var qxdd = function(obj,id){
+		$.ajax({
+    		url: basePath+"v1/order/updateOrderCancel",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+    					location.replace(location.href)
+    				});
+    			}else{
+    				layer.msg(json.msg,{icon: 5,time:1000,shade:0.3},function(){
+    					location.replace(location.href)
+    				});
+    			}
+    		}
+    	});
+	}
     var ddyc = function(obj,id){
 		$.ajax({
     		url: basePath+"v1/order/updateAbnormalStatus",
@@ -262,12 +330,36 @@
     		success:function(json){
     			var json = JSON.parse(json);
     			if(json.resultCode=="SUCCESS"){
-    				layer.msg('成功!',{icon: 6,time:1000,shade:0.3},function(){
+    				layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
     					location.replace(location.href)
     				});
     			}else{
-    				layer.msg('失败!',{icon: 5,time:1000,shade:0.3},function(){
+    				layer.msg(json.msg,{icon: 5,time:1000,shade:0.3},function(){
     					location.replace(location.href)
+    				});
+    			}
+    		}
+    	});
+	}
+    var ddzz = function(obj,id){
+		$.ajax({
+    		url: basePath+"v1/order/updateOrderStop",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg(json.msg,{icon: 6,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}else{
+    				layer.msg(json.msg,{icon: 5,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
     				});
     			}
     		}

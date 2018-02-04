@@ -40,4 +40,9 @@ public class PageForController {
 		request.setAttribute("navName", "客户详情");
 		return "customerDetails";
 	}
+	@RequestMapping(value = "/orderHistory")
+	public String orderHistory(HttpServletRequest request) {
+		request.setAttribute("navName", "订单历史");
+		return "orderHistory";
+	}
 }

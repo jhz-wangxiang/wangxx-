@@ -143,6 +143,9 @@
         		}
         		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">'+b+'</a>')
         	}
+        	if(d.stopDisplay == "1"){
+        		h.push('<a class="layui-btn layui-btn-warm layui-btn-xs" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+d.id+'\',ddzz);">终止订单</a>')
+        	}
             return h.join("");
         },minWidth:"240",align:"center"},
     ];
@@ -196,7 +199,6 @@
         });
     }
     var zfzt = function(obj,id){
-    	console.log($(obj).find("textarea").val())
     	$.ajax({
     		url: basePath+"v1/order/updateOrderStatus",
     		type:"POST",
@@ -207,12 +209,12 @@
     		success:function(json){
     			var json = JSON.parse(json);
     			if(json.resultCode=="SUCCESS"){
-    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    				layer.msg(json.msg,{icon: 6,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
     			}else{
-    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    				layer.msg(json.msg,{icon: 5,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
@@ -222,7 +224,6 @@
     	
     }
 	var qxdd = function(obj,id){
-		console.log($(obj).find("textarea").val())
 		$.ajax({
     		url: basePath+"v1/order/updateOrderCancel",
     		type:"POST",
@@ -233,12 +234,12 @@
     		success:function(json){
     			var json = JSON.parse(json);
     			if(json.resultCode=="SUCCESS"){
-    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    				layer.msg(json.msg,{icon: 6,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
     			}else{
-    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    				layer.msg(json.msg,{icon: 5,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
@@ -247,7 +248,6 @@
     	});
 	}
 	var ddyc = function(obj,id){
-		console.log($(obj).find("textarea").val())
 		$.ajax({
     		url: basePath+"v1/order/updateAbnormalStatus",
     		type:"POST",
@@ -258,12 +258,36 @@
     		success:function(json){
     			var json = JSON.parse(json);
     			if(json.resultCode=="SUCCESS"){
-    				layer.msg('成功!',{icon: 6,time:1000},function(){
+    				layer.msg(json.msg,{icon: 6,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
     			}else{
-    				layer.msg('失败!',{icon: 5,time:1000},function(){
+    				layer.msg(json.msg,{icon: 5,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}
+    		}
+    	});
+	}
+	var ddzz = function(obj,id){
+		$.ajax({
+    		url: basePath+"v1/order/updateOrderStop",
+    		type:"POST",
+    		data:{
+    			id:id,
+    			remark:$(obj).find("textarea").val()
+    		},
+    		success:function(json){
+    			var json = JSON.parse(json);
+    			if(json.resultCode=="SUCCESS"){
+    				layer.msg(json.msg,{icon: 6,time:1000},function(){
+    					tableIns.reload();
+    					layer.closeAll();
+    				});
+    			}else{
+    				layer.msg(json.msg,{icon: 5,time:1000},function(){
     					tableIns.reload();
     					layer.closeAll();
     				});
