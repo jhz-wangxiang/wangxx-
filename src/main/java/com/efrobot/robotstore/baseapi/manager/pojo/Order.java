@@ -112,14 +112,17 @@ public class Order implements Serializable {
 	}
 
 	public String getCancelDisplay() {
-		if(null==cancelDisplay){
+		if (null == cancelDisplay) {
 			return "1";
 		}
-    	if(orderStatus>2){
-    		cancelDisplay="0";
-    	}else{
-    		cancelDisplay="1";
-    	}
+		if ("是".equals(abnormalStatus)) {
+			cancelDisplay = "0";
+		}
+		if (orderStatus > 2) {
+			cancelDisplay = "0";
+		} else {
+			cancelDisplay = "1";
+		}
 		return cancelDisplay;
 	}
 
