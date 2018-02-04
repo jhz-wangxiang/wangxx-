@@ -97,7 +97,7 @@ public class OrderController {
 			user.setExp2("有");
 			user.setId(record.getUserId());
 			userService.updateByPrimaryKeySelective(user);
-			setHistory("提交订单",orderNo);
+			setHistory("提交订单",orderNo,"");
 			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
 		}else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
@@ -128,7 +128,7 @@ public class OrderController {
 				record.setPayStatus("已支付");
 			}
 			record.setOrderStatus(order2.getOrderStatus()+1);
-			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo());
+			setHistory(status_order.get(order2.getOrderStatus()+1),order2.getOrderNo(),record.getRemark());
 		}else{
 			return CommonUtil.resultMsg("FAIL", "已经签收完结");
 		}
@@ -150,7 +150,7 @@ public class OrderController {
 		Order order2= orderService.selectByPrimaryKey(record.getId());
 		record.setOrderStatus(11);
 		result = orderService.updateByPrimaryKeySelective(record);
-		setHistory(status_order.get(11),order2.getOrderNo());
+		setHistory(status_order.get(11),order2.getOrderNo(),record.getRemark());
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)
@@ -169,7 +169,7 @@ public class OrderController {
 		if(order2.getOrderStatus()<2){
 			record.setOrderStatus(10);
 			result = orderService.updateByPrimaryKeySelective(record);
-//			setHistory(status_order.get("订单取消"),order2.getOrderNo());
+			setHistory(status_order.get("订单取消"),order2.getOrderNo(),record.getCancelReason());
 		}else{
 			return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
 		}
@@ -189,10 +189,10 @@ public class OrderController {
 		Order order2= orderService.selectByPrimaryKey(record.getId());
 		if("是".equals(order2.getAbnormalStatus())){
 			record.setAbnormalStatus("否");
-			setHistory("订单异常",order2.getOrderNo());
+			setHistory("订单异常",order2.getOrderNo(),record.getAbnormaReason());
 		}else{
 			record.setAbnormalStatus("是");
-			setHistory("订单正常",order2.getOrderNo());
+			setHistory("订单正常",order2.getOrderNo(),record.getAbnormaReason());
 		}
 		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
@@ -247,13 +247,14 @@ public class OrderController {
 		return jsonObject;
 //		return orderService.selectByparms(orderNo);
 	}
-	public int setHistory(String remark,String orderNo){
+	public int setHistory(String remark,String orderNo,String reason){
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
 		OrderStatusRecord orderStatusRecord=new OrderStatusRecord();
 		orderStatusRecord.setRemark(remark);
 		orderStatusRecord.setExp1(orderNo);
+		orderStatusRecord.setExp2(reason);
 		orderStatusRecord.setRoleId(sysUser.getRoleId());
 		orderStatusRecord.setUserId(sysUser.getId());
 		orderStatusRecord.setCreateDate(new Date());
