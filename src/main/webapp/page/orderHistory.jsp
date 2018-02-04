@@ -48,7 +48,7 @@
     var colArr = [
         {field:"exp1",title:"订单编号",align:"center",minWidth:"100"},
         {field:"remark",title:"动作",align:"center",minWidth:"100"},
-        {field:"userName",title:"相关人员",align:"center",minWidth:"90"},
+        {field:"userName",title:"操作人员",align:"center",minWidth:"90"},
         {field:"exp2",title:"备注",align:"center",minWidth:"90"},
 		{field:"createDate",title:"时间",align:"center",minWidth:"150",templet:function(d){
         	return Common.getLocalDate(d.createDate)
