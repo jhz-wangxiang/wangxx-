@@ -95,17 +95,36 @@ public class Order implements Serializable {
     
     private String button;
 
-    private String cancelDisplay;
+    private String cancelDisplay;//取消
     
-    private String abnormaDisplay;
+    private String abnormaDisplay;//异常
     
-    private String orderStatusDisplay;
+    private String orderStatusDisplay;//订单状态
+    
+    private String stopDisplay;//订单状态
     
     private String baggageNo;//baggage_no//行李号
     
     private String singleWay;//single_way下单方式;
+    
 
-    public String getBaggageNo() {
+    public String getStopDisplay() {
+    	if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
+    		stopDisplay = "1";
+		}else{
+			stopDisplay = "0";
+		}
+    	if (orderStatus!=null&&orderStatus==11) {
+    		stopDisplay = "0";
+    	}
+		return stopDisplay;
+	}
+
+	public void setStopDisplay(String stopDisplay) {
+		this.stopDisplay = stopDisplay;
+	}
+
+	public String getBaggageNo() {
 		return baggageNo;
 	}
 

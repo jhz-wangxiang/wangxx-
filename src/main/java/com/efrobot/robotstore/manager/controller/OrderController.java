@@ -141,6 +141,23 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
 	}
+	
+	//修改订单过程状态
+	@RequestMapping(value = "/updateOrderStop", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateOrderStop(Order record) throws Exception {
+		int result = -1;
+		record.setOrderStatus(11);
+		result = orderService.updateByPrimaryKeySelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1)
+			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
+		else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
+	
 	//修改取消过程状态
 	@RequestMapping(value = "/updateOrderCancel", method = RequestMethod.POST)
 	@ResponseBody
