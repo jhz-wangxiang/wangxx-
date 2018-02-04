@@ -9,12 +9,13 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="card" property="card" jdbcType="VARCHAR" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="order_date" property="orderDate" jdbcType="TIMESTAMP" />
     <result column="exp1" property="exp1" jdbcType="VARCHAR" />
     <result column="exp2" property="exp2" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, openid, nickname, name, phone, card, CREATE_DATE, exp1, exp2
+    id, openid, nickname, name, phone, card, CREATE_DATE, exp1, exp2,order_date
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -137,8 +138,8 @@
       <if test="card != null" >
         card = #{card,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
-        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      <if test="orderDate != null" >
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
       </if>
       <if test="exp1 != null" >
         exp1 = #{exp1,jdbcType=VARCHAR},

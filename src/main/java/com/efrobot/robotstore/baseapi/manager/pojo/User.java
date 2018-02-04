@@ -21,6 +21,8 @@ public class User implements Serializable {
     private String card;
 
     private Date createDate;
+    
+    private Date orderDate;
 
     private String exp1;
 
@@ -28,7 +30,15 @@ public class User implements Serializable {
     
     private Integer channelId;
 
-    public Integer getChannelId() {
+    public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Integer getChannelId() {
 		return channelId;
 	}
 

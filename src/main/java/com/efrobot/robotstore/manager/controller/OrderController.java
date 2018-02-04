@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -25,7 +23,9 @@ import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
+import com.efrobot.robotstore.baseapi.manager.pojo.User;
 import com.efrobot.robotstore.manager.service.OrderService;
+import com.efrobot.robotstore.manager.service.UserService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.Const;
 import com.efrobot.robotstore.util.PageInfo;
@@ -37,6 +37,8 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private UserService userService;
 	public static Map<Integer, String> status_order = new ConcurrentHashMap<Integer,String>();
 	
 //	@PostConstruct
@@ -89,6 +91,11 @@ public class OrderController {
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1){
+			User user=new User();
+			user.setOrderDate(new Date());
+			user.setExp2("有");
+			user.setId(record.getUserId());
+			userService.updateByPrimaryKeySelective(user);
 			setHistory("提交订单",orderNo);
 			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
 		}else {
