@@ -24,9 +24,9 @@ public class User implements Serializable {
     
     private Date orderDate;
 
-    private String exp1;
+    private String exp1;//信息认证
 
-    private String exp2;
+    private String exp2;//是否有未完成订单
     
     private Integer channelId;
 

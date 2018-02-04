@@ -108,7 +108,7 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> updateOrder(Order record ) throws Exception {
 		int result = -1;
-		result = orderService.updateByPrimaryKey(record);
+		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)
