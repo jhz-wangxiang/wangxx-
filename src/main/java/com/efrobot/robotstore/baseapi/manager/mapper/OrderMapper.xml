@@ -422,9 +422,6 @@
       <if test="operator != null" >
         operator = #{operator,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
@@ -471,7 +468,6 @@
       refund_reason = #{refundReason,jdbcType=VARCHAR},
       cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       operator = #{operator,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       single_way = #{singleWay,jdbcType=VARCHAR},
       baggage_no = #{baggageNo,jdbcType=VARCHAR}

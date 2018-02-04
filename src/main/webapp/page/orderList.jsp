@@ -107,19 +107,19 @@
 <script type="text/javascript">
     var colArr = [
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
-        {field:"name",title:"客户姓名",align:"center",minWidth:"100"},
-        {field:"phone",title:"联系方式",align:"center",minWidth:"150"},
-        {field:"channel",title:"客户渠道",align:"center",minWidth:"100"},
-        {field:"createDate",title:"下单时间",align:"center",minWidth:"200",templet:function(d){
+        {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
+        {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
+        {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
+        {field:"createDate",title:"下单时间",align:"center",minWidth:"150",templet:function(d){
         	return Common.getLocalDate(d.createDate)
         }},
-        {field:"consignee",title:"收货人",align:"center",minWidth:"100"},
-        {field:"totalFee",title:"服务费",align:"center",minWidth:"100"},
+        {field:"consignee",title:"收货人",align:"center",minWidth:"50"},
+        {field:"totalFee",title:"服务费",align:"center",minWidth:"10"},
         {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
-        {field:"abnormalStatus",title:"订单异常",align:"center",minWidth:"100"},
+        {field:"abnormalStatus",title:"异常状态",align:"center",minWidth:"90"},
         {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
         {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
-        {field:"remark",title:"备注",align:"center",minWidth:"100"},
+       {field:"remark",title:"备注",align:"center",minWidth:"100"},
         {field:"operation",title:"操作",templet: function(d){
         	var h = [];
         	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
