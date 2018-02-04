@@ -46,10 +46,13 @@
 		location.href = basePath + "v1/page/orderList";
 	}
     var colArr = [
-        {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
-        {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
-        {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
-        {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
+        {field:"exp1",title:"订单编号",align:"center",minWidth:"100"},
+        {field:"remark",title:"动作",align:"center",minWidth:"100"},
+        {field:"userName",title:"相关人员",align:"center",minWidth:"90"},
+        {field:"exp2",title:"备注",align:"center",minWidth:"90"},
+		{field:"createDate",title:"时间",align:"center",minWidth:"150",templet:function(d){
+        	return Common.getLocalDate(d.createDate)
+        }},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;
@@ -64,7 +67,7 @@
     		elem:"#table",
     		url: basePath+"v1/order/selectHistory",
     		method:"POST",
-    		where: {pageSize:pageSize,start:start,exp1:id},
+    		where: {pageSize:pageSize,start:start,orderNo:id},
     		request: {pageName:"pageNumber",limitName:"limit"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArr],
