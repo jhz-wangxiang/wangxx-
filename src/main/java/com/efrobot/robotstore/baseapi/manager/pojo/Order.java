@@ -132,14 +132,14 @@ public class Order implements Serializable {
 	}
 
 	public String getAbnormaDisplay() {
-		if(orderStatus!=null&&orderStatus==10){
-			orderStatusDisplay="0";
-		}
 		if(orderStatus!=null&&orderStatus==6){
 			abnormaDisplay="0";
     	}else{
     		abnormaDisplay="1";
     	}
+		if(orderStatus!=null&&orderStatus==10){
+			abnormaDisplay="0";
+		}
 		return abnormaDisplay;
 	}
 
@@ -149,16 +149,13 @@ public class Order implements Serializable {
 	}
 
 	public String getOrderStatusDisplay() {
-		if(orderStatus!=null&&orderStatus==10){
-			orderStatusDisplay="0";
-			cancelDisplay = "0";
-			abnormaDisplay="0";
-		}
 		if(abnormalStatus!=null&&"是".equals(abnormalStatus)){
 			orderStatusDisplay="0";
-			
 		}else{
 			orderStatusDisplay="1";
+		}
+		if(orderStatus!=null&&orderStatus==10){
+			orderStatusDisplay="0";
 		}
 		return orderStatusDisplay;
 	}
