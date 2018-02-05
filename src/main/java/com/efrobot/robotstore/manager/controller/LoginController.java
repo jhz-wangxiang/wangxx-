@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -28,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.efrobot.robotstore.baseapi.manager.pojo.SysMenuDto;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
+import com.efrobot.robotstore.manager.service.SysMenuService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.Const;
 import com.efrobot.robotstore.util.ProjectConfig;
@@ -38,7 +42,8 @@ import com.efrobot.robotstore.util.VerifyCodeUtil;
 @Controller
 public class LoginController {
 
-
+	@Resource
+	private SysMenuService sysMenuService;
 
 	@RequestMapping("/loginPage")
 	public String loginPage() {
@@ -149,14 +154,18 @@ public class LoginController {
 		// 保存用户信息到session
 		Session session = subject.getSession();
 		session.setAttribute(Const.SESSION_USERNAME, sysUser.getUsername());
+		
 		Object midObject = session.getAttribute(Const.SESSION_USER);
 		if (midObject == null)
 			return CommonUtil.resultMsg("FAIL", "从session中获取用户信息异常");
 		sysUser = (SysUser) midObject;
 		session.setAttribute(Const.SESSION_USER, sysUser);
+//		List<SysMenuDto> list = null;
+//		list = sysMenuService.selectAllMenuByRole(Arrays.asList(sysUser.getUsername().split("-")));
 		map.put("resultCode", "SUCCESS");
 		map.put("msg", "登录成功");
 		map.put("roleId", sysUser.getRoleId());
+//		map.put("menuList", list);
 		return map;
 	}
 

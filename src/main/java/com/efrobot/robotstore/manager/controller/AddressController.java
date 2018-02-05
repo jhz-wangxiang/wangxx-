@@ -109,6 +109,13 @@ public class AddressController {
 		return list;
 	}
 	
+	@RequestMapping(value = "/getAddressDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public Address getAddressDetail(Integer id) throws Exception {
+		Address adderss=addressService.selectByPrimaryKey(id);
+		return adderss;
+	}
+	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getAddressListPage")
 	@ResponseBody

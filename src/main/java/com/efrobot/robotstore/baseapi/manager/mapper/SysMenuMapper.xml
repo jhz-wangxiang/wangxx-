@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.efrobot.robotstore.baseapi.manager.SysMenuMapper" >
   <resultMap id="BaseResultMap" type="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="MENU_ID" property="menuId" jdbcType="INTEGER" />
     <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
     <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
@@ -11,36 +11,46 @@
     <result column="MENU_ROLE" property="menuRole" jdbcType="VARCHAR" />
   </resultMap>
   
-  <sql id="Base_Column_List" >
-    id, MENU_NAME, MENU_URL, PARENT_ID, MENU_ORDER, MENU_ICON, MENU_ROLE
-  </sql>
+   <resultMap id="ExtendResultMap" type="com.efrobot.robotstore.baseapi.manager.pojo.SysMenuDto" >
+    
+    <id column="E_MENU_ID" property="menuId" jdbcType="INTEGER" />
+    <result column="E_MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="E_MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="E_PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="E_MENU_ORDER" property="menuOrder" jdbcType="VARCHAR" />
+    <result column="E_MENU_ICON" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="E_MENU_ROLE" property="menuRole" jdbcType="VARCHAR" />
+    <collection property="sysMenu" ofType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" resultMap="BaseResultMap" />
+  </resultMap>
   
+  <sql id="Base_Column_List" >
+    MENU_ID, MENU_NAME, MENU_URL, PARENT_ID, MENU_ORDER, MENU_ICON,MENU_ROLE
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sys_menu
-    where id = #{id,jdbcType=INTEGER}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_menu
-    where id = #{id,jdbcType=INTEGER}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
   </delete>
-  
   <insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
-  
-    insert into sys_menu (id, MENU_NAME, MENU_URL, 
-      PARENT_ID, MENU_ORDER, MENU_ICON, 
-      MENU_ROLE)
-    values (#{id,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=VARCHAR}, #{menuOrder,jdbcType=VARCHAR}, #{menuIcon,jdbcType=VARCHAR}, 
-      #{menuRole,jdbcType=VARCHAR})
+    <selectKey resultType="java.lang.Integer" keyProperty="menuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_menu (MENU_NAME, MENU_URL, PARENT_ID, 
+      MENU_ORDER, MENU_ICON)
+    values (#{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{menuOrder,jdbcType=VARCHAR}, #{menuIcon,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="menuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="menuName != null" >
         MENU_NAME,
       </if>
@@ -56,14 +66,8 @@
       <if test="menuIcon != null" >
         MENU_ICON,
       </if>
-      <if test="menuRole != null" >
-        MENU_ROLE,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="menuName != null" >
         #{menuName,jdbcType=VARCHAR},
       </if>
@@ -79,12 +83,8 @@
       <if test="menuIcon != null" >
         #{menuIcon,jdbcType=VARCHAR},
       </if>
-      <if test="menuRole != null" >
-        #{menuRole,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  
   <update id="updateByPrimaryKeySelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
     update sys_menu
     <set >
@@ -103,11 +103,8 @@
       <if test="menuIcon != null" >
         MENU_ICON = #{menuIcon,jdbcType=VARCHAR},
       </if>
-      <if test="menuRole != null" >
-        MENU_ROLE = #{menuRole,jdbcType=VARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
     update sys_menu
@@ -115,8 +112,79 @@
       MENU_URL = #{menuUrl,jdbcType=VARCHAR},
       PARENT_ID = #{parentId,jdbcType=VARCHAR},
       MENU_ORDER = #{menuOrder,jdbcType=VARCHAR},
-      MENU_ICON = #{menuIcon,jdbcType=VARCHAR},
-      MENU_ROLE = #{menuRole,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      MENU_ICON = #{menuIcon,jdbcType=VARCHAR}
+    where MENU_ID = #{menuId,jdbcType=INTEGER}
   </update>
+  
+  
+  <!-- 查询所有菜单 2016年7月18日 add by zhoult -->
+  <select id="selectAllMenu" resultMap="BaseResultMap" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysMenu" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where 1=1 
+      <if test="menuId != null" >
+       and MENU_ID = #{menuId,jdbcType=INTEGER}
+      </if>
+      <if test="menuName != null" >
+       and MENU_NAME = #{menuName,jdbcType=VARCHAR}
+      </if>
+      <if test="menuUrl != null" >
+       and MENU_URL = #{menuUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null" >
+       and PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+      <if test="menuOrder != null" >
+       and MENU_ORDER = #{menuOrder,jdbcType=VARCHAR}
+      </if>
+      <if test="menuIcon != null" >
+       and MENU_ICON = #{menuIcon,jdbcType=VARCHAR}
+      </if>
+ 	</select>
+ 	
+  <select id="selectAllMenuByRole" resultMap="ExtendResultMap">
+    SELECT
+	   sr1.MENU_ID as E_MENU_ID, 
+	   sr1.MENU_NAME as E_MENU_NAME, 
+	   sr1.MENU_URL as E_MENU_URL, 
+	   sr1.PARENT_ID as E_PARENT_ID, 
+	   sr1.MENU_ORDER as E_MENU_ORDER, 
+	   sr1.MENU_ICON as E_MENU_ICON,
+	   sr1.MENU_ROLE as E_MENU_ROLE,
+	   sr2.MENU_ID as MENU_ID, 
+	   sr2.MENU_NAME as MENU_NAME, 
+	   sr2.MENU_URL as MENU_URL, 
+	   sr2.PARENT_ID as PARENT_ID, 
+	   sr2.MENU_ORDER as MENU_ORDER, 
+	   sr2.MENU_ICON as MENU_ICON,
+	   sr2.MENU_ROLE as MENU_ROLE
+	FROM
+		sys_menu sr1
+	INNER JOIN sys_menu sr2 ON sr1.MENU_ID = sr2.PARENT_ID
+	WHERE
+	sr2.MENU_ROLE in
+	<foreach collection="list" index="index" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	and 
+	sr1.MENU_ROLE in
+	<foreach collection="list" index="index" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	ORDER BY
+		sr1.MENU_ORDER ASC
+ 	</select>
+  
+  
+   	<!-- 查询所有父菜单 2016年7月18日 add by zhoult -->
+  	<select id="listAllParentMenu" resultMap="BaseResultMap">
+		select * from SYS_MENU 
+		where PARENT_ID = '0' order by MENU_ORDER 
+	</select>
+	<!-- 查询所有子菜单 2016年7月18日 add by zhoult -->
+	<select id="listSubMenuByParentId" parameterType="Integer" resultMap="BaseResultMap">
+		select  * from SYS_MENU
+		where PARENT_ID = #{parentId} order by MENU_ORDER 
+	</select>
 </mapper>

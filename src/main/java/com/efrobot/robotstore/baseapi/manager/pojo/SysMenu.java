@@ -1,13 +1,11 @@
 package com.efrobot.robotstore.baseapi.manager.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SysMenu implements Serializable {
-	/**
-	* 
-	*/
-	private static final long serialVersionUID = 1L;
-    private Integer id;
+
+	private Integer menuId;
 
     private String menuName;
 
@@ -18,20 +16,20 @@ public class SysMenu implements Serializable {
     private String menuOrder;
 
     private String menuIcon;
-
+    
     private String menuRole;
 
+    private static final long serialVersionUID = 1L;
 
+    public Integer getMenuId() {
+        return menuId;
+    }
 
-    public Integer getId() {
-		return id;
-	}
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getMenuName() {
+    public String getMenuName() {
         return menuName;
     }
 
@@ -70,12 +68,20 @@ public class SysMenu implements Serializable {
     public void setMenuIcon(String menuIcon) {
         this.menuIcon = menuIcon == null ? null : menuIcon.trim();
     }
-
+    
     public String getMenuRole() {
-        return menuRole;
-    }
+		return menuRole;
+	}
 
-    public void setMenuRole(String menuRole) {
-        this.menuRole = menuRole == null ? null : menuRole.trim();
-    }
+	public void setMenuRole(String menuRole) {
+		 this.menuRole = menuRole == null ? null : menuRole.trim();
+	}
+   	/**
+   	 * serialversionuid.
+   	 *
+   	 * @return  the serialversionuid
+   	 */
+   	public static long getSerialversionuid() {
+   		return serialVersionUID;
+   	}
 }
