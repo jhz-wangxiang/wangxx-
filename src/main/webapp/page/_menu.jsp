@@ -17,12 +17,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 			</dd>
 		</dl>
-		<dl id="menu-article">
-			<dt <c:if test="${param.classify=='account'}">class="selected"</c:if>><i class="Hui-iconfont">&#xe616;</i> 账号管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+		<dl id="menu-account">
+			<dt <c:if test="${param.classify=='account'}">class="selected"</c:if>><i class="Hui-iconfont Hui-iconfont-user-group"></i> 账号管理<i class="Hui-iconfont menu_dropdown-arrow"></i></dt>
 			<dd <c:if test="${param.classify=='account'}">style="display: block;"</c:if>>
 				<ul>
-					<%-- <li <c:if test="${param.level=='order_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/orderList" title="订单列表">员工账号</a></li> --%>
-					<li <c:if test="${param.level=='customer_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/customerList" title="新建订单">客户账号</a></li>
+					<li <c:if test="${param.level=='customer_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/customerList" title="客户账号">客户账号</a></li>
+					<li <c:if test="${param.level=='staff_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/staffList" title="角色管理">角色管理</a></li>
 				</ul>
 			</dd>
 		</dl>

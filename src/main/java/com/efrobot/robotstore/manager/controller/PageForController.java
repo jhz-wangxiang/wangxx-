@@ -50,4 +50,9 @@ public class PageForController {
 		request.setAttribute("navName", "订单历史");
 		return "orderHistory";
 	}
+	@RequestMapping(value = "/staffList")
+	public String staffList(HttpServletRequest request) {
+		request.setAttribute("navName", "角色管理");
+		return "staffList";
+	}
 }
