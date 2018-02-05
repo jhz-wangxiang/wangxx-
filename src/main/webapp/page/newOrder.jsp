@@ -10,29 +10,6 @@
 <title>后台管理 </title>
 <meta name="keywords" content="后台">
 <meta name="description" content="后台">
-<style>
-	.fee-box{
-	float: left;
-    margin: 0 60px;
-    text-align: center;
-}
-.fee-box p.lab{
-	line-height: 2;
-    margin-bottom: 10px;
-}
-.fee-box p.fee{
-	line-height: 2;
-    font-size: 18px;
-}
-.fee-box p.fee span{
-	color: red;
-}
-.fee-line{
-border: 1px solid #eeeeee;
-    float: left;
-    margin-top: 3px;
-    height: 60px;}
-</style>
 </head>
 <body>
 
