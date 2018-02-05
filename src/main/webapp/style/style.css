@@ -80,3 +80,4 @@ border: 1px solid #eeeeee;
 	/* display:none */
 }
 .cover{ background: #ccc; opacity: 0.1; filter:alpha(opacity=10); position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index:9998;}
+.layui-form-select .layui-input{padding-right: 0 !important;}
