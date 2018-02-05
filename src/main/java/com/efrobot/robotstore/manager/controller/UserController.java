@@ -110,6 +110,20 @@ public class UserController {
 		
 	}
 	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateUser(User record ) throws Exception {
+		int result = -1;
+		result = userService.updateByPrimaryKeySelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1)
+			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
+		else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
+	
 	@RequestMapping(value = "/getUserDetail", method = RequestMethod.POST)
 	@ResponseBody
 	public User getUserDetail(User record) throws Exception {
