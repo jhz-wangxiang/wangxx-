@@ -30,7 +30,7 @@ public class SysUserController {
 	private SysUserService sysUserService;
 	
 	@SuppressWarnings("static-access")
-	@RequestMapping(value = "/getRoleListPage")
+	@RequestMapping(value = "/getSysUserListPage")
 	@ResponseBody
 	public JSONObject getSysUserListPage(SysUser record, Integer pageNumber, Integer pageSize) throws Exception {
 		JSONObject jsonObject = new JSONObject();

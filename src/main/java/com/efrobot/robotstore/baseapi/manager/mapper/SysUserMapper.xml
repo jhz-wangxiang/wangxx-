@@ -32,8 +32,7 @@
 		r.BUTTON_QX,
 		r.MENU_ID
 		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
-		where USERNAME =
-		#{userName,jdbcType=INTEGER}
+		where USERNAME = #{userName,jdbcType=INTEGER} and  STATUS  = '1'
 	</select>
 	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
@@ -153,5 +152,15 @@
 		r.BUTTON_QX,
 		r.MENU_ID
 		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+		where 1=1
+	<if test="status != null and !status.isEmpty() and status != ''">
+		and us.STATUS = #{status,jdbcType=VARCHAR}
+	</if>
+	<if test="name != null and !name.isEmpty() and name != ''">
+		and us.NAME = #{name,jdbcType=VARCHAR}
+	</if>
+	<if test="roleId != null">
+       and us.ROLE_ID = #{roleId,jdbcType=INTEGER}
+    </if>
 	</select>
 </mapper>
