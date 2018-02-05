@@ -106,6 +106,34 @@
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var colArr = [
+		{field:"operation",title:"操作",templet: function(d){
+			var h = [];
+			h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
+			if(d.orderStatusDisplay == "1"){
+				if(d.orderStatus=="6"){
+					h.push('<a class="layui-btn layui-btn-disabled layui-btn-xs" href="javascript:;">'+d.button+'</a>')
+				}else{
+					h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:Common.layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
+				}
+			}
+			
+			if(d.cancelDisplay=="1"){
+				h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:Common.layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
+			}
+			if(d.abnormaDisplay=="1"){
+				var b = ""
+				if(d.abnormalStatus=="是"){
+					b = "取消异常"
+				}else{
+					b = "订单异常"
+				}
+				h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">'+b+'</a>')
+			}
+			if(d.stopDisplay == "1"){
+				h.push('<a class="layui-btn layui-btn-warm layui-btn-xs" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+d.id+'\',ddzz);">终止订单</a>')
+			}
+		    return h.join("");
+		},minWidth:"240",align:"center"},
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
         {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
         {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
@@ -120,34 +148,6 @@
         {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
         {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
        {field:"remark",title:"备注",align:"center",minWidth:"100"},
-        {field:"operation",title:"操作",templet: function(d){
-        	var h = [];
-        	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
-        	if(d.orderStatusDisplay == "1"){
-        		if(d.orderStatus=="6"){
-        			h.push('<a class="layui-btn layui-btn-disabled layui-btn-xs" href="javascript:;">'+d.button+'</a>')
-        		}else{
-        			h.push('<a class="layui-btn layui-btn-normal layui-btn-xs" href="javascript:Common.layer_show(\'状态确认\',\'备注\',\'600\',\''+d.id+'\',zfzt);">'+d.button+'</a>')
-        		}
-        	}
-        	
-        	if(d.cancelDisplay=="1"){
-        		h.push('<a class="layui-btn layui-btn-xs layui-btn-warm" href="javascript:Common.layer_show(\'取消订单\',\'取消原因\',\'600\',\''+d.id+'\',qxdd);">取消订单</a>')
-        	}
-        	if(d.abnormaDisplay=="1"){
-        		var b = ""
-        		if(d.abnormalStatus=="是"){
-        			b = "取消异常"
-        		}else{
-        			b = "订单异常"
-        		}
-        		h.push('<a class="layui-btn layui-btn-danger layui-btn-xs" href="javascript:Common.layer_show(\'订单异常\',\'异常原因\',\'600\',\''+d.id+'\',ddyc);">'+b+'</a>')
-        	}
-        	if(d.stopDisplay == "1"){
-        		h.push('<a class="layui-btn layui-btn-warm layui-btn-xs" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+d.id+'\',ddzz);">终止订单</a>')
-        	}
-            return h.join("");
-        },minWidth:"240",align:"center"},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;

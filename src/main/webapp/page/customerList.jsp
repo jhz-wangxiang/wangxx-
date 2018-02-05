@@ -61,6 +61,12 @@
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var colArr = [
+		{field:"operation",title:"操作",templet: function(d){
+			var h = [];
+			h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/customerDetails?id='+d.id+'&name='+d.name+'">查看详情</a>');
+			h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/newOrder?id='+d.id+'">创建订单</a>');
+		    return h.join("");
+		},minWidth:"240",align:"center"},	
         {field:"name",title:"客户姓名",align:"center",minWidth:"100"},
         {field:"exp1",title:"信息认证",align:"center",minWidth:"30"},
         {field:"phone",title:"联系电话",align:"center",minWidth:"150"},
@@ -73,12 +79,7 @@
         {field:"createDate",title:"上次下单时间",align:"center",minWidth:"200",templet:function(d){
         	return Common.getLocalDate(d.createDate)
         }},
-        {field:"operation",title:"操作",templet: function(d){
-        	var h = [];
-        	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/customerDetails?id='+d.id+'&name='+d.name+'">查看详情</a>');
-        	h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/newOrder?id='+d.id+'">创建订单</a>');
-            return h.join("");
-        },minWidth:"240",align:"center"},
+        
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;
