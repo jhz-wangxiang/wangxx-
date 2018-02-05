@@ -118,4 +118,10 @@
       exp2 = #{exp2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByParms" resultMap="BaseResultMap" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysRole" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+  </select>
 </mapper>

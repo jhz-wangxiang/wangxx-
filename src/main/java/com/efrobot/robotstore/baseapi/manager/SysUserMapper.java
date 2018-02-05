@@ -1,5 +1,8 @@
 package com.efrobot.robotstore.baseapi.manager;
 
+import java.util.List;
+
+import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 
 public interface SysUserMapper {
@@ -12,4 +15,6 @@ public interface SysUserMapper {
     int updateByPrimaryKeySelective(SysUser record);
     
     SysUser selectByPrimaryKey(Integer id);
+    
+    List<SysUser> selectByParms(SysUser record);
 }

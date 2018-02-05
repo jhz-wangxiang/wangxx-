@@ -106,6 +106,41 @@ public class OrderController {
 		}
 	}
 	
+	@RequestMapping(value = "/insertOrderbyUser", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertOrderbyUser(Order record) throws Exception {
+		int result = -1;
+		String orderNo=CommonUtil.bulidOrderNum("A");
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
+		// 异常处理
+		record.setOrderStatus(1);//支付变成2
+		record.setPayStatus("未支付");
+		record.setCreateDate(new Date());
+		record.setOrderNo(orderNo);
+		record.setSingleWay("柜台");
+		record.setAbnormalStatus("否");
+		record.setOperator("柜台"+sysUser.getName());
+		result = orderService.insertSelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1){
+			User user=new User();
+			user.setOrderDate(new Date());
+			user.setExp2("有");
+			user.setId(record.getUserId());
+			user.setPhone(record.getPhone());
+			user.setName(record.getName());
+			user.setChannelId(record.getChannelId());
+			userService.updateByPrimaryKeySelective(user);
+			setHistory("提交订单",orderNo,"");
+			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
+		}else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
+	
 	@RequestMapping(value = "/updateOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateOrder(Order record ) throws Exception {

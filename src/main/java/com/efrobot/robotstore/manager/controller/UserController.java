@@ -57,11 +57,13 @@ public class UserController {
 		if(list.size()==0){
 			userService.insertSelective(user);
 			userid=user.getId();
+			map.put("user", user);	
 		}else{
 			userid=list.get(0).getId();
 			Address record=new Address();
 			record.setUserid(userid);
 			adressList=addressService.getAddress(record);
+			map.put("user", list.get(0));		
 		}
 		for(Address record2:adressList){
 			if(record2.getStatus()==1){

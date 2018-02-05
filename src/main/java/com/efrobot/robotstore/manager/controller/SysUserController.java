@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.manager.service.SysUserService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.Const;
+import com.efrobot.robotstore.util.PageInfo;
 import com.efrobot.toolkit.util.security.MD5;
 
 @RequestMapping("/v1/sysuser")
@@ -24,7 +28,22 @@ public class SysUserController {
 	private static MD5 md5 = MD5.getInstance();
 	@Autowired
 	private SysUserService sysUserService;
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getRoleListPage")
+	@ResponseBody
+	public JSONObject getSysUserListPage(SysUser record, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<SysUser> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		rows = sysUserService.getSysUserListPage(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
 
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insert(SysUser sysUser) throws Exception {
@@ -90,38 +109,6 @@ public class SysUserController {
 		}
 		return CommonUtil.resultMsg("SUCCESS", "更新用户成功");
 	}
-//
-//	/**
-//	 * 
-//	 * @方法名: delete
-//	 * @功能描述: 删除用户
-//	 * @param userId
-//	 * @return
-//	 * @作者 wangxiangxiang
-//	 * @日期 2016年7月13日
-//	 */
-//	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Map<String, Object> delete(Integer userId) throws Exception {
-//		// log.debug("执行用户删除功能");
-//
-//		// 校验登陆用户名密码
-//		if (null == userId) {
-//			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
-//		}
-//		// try {
-//		int flag = sysUserService.deleteByPrimaryKey(userId);
-//		if (flag <= 0) {
-//			return CommonUtil.resultMsg("FAIL", "删除失败");
-//		}
-//		// } catch (Exception e) {
-//		// //log.error("删除用户失败", e);
-//		// return CommonUtil.resultMsg("FAIL", "删除失败");
-//		// }
-//
-//		return CommonUtil.resultMsg("SUCCESS", "删除用户成功");
-//	}
-//
 
 	@RequestMapping(value = "/selectByUserId", method = RequestMethod.POST)
 	@ResponseBody
@@ -138,4 +125,6 @@ public class SysUserController {
 		map.put("date", sysUser);
 		return map;
 	}
+	
+	 
 }

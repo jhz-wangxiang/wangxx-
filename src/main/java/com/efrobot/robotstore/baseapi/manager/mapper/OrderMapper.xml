@@ -50,6 +50,8 @@
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="exp1" property="exp1" jdbcType="VARCHAR" />
     <result column="exp2" property="exp2" jdbcType="VARCHAR" />
+    
+     <result column="delivery_time" property="deliveryTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -57,7 +59,7 @@
     consignee, consignee_phone, address, area_id, mileage, basic_fee, discount, additional_fee, 
     pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no, order_wx_no, order_status, 
     abnormal_status, abnorma_reason, remark, refund_reason, cancel_reason, operator, 
-    create_date, update_date,paid_fee,exp_fee,single_way,baggage_no,province,city,area,exp1,exp2
+    create_date, update_date,paid_fee,exp_fee,single_way,baggage_no,province,city,area,exp1,exp2,delivery_time
   </sql>
  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -232,6 +234,9 @@
       <if test="exp2 != null" >
         exp2,
       </if>
+      <if test="deliveryTime != null" >
+        delivery_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -356,6 +361,9 @@
       </if>
       <if test="exp2 != null" >
         #{exp2,jdbcType=VARCHAR},
+      </if>
+       <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -484,6 +492,9 @@
       <if test="exp2 != null" >
         exp2 = #{exp2,jdbcType=VARCHAR},
       </if>
+      <if test="deliveryTime != null" >
+        delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -528,7 +539,8 @@
 	city = #{city,jdbcType=VARCHAR},
 	area = #{area,jdbcType=VARCHAR},
 	exp1 = #{exp1,jdbcType=VARCHAR},
-	exp2 = #{exp2,jdbcType=VARCHAR}
+	exp2 = #{exp2,jdbcType=VARCHAR},
+	delivery_time = #{deliveryTime,jdbcType=TIMESTAMP}
 	where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByParms" resultMap="BaseResultMap"
