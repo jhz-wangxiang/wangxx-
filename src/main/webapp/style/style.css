@@ -4,7 +4,7 @@
     margin: 0 60px;
     text-align: center;
 }
-.fee-box p.label{
+.fee-box p.lab{
 	line-height: 2;
     margin-bottom: 10px;
 }
@@ -14,4 +14,14 @@
 }
 .fee-box p.fee span{
 	color: red;
+}
+.fee-line{
+border: 1px solid #eeeeee;
+    float: left;
+    margin-top: 3px;
+    height: 60px;}
+.layui-form-radio{
+  float: left;
+  min-width: 500px;
+  display: block !important;
 }
