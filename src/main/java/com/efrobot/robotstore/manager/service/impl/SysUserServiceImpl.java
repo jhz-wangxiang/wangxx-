@@ -5,9 +5,12 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import com.efrobot.robotstore.baseapi.manager.SysUserMapper;
+import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.manager.service.SysUserService;
+import com.efrobot.robotstore.util.PageInfo;
 import com.efrobot.toolkit.util.security.MD5;
+import com.github.pagehelper.PageHelper;
 
 /**
  * 
@@ -25,7 +28,15 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysUserMapper sysUserMapper;
 
 	private static MD5 md5 = MD5.getInstance();
-
+	
+	@Override
+	public PageInfo<SysUser> getSysUserListPage(SysUser role, Integer pageNum, Integer pageSize)
+			throws Exception {
+		PageHelper.startPage(pageNum, pageSize);
+		List<SysUser> list = sysUserMapper.selectByParms(role);
+		PageInfo<SysUser> page = new PageInfo<SysUser>(list);
+		return page;
+	}
 //	/**
 //	 * @方法名: selectByParams
 //	 * @功能描述: 查询用户列表
