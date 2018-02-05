@@ -25,6 +25,10 @@ public class Order implements Serializable {
 
     private Date nowTime;//航班时间
     
+    private Date deliveryTime;//航班时间delivery_time
+    
+    private String deliveryTimeStr;//航班时间
+    
     private String nowTimeStr;//航班时间
     
     private String nowTimeStart;//航班时间
@@ -121,7 +125,33 @@ public class Order implements Serializable {
 
     private String exp2;
 
-    public String getNowTimeStart() {
+    public Date getDeliveryTime() {
+    	if (null == deliveryTimeStr || "".equals(deliveryTimeStr)) {
+			return deliveryTime;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		try {
+			deliveryTime = sdf.parse(deliveryTimeStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(Date deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getDeliveryTimeStr() {
+		return deliveryTimeStr;
+	}
+
+	public void setDeliveryTimeStr(String deliveryTimeStr) {
+		this.deliveryTimeStr = deliveryTimeStr;
+	}
+
+	public String getNowTimeStart() {
 		return nowTimeStart;
 	}
 
