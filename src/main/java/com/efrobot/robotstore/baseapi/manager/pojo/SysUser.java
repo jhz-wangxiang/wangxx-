@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.baseapi.manager.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class SysUser implements Serializable {
 	/**
@@ -23,19 +24,38 @@ public class SysUser implements Serializable {
 	private String email;
 
 	private String phone;
-	
+
 	private String roleName;
 
 	private String statusQx;
 
 	private String buttonQx;
 
-    private String menuId;
+	private String menuId;
 
 	private String exp1;
 
 	private String exp2;
 
+	private Date createDate;// 下单时间
+
+	private Date updateDate;
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 
 	public String getRoleName() {
 		return roleName;
@@ -105,7 +125,6 @@ public class SysUser implements Serializable {
 		this.name = name == null ? null : name.trim();
 	}
 
-	
 	public Integer getRoleId() {
 		return roleId;
 	}
