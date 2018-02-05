@@ -28,7 +28,7 @@
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            <form action="" method="post" class="form form-horizontal" id="form-admin-add">
+            <form action="" method="post" class="form form-horizontal layui-form" id="form-admin-add">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单编号：</label>
@@ -45,11 +45,9 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <span class="select-box inline">
-									<select name="channel" class="select">
-										<option value="">请选择</option>
-									</select>
-								</span>
+								<select name="channel" class="select">
+									<option value="">请选择</option>
+								</select>
                             </div>
                         </div>
                      </div>
@@ -79,36 +77,30 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">异常状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <span class="select-box inline">
 									<select name="abnormal" class="select">
 										<option value="">请选择</option>
 										<option value="是">是</option>
 										<option value="否">否</option>
 									</select>
-								</span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">订单状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <span class="select-box inline">
 									<select name="orderStatus" class="select">
 										<option value="">请选择</option>
 									</select>
-								</span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">支付状态：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <span class="select-box inline">
 									<select name="payStatus" class="select">
 										<option value="">请选择</option>
 										<option value="未支付">未支付</option>
 										<option value="已支付">已支付</option>
 										<option value="已退款">已退款</option>
 									</select>
-								</span>
                             </div>
                         </div>
                     </div>
@@ -332,7 +324,6 @@
 			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
 			start:start
 		}
-		console.log(data)
 		tableIns.reload({
 		  where: data
 		});
@@ -349,8 +340,10 @@
     loadSelect();
     dtime("timemin");
     dtime("timemax");
-    layui.use("table",function(){
+    layui.use(['form','table'],function(){
     	var table = layui.table;
+    	var form = layui.form;
+    	console.log(form)
     	tableIns = table.render({
     		elem:"#table",
     		url: basePath+"v1/order/getOrderListPage",

@@ -189,6 +189,10 @@ $(function(){
 		var reg = /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/;
 		return this.optional(element) || (tel.test(value)); 
 	},"请输入正确车牌号");
+	jQuery.validator.addMethod("isNull", function(value, element) {
+		console.log(value)
+		return this.optional(element) || !((value || "").replace(/^\s+/g,"").replace(/\s+$/g,"") == "" || typeof value != "string"); 
+	},"输入不能为空");
 });
 //身份证号码的验证规则
 function isIdCardNo(num){ 
