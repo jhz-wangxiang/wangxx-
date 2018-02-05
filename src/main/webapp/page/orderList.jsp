@@ -329,14 +329,12 @@
 			flightNum:Common.ltrim($("input[name='flightNum']").val()),
 			phone:Common.ltrim($("input[name='phone']").val()),
 			nowTimeStart:Common.ltrim($("input[name='nowTimeStart']").val()),
-			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val())
+			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
+			start:start
 		}
 		console.log(data)
 		tableIns.reload({
 		  where: data
-		  ,page: {
-		    curr: 1
-		  }
 		});
 	}
 	var dtime = function(id){
@@ -357,11 +355,13 @@
     		elem:"#table",
     		url: basePath+"v1/order/getOrderListPage",
     		method:"POST",
-    		where: {pageSize:pageSize,start:start},
-    		request: {pageName:"pageNumber",limitName:"limit"},
+    		where: {start:start},
+    		request: {pageName:"pageNumber",limitName:"pageSize"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArr],
-    		page:true
+    		page:{
+    			limits:[10, 20,50]
+    		}
     	});
     	
     });

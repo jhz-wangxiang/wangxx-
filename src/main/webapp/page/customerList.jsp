@@ -134,8 +134,8 @@
     		elem:"#table",
     		url: basePath+"v1/user/getUserListPage",
     		method:"POST",
-    		where: {pageSize:pageSize,start:start},
-    		request: {pageName:"pageNumber",limitName:"limit"},
+    		where: {start:start},
+    		request: {pageName:"pageNumber",limitName:"pageSize"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArr],
     		page:true
