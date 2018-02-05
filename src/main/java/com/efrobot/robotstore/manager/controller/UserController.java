@@ -45,6 +45,35 @@ public class UserController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/getAddressAndUserByPhone", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getAddressAndUserByPhone(User user) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		Integer userid=0;
+		List<Address> adressList=new ArrayList<>();
+		User user2=new User();
+		user2.setPhone(user.getPhone());
+		List<User> list=userService.selectByUser(user2);
+		if(list.size()==0){
+			userService.insertSelective(user);
+			userid=user.getId();
+		}else{
+			userid=list.get(0).getId();
+			Address record=new Address();
+			record.setUserid(userid);
+			adressList=addressService.getAddress(record);
+		}
+		for(Address record2:adressList){
+			if(record2.getStatus()==1){
+				map.put("address", record2);
+			}
+		}
+		map.put("resultCode", "SUCCESS");
+		map.put("addressList", adressList);
+		map.put("userid", userid);		
+		return map;
+	}
+	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getUserListPage")
 	@ResponseBody
@@ -79,6 +108,20 @@ public class UserController {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
 		
+	}
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateUser(User record ) throws Exception {
+		int result = -1;
+		result = userService.updateByPrimaryKeySelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1)
+			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
+		else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
 	}
 	
 	@RequestMapping(value = "/getUserDetail", method = RequestMethod.POST)
