@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +31,7 @@ public class SysUserController {
 	private SysUserService sysUserService;
 	
 	@SuppressWarnings("static-access")
-	@RequestMapping(value = "/getRoleListPage")
+	@RequestMapping(value = "/getSysUserListPage")
 	@ResponseBody
 	public JSONObject getSysUserListPage(SysUser record, Integer pageNumber, Integer pageSize) throws Exception {
 		JSONObject jsonObject = new JSONObject();
@@ -49,6 +50,7 @@ public class SysUserController {
 	public Map<String, Object> insert(SysUser sysUser) throws Exception {
 		// log.debug("执行用户注册功能");
 		sysUser.setStatus("1");
+		sysUser.setCreateDate(new Date());
 		// 校验登陆用户名密码
 		if (StringUtils.isBlank(sysUser.getUsername())) {
 			return CommonUtil.resultMsg("FAIL", "用户名不能为空");

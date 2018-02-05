@@ -17,10 +17,12 @@
 		<result column="STATUS_QX" property="statusQx" jdbcType="VARCHAR" />
 		<result column="BUTTON_QX" property="buttonQx" jdbcType="VARCHAR" />
 		<result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, USERNAME, PASSWORD, NAME, ROLE_ID, STATUS, EMAIL,
-		PHONE, exp1, exp2
+		PHONE, exp1, exp2,create_date,update_date
 	</sql>
 	<!-- 根据用户名查询用户 -->
 	<select id="selectByUserName" resultMap="BaseResultMap"
@@ -32,8 +34,7 @@
 		r.BUTTON_QX,
 		r.MENU_ID
 		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
-		where USERNAME =
-		#{userName,jdbcType=INTEGER}
+		where USERNAME = #{userName,jdbcType=INTEGER} and STATUS = '1'
 	</select>
 	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
@@ -69,6 +70,12 @@
 			<if test="exp2 != null">
 				exp2,
 			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="username != null">
@@ -97,6 +104,12 @@
 			</if>
 			<if test="exp2 != null">
 				#{exp2,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -130,6 +143,9 @@
 			<if test="exp2 != null">
 				exp2 = #{exp2,jdbcType=VARCHAR},
 			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -152,6 +168,23 @@
 		r.STATUS_QX,
 		r.BUTTON_QX,
 		r.MENU_ID
-		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+		from sys_user
+		us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+		where 1=1
+		<if test="status != null and !status.isEmpty() and status != ''">
+			and us.STATUS = #{status,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and !name.isEmpty() and name != ''">
+			and us.NAME = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="username != null and !username.isEmpty() and name != ''">
+			and USERNAME = #{username,jdbcType=VARCHAR}
+		</if>
+		<if test="roleId != null">
+			and us.ROLE_ID = #{roleId,jdbcType=INTEGER}
+		</if>
+		<if test="roleName != null and !roleName.isEmpty() and roleName != ''">
+			and r.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+		</if>
 	</select>
 </mapper>
