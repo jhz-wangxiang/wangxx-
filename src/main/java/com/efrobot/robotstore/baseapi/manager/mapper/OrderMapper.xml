@@ -44,6 +44,12 @@
     <result column="button" property="button" jdbcType="VARCHAR" />
     <result column="single_way" property="singleWay" jdbcType="VARCHAR" />
     <result column="baggage_no" property="baggageNo" jdbcType="VARCHAR" />
+    
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="exp1" property="exp1" jdbcType="VARCHAR" />
+    <result column="exp2" property="exp2" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -51,7 +57,7 @@
     consignee, consignee_phone, address, area_id, mileage, basic_fee, discount, additional_fee, 
     pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no, order_wx_no, order_status, 
     abnormal_status, abnorma_reason, remark, refund_reason, cancel_reason, operator, 
-    create_date, update_date,paid_fee,exp_fee,single_way,baggage_no
+    create_date, update_date,paid_fee,exp_fee,single_way,baggage_no,province,city,area,exp1,exp2
   </sql>
  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -79,7 +85,7 @@
       pay_status, order_no, order_wx_no, 
       order_status, abnormal_status, abnorma_reason, 
       remark, refund_reason, cancel_reason, 
-      operator, create_date, update_date,paid_fee,exp_fee,single_way,baggage_no
+      operator, create_date, update_date,paid_fee,exp_fee,single_way,baggage_no,province,city,area,exp1,exp2
       )
     values (#{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR}, 
       #{nowTime,jdbcType=TIMESTAMP}, #{baggageNum,jdbcType=VARCHAR}, #{baggage,jdbcType=VARCHAR}, 
@@ -92,7 +98,8 @@
       #{orderStatus,jdbcType=INTEGER}, #{abnormalStatus,jdbcType=VARCHAR}, #{abnormaReason,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, 
       #{operator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
-       #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}, #{singleWay,jdbcType=VARCHAR}, #{baggageNo,jdbcType=VARCHAR}
+       #{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}, #{singleWay,jdbcType=VARCHAR}, #{baggageNo,jdbcType=VARCHAR},
+       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
@@ -209,6 +216,22 @@
       <if test="baggageNo != null" >
         baggage_no,
       </if>
+      
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="exp1 != null" >
+        exp1,
+      </if>
+      <if test="exp2 != null" >
+        exp2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -318,6 +341,21 @@
       </if>
       <if test="baggageNo != null" >
         #{baggageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="exp1 != null" >
+        #{exp1,jdbcType=VARCHAR},
+      </if>
+      <if test="exp2 != null" >
+        #{exp2,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -431,47 +469,67 @@
       <if test="baggageNo != null" >
         baggage_no = #{baggageNo,jdbcType=VARCHAR},
       </if>
+      <if test="province != null" >
+       province  =  #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+       area =  #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="exp1 != null" >
+       exp1 =  #{exp1,jdbcType=VARCHAR},
+      </if>
+      <if test="exp2 != null" >
+        exp2 = #{exp2,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order" >
-    update orders
-    set user_id = #{userId,jdbcType=INTEGER},
-      flight_num = #{flightNum,jdbcType=VARCHAR},
-      now_time = #{nowTime,jdbcType=TIMESTAMP},
-      baggage_num = #{baggageNum,jdbcType=VARCHAR},
-      baggage = #{baggage,jdbcType=VARCHAR},
-      register_name = #{registerName,jdbcType=VARCHAR},
-      register_phone = #{registerPhone,jdbcType=VARCHAR},
-      channel_id = #{channelId,jdbcType=INTEGER},
-      consignee = #{consignee,jdbcType=VARCHAR},
-      consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      area_id = #{areaId,jdbcType=INTEGER},
-      mileage = #{mileage,jdbcType=INTEGER},
-      basic_fee = #{basicFee,jdbcType=DECIMAL},
-      discount = #{discount,jdbcType=DECIMAL},
-      additional_fee = #{additionalFee,jdbcType=DECIMAL},
-      pay_cost = #{payCost,jdbcType=DECIMAL},
-      paid_fee = #{paidFee,jdbcType=DECIMAL},
-      exp_fee = #{expFee,jdbcType=DECIMAL},
-      refund_fee = #{refundFee,jdbcType=DECIMAL},
-      total_fee = #{totalFee,jdbcType=DECIMAL},
-      pay_type = #{payType,jdbcType=VARCHAR},
-      pay_status = #{payStatus,jdbcType=VARCHAR},
-      order_no = #{orderNo,jdbcType=VARCHAR},
-      order_wx_no = #{orderWxNo,jdbcType=VARCHAR},
-      order_status = #{orderStatus,jdbcType=INTEGER},
-      abnormal_status = #{abnormalStatus,jdbcType=VARCHAR},
-      abnorma_reason = #{abnormaReason,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      refund_reason = #{refundReason,jdbcType=VARCHAR},
-      cancel_reason = #{cancelReason,jdbcType=VARCHAR},
-      operator = #{operator,jdbcType=VARCHAR},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      single_way = #{singleWay,jdbcType=VARCHAR},
-      baggage_no = #{baggageNo,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+	update orders
+	set user_id = #{userId,jdbcType=INTEGER},
+	flight_num = #{flightNum,jdbcType=VARCHAR},
+	now_time = #{nowTime,jdbcType=TIMESTAMP},
+	baggage_num = #{baggageNum,jdbcType=VARCHAR},
+	baggage = #{baggage,jdbcType=VARCHAR},
+	register_name = #{registerName,jdbcType=VARCHAR},
+	register_phone = #{registerPhone,jdbcType=VARCHAR},
+	channel_id = #{channelId,jdbcType=INTEGER},
+	consignee = #{consignee,jdbcType=VARCHAR},
+	consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
+	address = #{address,jdbcType=VARCHAR},
+	area_id = #{areaId,jdbcType=INTEGER},
+	mileage = #{mileage,jdbcType=INTEGER},
+	basic_fee = #{basicFee,jdbcType=DECIMAL},
+	discount = #{discount,jdbcType=DECIMAL},
+	additional_fee = #{additionalFee,jdbcType=DECIMAL},
+	pay_cost = #{payCost,jdbcType=DECIMAL},
+	paid_fee = #{paidFee,jdbcType=DECIMAL},
+	exp_fee = #{expFee,jdbcType=DECIMAL},
+	refund_fee = #{refundFee,jdbcType=DECIMAL},
+	total_fee = #{totalFee,jdbcType=DECIMAL},
+	pay_type = #{payType,jdbcType=VARCHAR},
+	pay_status = #{payStatus,jdbcType=VARCHAR},
+	order_no = #{orderNo,jdbcType=VARCHAR},
+	order_wx_no = #{orderWxNo,jdbcType=VARCHAR},
+	order_status = #{orderStatus,jdbcType=INTEGER},
+	abnormal_status = #{abnormalStatus,jdbcType=VARCHAR},
+	abnorma_reason = #{abnormaReason,jdbcType=VARCHAR},
+	remark = #{remark,jdbcType=VARCHAR},
+	refund_reason = #{refundReason,jdbcType=VARCHAR},
+	cancel_reason = #{cancelReason,jdbcType=VARCHAR},
+	operator = #{operator,jdbcType=VARCHAR},
+	update_date = #{updateDate,jdbcType=TIMESTAMP},
+	single_way = #{singleWay,jdbcType=VARCHAR},
+	baggage_no = #{baggageNo,jdbcType=VARCHAR},
+	province = #{province,jdbcType=VARCHAR},
+	city = #{city,jdbcType=VARCHAR},
+	area = #{area,jdbcType=VARCHAR},
+	exp1 = #{exp1,jdbcType=VARCHAR},
+	exp2 = #{exp2,jdbcType=VARCHAR}
+	where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByParms" resultMap="BaseResultMap"
 	parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">

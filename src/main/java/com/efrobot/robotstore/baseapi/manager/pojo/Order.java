@@ -110,6 +110,16 @@ public class Order implements Serializable {
     private String baggageNo;//baggage_no//行李号
     
     private String singleWay;//single_way下单方式;
+    
+    private String province;
+
+    private String city;
+
+    private String area;
+    
+    private String exp1;
+
+    private String exp2;
 
     public String getNowTimeStart() {
 		return nowTimeStart;
@@ -571,6 +581,46 @@ public class Order implements Serializable {
 
 	public void setButton(String button) {
 		this.button = button;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public String getExp1() {
+		return exp1;
+	}
+
+	public void setExp1(String exp1) {
+		this.exp1 = exp1;
+	}
+
+	public String getExp2() {
+		return exp2;
+	}
+
+	public void setExp2(String exp2) {
+		this.exp2 = exp2;
 	}
     
 }
