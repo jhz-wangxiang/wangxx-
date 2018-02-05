@@ -13,119 +13,145 @@
 		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
 		<result column="exp1" property="exp1" jdbcType="VARCHAR" />
 		<result column="exp2" property="exp2" jdbcType="VARCHAR" />
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+		<result column="STATUS_QX" property="statusQx" jdbcType="VARCHAR" />
+		<result column="BUTTON_QX" property="buttonQx" jdbcType="VARCHAR" />
+		<result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, USERNAME, PASSWORD, NAME, ROLE_ID, STATUS, EMAIL, PHONE, exp1, exp2
+		id, USERNAME, PASSWORD, NAME, ROLE_ID, STATUS, EMAIL,
+		PHONE, exp1, exp2
 	</sql>
 	<!-- 根据用户名查询用户 -->
 	<select id="selectByUserName" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
 		select
-		<include refid="Base_Column_List" />
-		from sys_user
-		where USERNAME = #{userName,jdbcType=INTEGER}
+		us.*,
+		r.ROLE_NAME,
+		r.STATUS_QX,
+		r.BUTTON_QX,
+		r.MENU_ID
+		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+		where USERNAME =
+		#{userName,jdbcType=INTEGER}
 	</select>
-	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser" >
-	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into sys_user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="username != null" >
-        USERNAME,
-      </if>
-      <if test="password != null" >
-        PASSWORD,
-      </if>
-      <if test="name != null" >
-        NAME,
-      </if>
-      <if test="roleId != null" >
-        ROLE_ID,
-      </if>
-      <if test="status != null" >
-        STATUS,
-      </if>
-      <if test="email != null" >
-        EMAIL,
-      </if>
-      <if test="phone != null" >
-        PHONE,
-      </if>
-      <if test="exp1 != null" >
-        exp1,
-      </if>
-      <if test="exp2 != null" >
-        exp2,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="exp1 != null" >
-        #{exp1,jdbcType=VARCHAR},
-      </if>
-      <if test="exp2 != null" >
-        #{exp2,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser" >
-    update sys_user
-    <set >
-      <if test="username != null" >
-        USERNAME = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        PASSWORD = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        NAME = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        ROLE_ID = #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        STATUS = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        EMAIL = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        PHONE = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="exp1 != null" >
-        exp1 = #{exp1,jdbcType=VARCHAR},
-      </if>
-      <if test="exp2 != null" >
-        exp2 = #{exp2,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				USERNAME,
+			</if>
+			<if test="password != null">
+				PASSWORD,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="roleId != null">
+				ROLE_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="phone != null">
+				PHONE,
+			</if>
+			<if test="exp1 != null">
+				exp1,
+			</if>
+			<if test="exp2 != null">
+				exp2,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="exp1 != null">
+				#{exp1,jdbcType=VARCHAR},
+			</if>
+			<if test="exp2 != null">
+				#{exp2,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
+		update sys_user
+		<set>
+			<if test="username != null">
+				USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				ROLE_ID = #{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="exp1 != null">
+				exp1 = #{exp1,jdbcType=VARCHAR},
+			</if>
+			<if test="exp2 != null">
+				exp2 = #{exp2,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		us.*,
+		r.ROLE_NAME,
+		r.STATUS_QX,
+		r.BUTTON_QX,
+		r.MENU_ID
+		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByParms" resultMap="BaseResultMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">
+		select
+		us.*,
+		r.ROLE_NAME,
+		r.STATUS_QX,
+		r.BUTTON_QX,
+		r.MENU_ID
+		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
+	</select>
 </mapper>

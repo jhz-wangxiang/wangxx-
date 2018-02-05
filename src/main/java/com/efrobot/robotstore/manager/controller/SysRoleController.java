@@ -28,7 +28,7 @@ public class SysRoleController {
 	private SysRoleService sysRoleService;
 	
 	@SuppressWarnings("static-access")
-	@RequestMapping(value = "/getOrderListPage")
+	@RequestMapping(value = "/getRoleListPage")
 	@ResponseBody
 	public JSONObject getRoleListPage(SysRole record, Integer pageNumber, Integer pageSize) throws Exception {
 		JSONObject jsonObject = new JSONObject();

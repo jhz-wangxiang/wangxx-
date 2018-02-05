@@ -23,11 +23,55 @@ public class SysUser implements Serializable {
 	private String email;
 
 	private String phone;
+	
+	private String roleName;
+
+	private String statusQx;
+
+	private String buttonQx;
+
+    private String menuId;
 
 	private String exp1;
 
 	private String exp2;
 
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getStatusQx() {
+		return statusQx;
+	}
+
+	public void setStatusQx(String statusQx) {
+		this.statusQx = statusQx;
+	}
+
+	public String getButtonQx() {
+		return buttonQx;
+	}
+
+	public void setButtonQx(String buttonQx) {
+		this.buttonQx = buttonQx;
+	}
+
+	public String getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Integer getId() {
 		return id;
