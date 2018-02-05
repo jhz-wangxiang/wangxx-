@@ -52,7 +52,29 @@
 								</span>
                             </div>
                         </div>
-                        </div>
+                     </div>
+                        <div class="row cl">
+	                    	<div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+	                            <label class="form-label col-xs-4 col-sm-4">航班号：</label>
+	                            <div class="formControls col-xs-8 col-sm-8">
+	                                <input type="text" class="input-text" value="" placeholder="" id="" name="flightNum">
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+	                            <label class="form-label col-xs-4 col-sm-4">手机号：</label>
+	                            <div class="formControls col-xs-8 col-sm-8">
+	                                <input type="text" class="input-text" value="" placeholder="" id="" name="phone">
+	                            </div>
+	                        </div>
+		                    <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+		                    	<label class="form-label col-xs-4 col-sm-4">日期范围：</label>
+	                            <div class="formControls col-xs-8 col-sm-8">
+	                                <input type="text" id="timemin" class="input-text" placeholder="yyyy/MM/dd" name="nowTimeStart" readonly style="width:120px;">
+									-
+									<input type="text" id="timemax" class="input-text" placeholder="yyyy/MM/dd" name="nowTimeEnd" readonly style="width:120px;">
+	                            </div>
+		                    </div>
+	                    </div>
                         <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">异常状态：</label>
@@ -90,6 +112,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class='row cl text-c'>
                     	<button name="" id="" class="btn btn-success" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                     </div>
@@ -133,7 +156,7 @@
 				h.push('<a class="layui-btn layui-btn-warm layui-btn-xs" href="javascript:Common.layer_show(\'终止\',\'备注\',\'600\',\''+d.id+'\',ddzz);">终止订单</a>')
 			}
 		    return h.join("");
-		},minWidth:"240",align:"center"},
+		},minWidth:"260",align:"center"},
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
         {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
         {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
@@ -302,7 +325,11 @@
 			channelId:$("select[name='channel']").val()==""?null:$("select[name='channel']").val(),
 			abnormalStatus:$("select[name='abnormal']").val()==""?null:$("select[name='abnormal']").val(),
 			orderStatus:$("select[name='orderStatus']").val()==""?null:$("select[name='orderStatus']").val(),
-			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val()
+			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val(),
+			flightNum:Common.ltrim($("input[name='flightNum']").val()),
+			phone:Common.ltrim($("input[name='phone']").val()),
+			nowTimeStart:Common.ltrim($("input[name='nowTimeStart']").val()),
+			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val())
 		}
 		console.log(data)
 		tableIns.reload({
@@ -312,7 +339,18 @@
 		  }
 		});
 	}
+	var dtime = function(id){
+		layui.use('laydate', function(){
+			  var laydate = layui.laydate;
+			  laydate.render({
+			    elem: '#'+id,
+			    format: 'yyyy/MM/dd'
+			  });
+		})
+	}
     loadSelect();
+    dtime("timemin");
+    dtime("timemax");
     layui.use("table",function(){
     	var table = layui.table;
     	tableIns = table.render({
