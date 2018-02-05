@@ -28,9 +28,19 @@ public class User implements Serializable {
 
     private String exp2;//是否有未完成订单
     
+    private String channel;//是否有未完成订单
+    
     private Integer channelId;
 
-    public Date getOrderDate() {
+    public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	public Date getOrderDate() {
 		return orderDate;
 	}
 
