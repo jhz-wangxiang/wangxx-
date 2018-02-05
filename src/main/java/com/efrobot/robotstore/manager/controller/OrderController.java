@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -41,13 +43,13 @@ public class OrderController {
 	private UserService userService;
 	public static Map<Integer, String> status_order = new ConcurrentHashMap<Integer,String>();
 	
-//	@PostConstruct
-//	public void init() {
-//		List<OrderStatus> list=orderService.selectSelectList("");
-//		for(OrderStatus s: list){
-//			status_order.put(s.getStatus(), s.getDescribe());
-//		}
-//	}
+	@PostConstruct
+	public void init() {
+		List<OrderStatus> list=orderService.selectSelectList(null);
+		for(OrderStatus s: list){
+			status_order.put(s.getStatus(), s.getDescribe());
+		}
+	}
 	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getOrderListPage")

@@ -497,6 +497,12 @@
 	<if test="name != null and !name.isEmpty() and name != ''">
 		AND u.name = #{name,jdbcType=VARCHAR}
 	</if>
+	<if test="phone != null and !phone.isEmpty() and name != ''">
+		AND u.phone = #{phone,jdbcType=VARCHAR}
+	</if>
+	<if test="flightNum != null and !flightNum.isEmpty() and name != ''">
+		AND o.flightNum = #{flightNum,jdbcType=VARCHAR}
+	</if>
 	<if test="userId != null">
 		AND o.user_id = #{userId,jdbcType=INTEGER}
 	</if>
@@ -511,6 +517,16 @@
 	</if>
 	<if test="payStatus != null and !payStatus.isEmpty() and payStatus != ''">
 		AND o.pay_status = #{payStatus,jdbcType=VARCHAR}
+	</if>
+	 <if test="nowTimeEnd != null and nowTimeEnd != ''">
+			  <![CDATA[
+             and now_time <= DATE_FORMAT(#{nowTimeEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+    </if>
+	<if test="nowTimeStart != null and nowTimeStart != ''">
+			  <![CDATA[
+             and now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
+            ]]>
 	</if>
 	ORDER BY
 	o.create_date desc

@@ -26,7 +26,11 @@ public class Order implements Serializable {
     private Date nowTime;//航班时间
     
     private String nowTimeStr;//航班时间
-
+    
+    private String nowTimeStart;//航班时间
+    
+    private String nowTimeEnd;//航班时间
+    
     private String baggageNum;//行李数量
 
     private String baggage;//行李
@@ -106,17 +110,37 @@ public class Order implements Serializable {
     private String baggageNo;//baggage_no//行李号
     
     private String singleWay;//single_way下单方式;
-    
 
-    public String getStopDisplay() {
-    	if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
-    		stopDisplay = "1";
-		}else{
-			stopDisplay = "0";
+    public String getNowTimeStart() {
+		return nowTimeStart;
+	}
+
+	public void setNowTimeStart(String nowTimeStart) {
+		this.nowTimeStart = nowTimeStart;
+	}
+
+	public String getNowTimeEnd() {
+		return nowTimeEnd;
+	}
+
+	public void setNowTimeEnd(String nowTimeEnd) {
+		if (null == nowTimeEnd || "".equals(nowTimeEnd)) {
+			this.nowTimeEnd = nowTimeEnd;
+		} else {
+			this.nowTimeEnd = nowTimeEnd + " 23:59:59";
 		}
-    	if (orderStatus!=null&&orderStatus==11) {
-    		stopDisplay = "0";
-    	}
+	}
+
+	public String getStopDisplay() {
+//    	if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
+//    		stopDisplay = "1";
+//		}else{
+//			stopDisplay = "0";
+//		}
+//    	if (orderStatus!=null&&orderStatus==11) {
+//    		stopDisplay = "0";
+//    	}
+		stopDisplay="0";
 		return stopDisplay;
 	}
 
@@ -142,20 +166,21 @@ public class Order implements Serializable {
 
 	public String getCancelDisplay() {
 		
-		if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
-			cancelDisplay = "0";
-		}
-		if (orderStatus!=null&&orderStatus > 2) {
-			cancelDisplay = "0";
-		} else {
-			cancelDisplay = "1";
-		}
+//		if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
+//			cancelDisplay = "0";
+//		}
+//		if (orderStatus!=null&&orderStatus > 2) {
+//			cancelDisplay = "0";
+//		} else {
+//			cancelDisplay = "1";
+//		}
 		if(orderStatus!=null&&orderStatus==10){
 			cancelDisplay = "0";
 		}
-		if (orderStatus!=null&&orderStatus==11) {
-			cancelDisplay = "0";
-		}
+//		if (orderStatus!=null&&orderStatus==11) {
+//			cancelDisplay = "0";
+//		}
+		cancelDisplay="1";
 		return cancelDisplay;
 	}
 
