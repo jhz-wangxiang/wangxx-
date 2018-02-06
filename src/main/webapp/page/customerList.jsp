@@ -44,14 +44,9 @@
                         </div>
                         <button name="" id="" class="btn btn-success" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                    	</div>
-                    <div class='row cl text-c'>
-                    	<button name="" id="" class="btn btn-success" type="button" style="float: left;margin-left: 104px;">创建客户</button>
-                    	
-                    </div>
             </form>
             <div class="mt-20">
                 <table class="layui-hide" id="table"></table>
-                <div id="page"></div>
             </div>
         </article>
     </div>
@@ -72,7 +67,7 @@
         {field:"phone",title:"联系电话",align:"center",minWidth:"150"},
         {field:"openid",title:"微信号",align:"center",minWidth:"100"},
         {field:"exp2",title:"未完成订单",align:"center",minWidth:"100"},
-        {field:"card",title:"会员",align:"center",minWidth:"100"},
+        {field:"channel",title:"渠道",align:"center",minWidth:"100"},
         {field:"createDate",title:"创建时间",align:"center",minWidth:"200",templet:function(d){
         	return Common.getLocalDate(d.createDate)
         }},
