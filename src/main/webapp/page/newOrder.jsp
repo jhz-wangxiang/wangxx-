@@ -45,6 +45,14 @@
                                 <input type="text" class="input-text air_input_readonly" value="" placeholder="" id="phone" name="phone" readonly>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <select name="channelId" class="select" lay-verify="required">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="cl"></div>
                     </div>
                 </div>
@@ -61,7 +69,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="registerPhone" name="registerPhone">
+                                <input type="text" class="input-text" lay-verify="required|phone" value="" placeholder="" id="registerPhone" name="registerPhone">
                             </div>
                         </div>
                         <div class="cl"></div>
@@ -74,19 +82,19 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">航班号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="flightNum" name="flightNum">
+                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="flightNum" name="flightNum">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">日期：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="nowTimeStr" name="nowTimeStr">
+                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="nowTimeStr" name="nowTimeStr">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李号码：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="baggageNo" name="baggageNo">
+                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggageNo" name="baggageNo">
                             </div>
                         </div>
                         <div class="cl"></div>
@@ -95,13 +103,13 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李内物品：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="baggage" name="baggage">
+                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggage" name="baggage">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">行李数量：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="baggageNum" name="baggageNum">
+                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggageNum" name="baggageNum">
                             </div>
                         </div>
                         <div class="cl"></div>
@@ -111,9 +119,7 @@
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="layui-form-item">
-                        <div class="layui-input-block" id="address-list">
-
-                        </div>
+                        <div class="layui-input-block" id="address-list"></div>
                     </div>
                     <a href="javascript:;" class="btn btn-success" style="margin-left: 110px; margin-top: 10px;" onclick="layer_show('新增地址')">新增地址</a>
                     <input type="hidden" name="province" id="province" lay-verify="required"><input type="hidden" name="city" id="city" lay-verify="required"><input type="hidden" name="area" id="area" lay-verify="required"><input
@@ -135,11 +141,10 @@
                 </div>
                 <div class="mt-20">
                     <div class="row cl">
-                    	<%--<a class="btn btn-success" style="float:right;" onclick="submit()">确认下单</a>--%><button class="layui-btn btn btn-success" lay-submit="" lay-filter="demo1">确认下单</button>
+                    	<button style="float:right;" class="layui-btn btn btn-success" lay-submit="" lay-filter="demo">确认下单</button>
                     </div>
                 </div>
                 <input type="hidden" name="userId" id="userId">
-                <input type="hidden" name="channel" id="channel" value="微信">
             </form>
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort" id="table">
@@ -154,7 +159,7 @@
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var id = Common.GetUrlRequest()['id'];
-$('input[name="userId"]').val(id);
+    $('input[name="userId"]').val(id);
     var basePath = "<%=basePath %>";
     var pageNum = 1;
     var pageSize = 10;
@@ -163,7 +168,7 @@ $('input[name="userId"]').val(id);
     layui.use(['form', 'laydate'], function(){
         var laydate = layui.laydate;
         layform = layui.form;
-            laydate.render({
+        laydate.render({
             elem: '#nowTimeStr',
             value: new Date(),
             type:"datetime",
@@ -178,12 +183,11 @@ $('input[name="userId"]').val(id);
             $('input[name="consigneePhone"]').val($(data.elem).data('consigneephone'));
         });
         initAddress();
-        layform.on('submit(demo1)', function(){
-            var form = $('#form-admin-add');
+        layform.on('submit(demo)', function(data){
             $.ajax({
                 type:'POST',
                 url: basePath+'v1/order/insertOrder',
-                data: form.serialize(),
+                data: $('#form-admin-add').serialize(),
                 success: function (res){
                     var json = JSON.parse(res);
                     if(json.resultCode == 'SUCCESS'){
@@ -191,16 +195,72 @@ $('input[name="userId"]').val(id);
                     }
                 }
             })
-//            layer.alert(JSON.stringify(data.field), {
-//                title: '最终的提交信息'
-//            })
-//            return false;
+            return false;
+        });
+        layform.verify({
+            length: function(value){
+                if(value.length > 50){
+                    return '长度不能超过50个字符';
+                }
+            }
         });
 	  })
+    //获取用户详细信息
+    $.ajax({
+    	url: basePath+"v1/user/getUserDetail",
+    	type:"POST",
+    	data:{id:id},
+    	success:function(data){
+    		var json = JSON.parse(data);
+    		for(var i in json){
+    			switch (i) {
+				case "createDate":
+					$("#"+i).val(Common.getLocalDate(json[i]));
+					break;
+				case "orderDate":
+					$("#"+i).val(Common.getLocalDate(json[i]));
+					break;
+				default:
+					$("#"+i).val(json[i]);
+					break;
+				}
+    			
+    		}
+    		$('#registerName').val(json['name']);
+    		$('#registerPhone').val(json['phone']);
+    	}
+    })
+    $.ajax({
+        url : basePath+'v1/order/getChannel',
+        type : 'POST',
+        async : false,
+        datatype : 'json',
+        success : function(data) {
+            var json = JSON.parse(data);
+            if(json){
+                var programme_sel=[];
+                programme_sel.push('<option value="" selected>请选择</option>')
+                for(var i=0,len=json.length;i<len;i++){
+                    programme_sel.push('<option value="'+json[i].id+'">'+json[i].channel+'</option>')
+                }
+                $("select[name='channelId']").html(programme_sel.join(''));
+                $(".page-on-load").hide();
+
+            }
+        },
+        error : function() {
+            alert('查询异常');
+        }
+    });
+    /**
+     * 地址列表初始化
+     * @param isAdd 是否是新增地址后获取列表
+     */
     function initAddress(isAdd) {
         $.ajax({
             type:"POST",
             url: basePath + 'v1/address/getAddress',
+            data:{"userid":id},
             success: function (res){
                 var json = JSON.parse(res);
                 var html = [];
@@ -227,32 +287,8 @@ $('input[name="userId"]').val(id);
             }
         });
     }
-    $.ajax({
-    	url: basePath+"v1/user/getUserDetail",
-    	type:"POST",
-    	data:{id:id},
-    	success:function(data){
-    		var json = JSON.parse(data);
-    		for(var i in json){
-    			switch (i) {
-				case "createDate":
-					$("#"+i).val(Common.getLocalDate(json[i]));
-					break;
-				case "orderDate":
-					$("#"+i).val(Common.getLocalDate(json[i]));
-					break;
-				default:
-					$("#"+i).val(json[i]);
-					break;
-				}
-    			
-    		}
-    		$('#registerName').val(json['name']);
-    		$('#registerPhone').val(json['phone']);
-    	}
-    })
     function layer_show(title,addressid){
-        var html = [];
+        var html = [],formAddress;
         if(addressid){
             $.ajax({
                 url: basePath + 'v1/address/getAddressDetail',
@@ -260,145 +296,131 @@ $('input[name="userId"]').val(id);
                 data: {id:addressid},
                 success: function (res){
                     var json = JSON.parse(res);
-                    html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal" id="form-address-add">');
-                        html.push('<div class="row cl">');
-                        html.push('<label class="form-label col-xs-3 col-sm-2">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" id="consignee" name="consignee" value="'+json.consignee+'"></div>')
-                        html.push('<label class="form-label col-xs-3 col-sm-2">收件人电话：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="'+json.consigneePhone+'"></div>')
-                        html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
-                        html.push('<div class="layui-input-inline province-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择省" value="'+json.province+'" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit" style=""><dd data-value="" class="layui-select-tips">请选择省</dd><dd data-value="北京" class="layui-this">北京市</dd></dl></div></div>');
-                        html.push('<div class="layui-input-inline city-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择市" value="'+json.city+'" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd data-value="" class="layui-select-tips">请选择市</dd><dd data-value="北京" class="">北京市</dd></dl></div></div>')
-                        html.push('<div class="layui-input-inline area-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择县/区" value="'+json.area+'" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd data-value="" class="layui-select-tips">请选择县/区</dd><dd data-value="海淀区" class="">海淀区</dd><dd data-value="昌平区" class="">昌平区</dd><dd data-value="朝阳区" class="">朝阳区</dd></dl></div></div></div>')
-                        html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="'+json.address+'"></div>');
-                        html.push('</div>');
-                        html.push('<input type="hidden" name="province" id="province" value="'+json.province+'"><input type="hidden" name="city" id="city" value="'+json.city+'"><input type="hidden" name="area" id="area" value="'+json.area+'"><input type="hidden" name="id" id="id" value="'+addressid+'">');
-                        html.push('</form></article>');
+                    html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal layui-form" id="form-address-add">');
+                    html.push('<div class="row cl">');
+                    html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consignee" name="consignee" value="'+json.consignee+'" lay-verify="required|length50"></div>')
+                    html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人电话：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="'+json.consigneePhone+'" lay-verify="required|phone"></div>')
+                    html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
+                    html.push('<div class="layui-form-item"><div class="layui-input-inline"><select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select></div>');
+                    html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>')
+                    html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区" '+(json.area == '海淀区'?'selected':'')+'>海淀区</option><option value="昌平区" '+(json.area == '昌平区'?'selected':'')+'>昌平区</option><option value="朝阳区" '+(json.area == '朝阳区'?'selected':'')+'>朝阳区</option></select></div>')
+                    html.push('</div></div>');
+                    html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="'+json.address+'" lay-verify="required|length100"></div>');
+                    html.push('</div>');
+                    html.push('<input type="hidden" name="province" id="province" value="'+json.province+'"><input type="hidden" name="city" id="city" value="'+json.city+'"><input type="hidden" name="area" id="area" value="'+json.area+'"><input type="hidden" name="id" id="id" value="'+addressid+'">');
+                    html.push('<div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="address">确定</button></div>');
+                    html.push('</form></article>');
                     layer.open({
                         title: title,
                         content: html.join(""),
                         area:['800px','400px'],
+                        type:1,
                         success:function(layero, index){
-                            $('.province-select .layui-select-title').click(function () {
-                                $('.city-select').find('dl').hide();
-                                $('.area-select').find('dl').hide();
-                                $(this).siblings('dl').toggle();
+                            layui.use(['form'], function(){
+                                formAddress = layui.form;
+                                formAddress.render();
+                                formAddress.on('select(province)',function (data) {
+                                    $('input[name="province"]').val(data.value);
+                                })
+                                formAddress.on('select(city)',function (data) {
+                                    $('input[name="city"]').val(data.value);
+                                })
+                                formAddress.on('select(area)',function (data) {
+                                    $('input[name="area"]').val(data.value);
+                                })
+                                formAddress.on('submit(address)',function (data) {
+                                    $.ajax({
+                                        url: basePath + 'v1/address/updateAddress',
+                                        data: $('#form-address-add').serialize(),
+                                        type: "POST",
+                                        success: function (res) {
+                                            layer.closeAll();
+                                            initAddress();
+                                        }
+                                    })
+                                    return false;
+
+                                })
+                                formAddress.verify({
+                                    length50: function(value){
+                                        if(value.length > 50){
+                                            return '长度不能超过50个字符';
+                                        }
+                                    },
+                                    length100: function(value){
+                                        if(value.length > 100){
+                                            return '长度不能超过100个字符';
+                                        }
+                                    },
+                                });
                             })
-                            $('.province-select').find('dl').on('click','dd',function () {
-                                $(this).parent('dl').hide();
-                                $('.province-select input').val($(this).data('value'));
-                                $('input[name="province"]').val($(this).data('value'));
-                            })
-                            $('.city-select .layui-select-title').click(function () {
-                                $('.area-select').find('dl').hide();
-                                $('.province-select').find('dl').hide();
-                                $(this).siblings('dl').toggle();
-                            })
-                            $('.city-select').find('dl').on('click','dd',function () {
-                                $(this).parent('dl').hide();
-                                $('.city-select input').val($(this).data('value'));
-                                $('input[name="city"]').val($(this).data('value'));
-                            })
-                            $('.area-select .layui-select-title').click(function () {
-                                $('.city-select').find('dl').hide();
-                                $('.province-select').find('dl').hide();
-                                $(this).siblings('dl').toggle();
-                            })
-                            $('.area-select').find('dl').on('click','dd',function () {
-                                $(this).parent('dl').hide();
-                                $('.area-select input').val($(this).data('value'));
-                                $('input[name="area"]').val($(this).data('value'));
-                            })
-                        },
-                        btn:['确定','取消'],
-                        yes: function(){
-                            submit()
-                        },
-                        btn2: function(){
-                            layer.close();
                         }
                     });
-                    function submit () {
-                        $.ajax({
-                            url: basePath + 'v1/address/updateAddress',
-                            data: $('#form-address-add').serialize(),
-                            type: "POST",
-                            success: function (res) {
-                                layer.closeAll();
-                                initAddress();
-                            }
-                        })
-                    }
                 }
             })
         }else{
-            html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal" id="form-address-add">');
+            html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal layui-form" id="form-address-add">');
             html.push('<div class="row cl">');
-            html.push('<label class="form-label col-xs-3 col-sm-2">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" id="consignee" name="consignee" value=""></div>')
-            html.push('<label class="form-label col-xs-3 col-sm-2">收件人电话：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value=""></div>')
+            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consignee" name="consignee" value="" lay-verify="required|length50"></div>')
+            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人电话：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="" lay-verify="required|phone"></div>')
             html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
-            html.push('<div class="layui-input-inline province-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择省" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit" style=""><dd data-value="" class="layui-select-tips">请选择省</dd><dd data-value="北京" class="layui-this">北京市</dd></dl></div></div>');
-            html.push('<div class="layui-input-inline city-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择市" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd data-value="" class="layui-select-tips">请选择市</dd><dd data-value="北京" class="">北京市</dd></dl></div></div>')
-            html.push('<div class="layui-input-inline area-select"><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择县/区" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd data-value="" class="layui-select-tips">请选择县/区</dd><dd data-value="海淀区" class="">海淀区</dd><dd data-value="昌平区" class="">昌平区</dd><dd data-value="朝阳区" class="">朝阳区</dd></dl></div></div></div>')
-            html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value=""></div>');
+            html.push('<div class="layui-form-item"><div class="layui-input-inline"><select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select></div>');
+            html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>')
+            html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区">海淀区</option><option value="昌平区">昌平区</option><option value="朝阳区">朝阳区</option></select></div>')
+            html.push('</div></div>');
+            html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="" lay-verify="required|length100"></div>');
             html.push('</div>');
-            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="area" id="area" value="海淀区"><input type="hidden" name="userid" id="userid" value="'+id+'">');
+            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="area" id="area" value=""><input type="hidden" name="userid" id="userid" value="'+id+'">');
+            html.push('<div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="address">确定</button></div>');
             html.push('</form></article>');
             layer.open({
                 title: title,
                 content: html.join(""),
                 area:['800px','400px'],
+                type:1,
                 success:function(layero, index){
-                    $('.province-select .layui-select-title').click(function () {
-                        $('.city-select').find('dl').hide();
-                        $('.area-select').find('dl').hide();
-                        $(this).siblings('dl').toggle();
-                    })
-                    $('.province-select').find('dl').on('click','dd',function () {
-                        $(this).parent('dl').hide();
-                        $('.province-select input').val($(this).data('value'));
-                        $('input[name="province"]').val($(this).data('value'));
-                    })
-                    $('.city-select .layui-select-title').click(function () {
-                        $('.area-select').find('dl').hide();
-                        $('.province-select').find('dl').hide();
-                        $(this).siblings('dl').toggle();
-                    })
-                    $('.city-select').find('dl').on('click','dd',function () {
-                        $(this).parent('dl').hide();
-                        $('.city-select input').val($(this).data('value'));
-                        $('input[name="city"]').val($(this).data('value'));
-                    })
-                    $('.area-select .layui-select-title').click(function () {
-                        $('.city-select').find('dl').hide();
-                        $('.province-select').find('dl').hide();
-                        $(this).siblings('dl').toggle();
-                    })
-                    $('.area-select').find('dl').on('click','dd',function () {
-                        $(this).parent('dl').hide();
-                        $('.area-select input').val($(this).data('value'));
-                        $('input[name="area"]').val($(this).data('value'));
-                    })
-                },
-                        btn:['确定','取消'],
-                yes: function(){
-                    submit()
-                },
-                btn2: function(){
-                    layer.close();
-                }
-            });
-            function submit () {
-                $.ajax({
-                    url: basePath + 'v1/address/insertAddress',
-                    data: $('#form-address-add').serialize(),
-                    type: "POST",
-                    success: function (res) {
-                        layer.closeAll();
-                        initAddress(true);
-                    }
-                })
-            }
-        }
+                    layui.use(['form'], function(){
+                        formAddress = layui.form;
+                        formAddress.render();
+                        formAddress.on('select(province)',function (data) {
+                            $('input[name="province"]').val(data.value);
+                        })
+                        formAddress.on('select(city)',function (data) {
+                            $('input[name="city"]').val(data.value);
+                        })
+                        formAddress.on('select(area)',function (data) {
+                            $('input[name="area"]').val(data.value);
+                        })
+                        formAddress.on('submit(address)',function (data) {
+                            $.ajax({
+                                url: basePath + 'v1/address/insertAddress',
+                                data: $('#form-address-add').serialize(),
+                                type: "POST",
+                                success: function (res) {
+                                    layer.closeAll();
+                                    initAddress(true);
+                                }
+                            })
+                            return false;
 
+                        })
+                        formAddress.verify({
+                            length50: function(value){
+                                if(value.length > 50){
+                                    return '长度不能超过50个字符';
+                                }
+                            },
+                            length100: function(value){
+                                if(value.length > 100){
+                                    return '长度不能超过100个字符';
+                                }
+                            },
+                        });
+                    })
+
+                },
+            });
+        }
     }
     function submit(){
     	var form = $('#form-admin-add');
@@ -428,7 +450,6 @@ $('input[name="userId"]').val(id);
             })
 
         });
-
     }
 
 </script>
