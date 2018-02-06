@@ -55,4 +55,9 @@ public class PageForController {
 		request.setAttribute("navName", "角色管理");
 		return "staffList";
 	}
+	@RequestMapping(value = "/abnormityOrderList")
+	public String abnormityOrderList(HttpServletRequest request) {
+		request.setAttribute("navName", "异常管理");
+		return "abnormityOrderList";
+	}
 }
