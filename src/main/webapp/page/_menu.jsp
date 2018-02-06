@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<dd <c:if test="${param.classify=='account'}">style="display: block;"</c:if>>
 				<ul>
 					<li <c:if test="${param.level=='customer_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/customerList" title="客户账号">客户账号</a></li>
-					<li <c:if test="${param.level=='staff_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/staffList" title="角色管理">角色管理</a></li>
+					<li <c:if test="${param.level=='staff_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/staffList" title="员工管理">员工管理</a></li>
 				</ul>
 			</dd>
 		</dl>
