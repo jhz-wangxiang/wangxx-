@@ -52,12 +52,22 @@ public class PageForController {
 	}
 	@RequestMapping(value = "/staffList")
 	public String staffList(HttpServletRequest request) {
-		request.setAttribute("navName", "角色管理");
+		request.setAttribute("navName", "员工管理");
 		return "staffList";
 	}
 	@RequestMapping(value = "/abnormityOrderList")
 	public String abnormityOrderList(HttpServletRequest request) {
 		request.setAttribute("navName", "异常管理");
 		return "abnormityOrderList";
+	}
+	@RequestMapping(value = "/roleList")
+	public String roleList(HttpServletRequest request) {
+		request.setAttribute("navName", "角色管理");
+		return "roleList";
+	}
+	@RequestMapping(value = "/channelList")
+	public String channelList(HttpServletRequest request) {
+		request.setAttribute("navName", "渠道管理");
+		return "channelList";
 	}
 }
