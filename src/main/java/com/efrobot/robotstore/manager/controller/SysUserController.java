@@ -91,11 +91,13 @@ public class SysUserController {
 	
 	@RequestMapping(value = "/updatePassWord", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updatePassWord(String passWordOld,String passWordNew) throws Exception {
+	public Map<String, Object> updatePassWord(String passWordOld,String passWordNew,String passWordNewAg) throws Exception {
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
-		
+		if(!passWordNew.equals(passWordNewAg)){
+			return CommonUtil.resultMsg("FAIL", "新密码输入不一致");
+		}
 	    passWordOld = md5.getMD5String(passWordOld);
 		// 校验登陆用户名密码
 		if (null == sysUser.getId()) {

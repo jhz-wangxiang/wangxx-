@@ -86,8 +86,8 @@ public class SysRoleController {
 		}else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
-		
 	}
+	
 	@RequestMapping(value = "/getRoleAll", method = RequestMethod.POST)
 	@ResponseBody
 	public List<SysRole> getRoleAll(SysRole record) throws Exception {
