@@ -21,9 +21,9 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
         <span class="c-gray en">&gt;</span>
-        员工管理
+        角色管理
         <span class="c-gray en">&gt;</span>
-         员工管理
+         角色管理
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
@@ -293,7 +293,6 @@
 		        	  for(var d in data.field){
 		        		  fd[d.replace("staff_add_","")] = data.field[d];
 		        	  }
-		        	  console.log(fd)
 		        	  $.ajax({
 		        		  url: basePath+"v1/sysuser/insert",
 		        		  type:"POST",
@@ -342,7 +341,17 @@
 		        		  data:fd,
 		        		  success:function(data){
 		        			var json = JSON.parse(data);
-		        			//location.reload();
+		        			if(json.resultCode=="SUCCESS"){
+		        				layui.layer.msg("修改成功", {icon: "6",time:1000},function(){
+					    	    	layui.layer.closeAll();
+					    	    });
+		        			}else{
+		        				layui.layer.msg(json.msg, {
+					    	    	time: 2000,
+					    	    	btn: ['好的'],
+					    			shade: 0.4
+					    	    });
+		        			}
 		        		  }
 		        	  })
 		        	  return false;
