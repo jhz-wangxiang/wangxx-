@@ -29,7 +29,7 @@ public class SysUserController {
 	private static MD5 md5 = MD5.getInstance();
 	@Autowired
 	private SysUserService sysUserService;
-	
+
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getSysUserListPage")
 	@ResponseBody
@@ -45,6 +45,7 @@ public class SysUserController {
 		jsonObject = JSONObject.parseObject(result);
 		return jsonObject;
 	}
+
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insert(SysUser sysUser) throws Exception {
@@ -88,22 +89,51 @@ public class SysUserController {
 
 		return CommonUtil.resultMsg("SUCCESS", "更新用户成功");
 	}
-	
+
 	@RequestMapping(value = "/updatePassWord", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> updatePassWord(String passWordOld,String passWordNew,String passWordNewAg) throws Exception {
+	public Map<String, Object> updatePassWord(String passWordOld, String passWordNew, String passWordNewAg)
+			throws Exception {
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
-		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
-		if(!passWordNew.equals(passWordNewAg)){
+		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		if (!passWordNew.equals(passWordNewAg)) {
 			return CommonUtil.resultMsg("FAIL", "新密码输入不一致");
 		}
-	    passWordOld = md5.getMD5String(passWordOld);
+		passWordOld = md5.getMD5String(passWordOld);
 		// 校验登陆用户名密码
 		if (null == sysUser.getId()) {
 			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
 		}
-		if(!passWordOld.equals(sysUser.getPassword())){
+		if (!passWordOld.equals(sysUser.getPassword())) {
+			return CommonUtil.resultMsg("FAIL", "密码输入错误");
+		}
+		sysUser.setPassword(passWordNew);
+		int flag = sysUserService.updateByPrimaryKeySelective(sysUser);
+		if (flag <= 0) {
+			return CommonUtil.resultMsg("FAIL", "更新失败");
+		}
+		return CommonUtil.resultMsg("SUCCESS", "更新用户成功");
+	}
+
+	@RequestMapping(value = "/updateUserPassWord", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateUserPassWord(Integer id, String passWord, String passWordNew, String passWordNewAg)
+			throws Exception {
+
+		if (!passWordNew.equals(passWordNewAg)) {
+			return CommonUtil.resultMsg("FAIL", "新密码输入不一致");
+		}
+		passWord = md5.getMD5String(passWord);
+		// 校验登陆用户名密码
+		if (null == id) {
+			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
+		}
+		SysUser sysUser = sysUserService.selectByPrimaryKey(id);
+		if (null == sysUser) {
+			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
+		}
+		if (!passWord.equals(sysUser.getPassword())) {
 			return CommonUtil.resultMsg("FAIL", "密码输入错误");
 		}
 		sysUser.setPassword(passWordNew);
@@ -129,6 +159,5 @@ public class SysUserController {
 		map.put("date", sysUser);
 		return map;
 	}
-	
-	 
+
 }
