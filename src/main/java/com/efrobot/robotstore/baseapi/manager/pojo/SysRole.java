@@ -17,18 +17,28 @@ public class SysRole implements Serializable {
 
     private String menuId;
     
-    private String Name;//角色成员
+    private String name;//角色成员
 
-    private String exp1;//菜单成员
+    private String exp1;//菜单
 
     private String exp2;//权限信息
     
+    private String nameNum;//权限信息
+
+	public String getNameNum() {
+		return nameNum;
+	}
+
+	public void setNameNum(String nameNum) {
+		this.nameNum = nameNum;
+	}
+
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public static long getSerialversionuid() {
