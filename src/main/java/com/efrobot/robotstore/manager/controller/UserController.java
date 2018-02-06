@@ -49,6 +49,11 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> getAddressAndUserByPhone(User user) throws Exception {
 		Map<String,Object> map = new HashMap<String, Object>();
+		if(null==user.getPhone()||"".equals(user.getPhone())){
+			map.put("resultCode", "FAIL");
+			map.put("msg", "手机号不能为空");		
+			return map;
+		}
 		Integer userid=0;
 		List<Address> adressList=new ArrayList<>();
 		User user2=new User();
