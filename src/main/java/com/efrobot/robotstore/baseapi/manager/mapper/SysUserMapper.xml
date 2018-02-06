@@ -158,7 +158,7 @@
 		r.BUTTON_QX,
 		r.MENU_ID
 		from sys_user us LEFT JOIN sys_role r ON us.ROLE_ID = r.id
-		where id = #{id,jdbcType=INTEGER}
+		where us.id = #{id,jdbcType=INTEGER}
 	</select>
 	<select id="selectByParms" resultMap="BaseResultMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.SysUser">

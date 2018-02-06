@@ -162,5 +162,7 @@
     <if test="userid != null">
 		AND userid = #{userid,jdbcType=INTEGER}
 	</if>
+	ORDER BY
+	status desc
   </select>
 </mapper>
