@@ -293,7 +293,6 @@
 		        	  for(var d in data.field){
 		        		  fd[d.replace("staff_add_","")] = data.field[d];
 		        	  }
-		        	  console.log(fd)
 		        	  $.ajax({
 		        		  url: basePath+"v1/sysuser/insert",
 		        		  type:"POST",
@@ -342,7 +341,17 @@
 		        		  data:fd,
 		        		  success:function(data){
 		        			var json = JSON.parse(data);
-		        			//location.reload();
+		        			if(json.resultCode=="SUCCESS"){
+		        				layui.layer.msg("修改成功", {icon: "6",time:1000},function(){
+					    	    	layui.layer.closeAll();
+					    	    });
+		        			}else{
+		        				layui.layer.msg(json.msg, {
+					    	    	time: 2000,
+					    	    	btn: ['好的'],
+					    			shade: 0.4
+					    	    });
+		        			}
 		        		  }
 		        	  })
 		        	  return false;
