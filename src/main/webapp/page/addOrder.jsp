@@ -385,7 +385,7 @@
             html.push('</div></div>');
             html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="" lay-verify="required|length100"></div>');
             html.push('</div>');
-            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="area" id="area" value=""><input type="hidden" name="userid" id="userid" value="'+id+'">');
+            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="area" id="area" value=""><input type="hidden" name="userid" id="userid" value="'+$('input[name="userId"]').val()+'">');
             html.push('<div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="address">确定</button></div>');
             html.push('</form></article>');
             layer.open({
