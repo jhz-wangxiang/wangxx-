@@ -52,7 +52,7 @@ public class AddressController {
 	@ResponseBody
 	public Map<String, Object> updateAddress(Address record ) throws Exception {
 		int result = -1;
-		result = addressService.updateByPrimaryKey(record);
+		result = addressService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1)

@@ -264,6 +264,11 @@
                 if(json.userid){
                     $('input[name="userId"]').val(json.userid);
                 }
+                if(json.user.name){
+                    if(!$('input[name="name"]').val()){
+                        $('input[name="name"]').val(json.user.name);
+                    }
+                }
             }
         })
     }
@@ -350,7 +355,7 @@
                                         type: "POST",
                                         success: function (res) {
                                             layer.closeAll();
-                                            initAddress();
+                                            initAddress('',$('input[name="userId"]').val());
                                         }
                                     })
                                     return false;
@@ -413,7 +418,7 @@
                                 type: "POST",
                                 success: function (res) {
                                     layer.closeAll();
-                                    initAddress(true);
+                                    initAddress(true,$('input[name="userId"]').val());
                                 }
                             })
                             return false;
@@ -446,7 +451,7 @@
                 data:{id:id},
                 success: function (res) {
                     layer.close(index);
-                    initAddress();
+                    initAddress('',$('input[name="userId"]').val());
                 }
             })
 
