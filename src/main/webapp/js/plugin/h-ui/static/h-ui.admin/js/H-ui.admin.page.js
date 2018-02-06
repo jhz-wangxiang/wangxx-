@@ -21,23 +21,46 @@ function getskincookie(){
 /*个人信息*/
 function myselfinfo(){
     var html = [];
-    html.push('<div class="pd-20 cl">');
-    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">原始密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="password"></div><div class="col-sm-2 text-c status-icon-color os"><i class="Hui-iconfont Hui-iconfont-shenhe-tongguo"></i></div></div>');
-    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="new"></div><div class="col-sm-2 text-c status-icon-color ns"><i class="Hui-iconfont Hui-iconfont-shenhe-tongguo"></i></div></div>');
-    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">确认新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="new_r"></div><div class="col-sm-2 text-c status-icon-color nrs"><i class="Hui-iconfont Hui-iconfont-shenhe-tongguo"></i></div></div>');
-    html.push('<div class="mb-10 cl text-c"><button type="button" class="btn btn-primary radius" id="pwd_btn">确认</button></div>');
+    html.push('<div class="pd-20 cl"><form class="layui-form" id="user_pwd">');
+    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">原始密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordOld" lay-verify="required"></div></div>');
+    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordNew" lay-verify="required"></div></div>');
+    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">确认新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordNewAg" lay-verify="required"></div></div>');
+    html.push('<div class="mb-10 cl text-c"><button type="button" class="btn btn-primary radius" id="pwd_btn" lay-submit="" lay-filter="user_pwd">确认</button></form></div>');
     html.push('</div>');
-    layer.open({
-        type: 1,
-        area: '500px',
-        fix: false,
-        shade:0.4,
-        title: '修改密码',
-        content: html.join(""),
-        success: function(layero, index){
-            //Common.loadScript(basePath+'static/h-ui.admin/js/checkpwd.js',function(){},"utf-8");
-        }
-    });
+    layui.use(['form','layer'],function(){
+		var form = layui.form;
+		layui.layer.open({
+		     type: 1
+		    ,title: '修改密码'
+		    ,area: '600px'
+		    ,maxmin: true
+		    ,content: html.join("")
+		    ,success: function(layero, index){
+		        form.on('submit(user_pwd)', function(data){
+		        	$.ajax({
+	        		  url: basePath+"v1/sysuser/updatePassWord",
+	        		  type:"POST",
+	        		  data:data.field,
+	        		  success:function(data){
+	        			var json = JSON.parse(data);
+	        			if(json.resultCode=="SUCCESS"){
+	        				layui.layer.msg("修改成功", {icon: "6",time:1000},function(){
+				    	    	layui.layer.closeAll();
+				    	    });
+	        			}else{
+	        				layui.layer.msg(json.msg, {
+				    	    	time: 2000,
+				    	    	btn: ['好的'],
+				    			shade: 0.4
+				    	    });
+	        			}
+	        		  }
+		        	});
+	        	  return false;
+	        	});
+		    }
+		  });
+	});
 }
 $(function(){
     getskincookie();

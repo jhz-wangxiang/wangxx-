@@ -72,13 +72,18 @@
     var colArr = [
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
-			h.push('<a style="text-decoration:none" onclick="member_stop(this,\'10001\')" href="javascript:;" title="停用"><i class="Hui-iconfont Hui-iconfont-shenhe-tingyong"></i></a>')
+			if(d.status=="1"){
+				h.push('<a style="text-decoration:none" onclick="statusFun(\''+d.id+'\',0)" href="javascript:;" title="停用"><i class="Hui-iconfont Hui-iconfont-shenhe-tingyong"></i></a>')
+			}else{
+				h.push('<a style="text-decoration:none" onclick="statusFun(\''+d.id+'\',1)" href="javascript:;" title="启用"><i class="Hui-iconfont Hui-iconfont-gouxuan"></i></a>')
+			}
 			h.push('<a title="编辑" href="javascript:;" onclick="modifyStaff(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
+			h.push('<a title="修改密码" href="javascript:;" onclick="modifyPwd(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-key"></i></a>');
 		    return h.join("");
 		},minWidth:"100",align:"center"},
 		{field:"status",title:"状态",align:"center",minWidth:"100",templet:function(d){
         	if(d.status=="1"){
-        		return '<span class="label label-success radius">正常</span>';
+        		return '<span class="label label-success radius">启用</span>';
         	}else{
         		return '<span class="label label-defaunt radius">停用</span>';
         	}
@@ -102,6 +107,42 @@
     var limit = 10;
     var formData = "";
     var tableIns ;
+    /*用户-启用-停用*/
+    function statusFun(id,status){
+    	if(status){
+    		var fd = {
+    			title:"确认要启用吗？",
+    			icon:"6",
+    			suc:"已启用!"
+    		}
+    	}else{
+    		var fd = {
+    			title:"确认要停用吗？",
+    			icon:"5",
+    			suc:"已停用!"
+    		}
+    	}
+    	layer.confirm(fd.title,function(index){
+    		var loadindex = layer.load();
+    		$.ajax({
+    			url: basePath+"v1/sysuser/updateStatus",
+    			type:"POST",
+    			data:{id:id,status:status},
+    			success:function(data){
+    				var json = JSON.parse(data)
+    				if(json.resultCode="SUCCESS"){
+    					layer.msg(fd.suc,{icon: fd.icon,time:1000},function(){
+    						layer.close(loadindex);
+    						tableIns.reload();
+    		    		});
+    				}else{
+    					
+    				}
+    			}
+    		})
+    		
+    	});
+    }
 	var searchTable = function(){
 		var data = {
 			name:Common.ltrim($("input[name='name']").val()),
@@ -113,6 +154,18 @@
 		  where: data
 		});
 	}
+	var getRoleId = function(){
+		var j;
+		$.ajax({
+			url: basePath+"v1/role/getRoleAll",
+			async:false, 
+			type:"POST",
+			success:function(m){
+				j = JSON.parse(m);
+			}
+		});
+		return j;
+	}
 	var modifyStaff = function(id){
 		$.ajax({
 			url: basePath+"v1/sysuser/getSysUserListPage",
@@ -123,18 +176,30 @@
 				id:id
 			},
 			success:function(data){
+				var rId = getRoleId();
 				var json = JSON.parse(data);
 				var html = [];
 				html.push('<div class="pd-20"><form class="layui-form" action="">');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">账号</label>');
-				html.push('<div class="layui-input-block"><input type="text" name="username" autocomplete="off" value="'+json.list[0].username+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" name="modifyStaffusername" autocomplete="off" value="'+json.list[0].username+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">员工名称</label>');
-				html.push('<div class="layui-input-block"><input type="text" name="name" autocomplete="off" value="'+json.list[0].name+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" name="modifyStaffname" autocomplete="off" value="'+json.list[0].name+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-form-item"><label class="layui-form-label">员工角色</label>');
+				html.push('<div class="layui-input-block"><select name="modifyStaffrole" class="select">');
+				for(var i=0;i<rId.length;i++){
+					if(json.list[0].roleId==rId[i].id){
+						html.push('<option value="'+rId[i].id+'" selected>'+rId[i].roleName+'</option>');
+					}else{
+						html.push('<option value="'+rId[i].id+'">'+rId[i].roleName+'</option>');
+					}
+				}
+				html.push('</select></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">联系电话</label>');
-				html.push('<div class="layui-input-block"><input type="text" name="phone" autocomplete="off" value="'+json.list[0].phone+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" name="modifyStaffphone" autocomplete="off" value="'+json.list[0].phone+'" class="layui-input"></div></div>');
 				html.push('</form></div>');
 				layui.use(['form','layer'],function(){
 					var form = layui.form;
+					
 					var formData = {
 						id:id
 					};
@@ -143,12 +208,17 @@
 					    ,title: '账号信息'
 					    ,area: '600px'
 					    ,maxmin: true
-					    ,content: html.join("")
+					    ,content: html.join(""),
+					    success:function(){
+					    	form.render('select');
+					    }
 					    ,btn: ['确认', '取消']
 					    ,yes: function(){
-					    	formData.username = Common.ltrim(jQuery("input[name='username']").val());
-					    	formData.phone = Common.ltrim(jQuery("input[name='phone']").val());
-					    	if(formData.username!="" && formData.phone !=""){
+					    	formData.username = Common.ltrim(jQuery("input[name='modifyStaffusername']").val());
+					    	formData.name = Common.ltrim(jQuery("input[name='modifyStaffname']").val());
+					    	formData.phone = Common.ltrim(jQuery("input[name='modifyStaffphone']").val());
+					    	formData.roleId = $("select[name='modifyStaffrole']").val()==""?null:$("select[name='modifyStaffrole']").val();
+					    	if(formData.username!="" && formData.phone !="" && formData.phone != "" && formData.roleId != ""){
 					    		$.ajax({
 						    		type:'POST',
 						    		url:basePath+'v1/sysuser/updateStatus',
@@ -190,18 +260,26 @@
 	}
 	var staff_add = function(){
 		var html = [];
+		var rId = getRoleId();
 		html.push('<div class="pd-20"><form class="layui-form" id="staff_add">');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">账号</label>');
-		html.push('<div class="layui-input-block"><input type="text" name="username" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="text" name="staff_add_username" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">员工名称</label>');
-		html.push('<div class="layui-input-block"><input type="text" name="name" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="text" name="staff_add_name" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">员工密码</label>');
+		html.push('<div class="layui-input-block"><input type="password" name="staff_add_password" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">员工角色</label>');
+		html.push('<div class="layui-input-block"><select name="staff_add_roleId" class="select">');
+		for(var i=0;i<rId.length;i++){
+			html.push('<option value="'+rId[i].id+'">'+rId[i].roleName+'</option>');
+		}
+		html.push('</select></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">联系电话</label>');
-		html.push('<div class="layui-input-block"><input type="text" name="phone" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="text" name="staff_add_phone" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
 		html.push('<div class="layui-layer-btn layui-layer-btn-"><button class="btn btn-primary radius" lay-submit="" lay-filter="staff_add">确认</button></div>');
 		html.push('</form></div>');
 		layui.use(['form','layer'],function(){
 			var form = layui.form;
-			//form.render(null, 'test1');
 			layui.layer.open({
 			     type: 1
 			    ,title: '新增账号'
@@ -209,11 +287,64 @@
 			    ,maxmin: true
 			    ,content: html.join("")
 			    ,success: function(layero, index){
-			        console.log(layero, index);
+			    	form.render('select');
 			        form.on('submit(staff_add)', function(data){
-		        	  console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-		        	  console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-		        	  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+		        	  var fd = {};
+		        	  for(var d in data.field){
+		        		  fd[d.replace("staff_add_","")] = data.field[d];
+		        	  }
+		        	  console.log(fd)
+		        	  $.ajax({
+		        		  url: basePath+"v1/sysuser/insert",
+		        		  type:"POST",
+		        		  data:fd,
+		        		  success:function(data){
+		        			var json = JSON.parse(data);
+		        			location.reload();
+		        		  }
+		        	  })
+		        	  return false;
+		        	});
+			    }
+			  });
+		});
+	}
+	var modifyPwd = function(id){
+		var html = [];
+		html.push('<div class="pd-20"><form class="layui-form" id="staff_pwd">');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">原密码</label>');
+		html.push('<div class="layui-input-block"><input type="text" name="staff_add_username" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">新密码</label>');
+		html.push('<div class="layui-input-block"><input type="text" name="staff_add_name" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">确认新密码</label>');
+		html.push('<div class="layui-input-block"><input type="password" name="staff_add_password" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-layer-btn layui-layer-btn-"><button class="btn btn-primary radius" lay-submit="" lay-filter="staff_pwd">确认</button></div>');
+		html.push('</form></div>');
+		layui.use(['form','layer'],function(){
+			var form = layui.form;
+			layui.layer.open({
+			     type: 1
+			    ,title: '修改密码'
+			    ,area: '600px'
+			    ,maxmin: true
+			    ,content: html.join("")
+			    ,success: function(layero, index){
+			        form.on('submit(staff_pwd)', function(data){
+			        	console.log(data.field)
+		        	 /*  var fd = {};
+		        	  for(var d in data.field){
+		        		  fd[d.replace("staff_add_","")] = data.field[d];
+		        	  }
+		        	  $.ajax({
+		        		  url: basePath+"v1/sysuser/insert",
+		        		  type:"POST",
+		        		  data:fd,
+		        		  success:function(data){
+		        			var json = JSON.parse(data);
+		        			location.reload();
+		        		  }
+		        	  }) */
+		        	  return false;
 		        	});
 			    }
 			  });
