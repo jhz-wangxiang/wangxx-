@@ -313,11 +313,11 @@
 		var html = [];
 		html.push('<div class="pd-20"><form class="layui-form" id="staff_pwd">');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">原密码</label>');
-		html.push('<div class="layui-input-block"><input type="text" name="staff_add_username" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWord" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">新密码</label>');
-		html.push('<div class="layui-input-block"><input type="text" name="staff_add_name" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWordNew" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">确认新密码</label>');
-		html.push('<div class="layui-input-block"><input type="password" name="staff_add_password" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWordNewAg" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
 		html.push('<div class="layui-layer-btn layui-layer-btn-"><button class="btn btn-primary radius" lay-submit="" lay-filter="staff_pwd">确认</button></div>');
 		html.push('</form></div>');
 		layui.use(['form','layer'],function(){
@@ -330,20 +330,21 @@
 			    ,content: html.join("")
 			    ,success: function(layero, index){
 			        form.on('submit(staff_pwd)', function(data){
-			        	console.log(data.field)
-		        	 /*  var fd = {};
+			        	
+		        	  var fd = {id:id};
 		        	  for(var d in data.field){
-		        		  fd[d.replace("staff_add_","")] = data.field[d];
+		        		  fd[d.replace("staff_pwd_","")] = data.field[d];
 		        	  }
+		        	  console.log(fd)
 		        	  $.ajax({
-		        		  url: basePath+"v1/sysuser/insert",
+		        		  url: basePath+"v1/sysuser/updateUserPassWord",
 		        		  type:"POST",
 		        		  data:fd,
 		        		  success:function(data){
 		        			var json = JSON.parse(data);
-		        			location.reload();
+		        			//location.reload();
 		        		  }
-		        	  }) */
+		        	  })
 		        	  return false;
 		        	});
 			    }
