@@ -41,4 +41,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 		return sysRoleMapper.deleteByPrimaryKey(id);
 	}
 	
+	@Override
+	public List<SysRole> getRoleAll(SysRole record){
+		List<SysRole> list= sysRoleMapper.selectByParms(record);
+		return list;
+	}
+	
 }

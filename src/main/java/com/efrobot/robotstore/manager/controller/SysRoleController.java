@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
@@ -87,5 +88,10 @@ public class SysRoleController {
 		}
 		
 	}
-
+	@RequestMapping(value = "/getRoleAll", method = RequestMethod.POST)
+	@ResponseBody
+	public List<SysRole> getRoleAll(SysRole record) throws Exception {
+		List<SysRole> list=sysRoleService.getRoleAll(record);
+		return list;
+	}
 }

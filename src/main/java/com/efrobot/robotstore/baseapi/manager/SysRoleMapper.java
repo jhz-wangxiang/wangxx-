@@ -19,4 +19,5 @@ public interface SysRoleMapper {
     int updateByPrimaryKey(SysRole record);
     
     List<SysRole> selectByParms(SysRole record);
+    
 }
