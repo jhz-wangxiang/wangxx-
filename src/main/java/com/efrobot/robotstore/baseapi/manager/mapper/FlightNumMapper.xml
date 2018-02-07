@@ -20,7 +20,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, flight_num, compay, start_time, end_time, status, cteate_date, exp1,
-		exp2,start_hour,end_hour,,start_place,end_place
+		exp2,start_hour,end_hour,start_place,end_place
 	</sql>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
