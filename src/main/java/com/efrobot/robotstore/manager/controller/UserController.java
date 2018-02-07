@@ -60,6 +60,7 @@ public class UserController {
 		user2.setPhone(user.getPhone());
 		List<User> list=userService.selectByUser(user2);
 		if(list.size()==0){
+			user.setExp2("是");
 			userService.insertSelective(user);
 			userid=user.getId();
 			map.put("user", user);	
@@ -106,6 +107,7 @@ public class UserController {
 		if(list.size()>0){
 			return CommonUtil.resultMsg("FAIL", "用户信息已经存在!!!");
 		}
+		record.setExp2("是");
 		result = userService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
