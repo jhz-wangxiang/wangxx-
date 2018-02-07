@@ -274,7 +274,8 @@
     }
     /**
      * 地址列表初始化
-     * @param addressArr 地址列表
+     * @param isAdd 是否是新增地址后获取列表
+     * @param userId 用户id
      */
     function initAddress(isAdd,userId) {
         $.ajax({
