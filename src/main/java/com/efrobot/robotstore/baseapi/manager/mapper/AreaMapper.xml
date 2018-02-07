@@ -108,4 +108,14 @@
     <include refid="Base_Column_List" />
     from area
   </select>
+  <select id="selectByParms" resultMap="BaseResultMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Area">
+		select
+		<include refid="Base_Column_List" />
+		from area
+		where 1=1
+		<if test="area != null and !area.isEmpty() and area != ''">
+			and area = #{area,jdbcType=VARCHAR}
+		</if>
+	</select>
 </mapper>
