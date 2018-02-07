@@ -147,4 +147,16 @@
     <include refid="Base_Column_List" />
     from flight_num
   </select>
+  <select id="selectByParms" resultMap="BaseResultMap" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.FlightNum" >
+    select 
+    <include refid="Base_Column_List" />
+    from flight_num
+    where 1=1
+	<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
+		and flight_num = #{flightNum,jdbcType=VARCHAR}
+	</if>
+	<if test="compay != null and !compay.isEmpty() and compay != ''">
+		and compay = #{compay,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>

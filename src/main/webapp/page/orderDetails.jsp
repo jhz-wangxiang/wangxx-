@@ -35,7 +35,7 @@
         		</span>
         		<span id="statusBox" class="r"></span>
         	</div>
-            <form action="" method="post" class="form form-horizontal" id="form-details">
+            <form action="" method="post" class="form form-horizontal layui-form" id="form-details">
                 <h4>订单信息</h4>
                 <div class="line"></div>
                 <div class="mt-20">
@@ -167,6 +167,23 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">所在区域：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline" style="width: 162px;">
+                                        <select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select>
+                                    </div>
+                                    <div class="layui-input-inline" style="width: 162px;">
+                                        <select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select>
+                                    </div>
+                                    <div class="layui-input-inline" style="width: 162px;">
+                                        <select id="areaSelect" name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区">海淀区</option><option value="昌平区">昌平区</option><option value="朝阳区">朝阳区</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="province" id="province" value=""><input type="hidden" name="city" id="city" value=""><input type="hidden" name="area" id="area" value="">
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">详细地址：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <textarea class="textarea" id = "address" name="address"></textarea>
@@ -188,6 +205,7 @@
         </article>
     </div>
 </section>
+<input type="hidden" name="userId" id="userId">
 <jsp:include page="_footer.jsp"></jsp:include>
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
@@ -195,7 +213,10 @@
 	var basePath = "<%=basePath %>";
 	if(id == "" || id == null || id == undefined){
 		location.href = basePath + "v1/page/orderList";
-	}   
+	}
+	layui.use(['form'], function () {
+      var layform = layui.form;
+  })
 	var dtime = function(id,t){
 		layui.use('laydate', function(){
 			  var laydate = layui.laydate;
@@ -253,9 +274,22 @@
     		$("#statusBox").html(h.join(""));
     		$("#history").html('<a class="btn btn-default radius" href="'+basePath+'v1/page/orderHistory?id='+json.orderNo+'">订单历史记录</a>');
     		updateOrder();
+    		$('#areaSelect').val(json.area);
+        layui.use(['form'], function () {
+            var layform = layui.form;
+            layform.render();
+            layform.on('select(province)',function (data) {
+                $('input[name="province"]').val(data.value);
+            })
+            layform.on('select(city)',function (data) {
+                $('input[name="city"]').val(data.value);
+            })
+            layform.on('select(area)',function (data) {
+                $('input[name="area"]').val(data.value);
+            })
+        })
     	}
     });
-    
     var updateOrder = function(){
     	$("#modifyDetails").click(function(){
     		$.ajax({

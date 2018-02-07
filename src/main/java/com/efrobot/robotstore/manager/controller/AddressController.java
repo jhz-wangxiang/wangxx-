@@ -33,10 +33,15 @@ public class AddressController {
 			return CommonUtil.resultMsg("FAIL", "用户信息不存在!");
 		}
 		List<Address> list=addressService.getAddress(record);
+		record.setStatus(1);
 		if(list.size()==0){
 			record.setStatus(1);
 		}else{
-			record.setStatus(0);
+			for(Address ad:list){
+				if(null!=record.getStatus()&&"1".equals(record.getStatus())){
+					record.setStatus(0);
+				}
+			}
 		}
 		result = addressService.insertSelective(record);
 		if (result == 0) {
