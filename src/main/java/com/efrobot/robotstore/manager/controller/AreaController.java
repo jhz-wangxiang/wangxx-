@@ -18,7 +18,7 @@ import com.efrobot.robotstore.manager.service.FlightNumService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.PageInfo;
 
-@RequestMapping("/v1/flight")
+@RequestMapping("/v1/area")
 @Controller
 public class AreaController {
 
