@@ -32,6 +32,7 @@ import com.efrobot.robotstore.manager.service.UserService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.Const;
 import com.efrobot.robotstore.util.PageInfo;
+import com.efrobot.robotstore.util.SerialNum;
 
 
 @RequestMapping("/v1/order")
@@ -97,7 +98,7 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> insertOrder(Order record) throws Exception {
 		int result = -1;
-		String orderNo=CommonUtil.bulidOrderNum("A");
+		String orderNo="A"+SerialNum.getSystemManageOrder();//todo字母+下单日期+航班日期（月日）+航班号（数字部分）+3位顺序数字
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
