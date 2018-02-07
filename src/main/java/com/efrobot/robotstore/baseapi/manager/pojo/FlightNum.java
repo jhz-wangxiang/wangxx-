@@ -12,25 +12,25 @@ public class FlightNum implements Serializable {
 	private static final long serialVersionUID = 1L;
     private Integer id;
 
-    private String flightNum;
+    private String flightNum;//航班号
 
-    private String compay;
+    private String compay;//航站楼
     
-    private String startPlace;
+    private String startPlace;//出发地
     
-    private String endPlace;
+    private String endPlace;//目的地
 
-    private Date startTime;
+    private Date startTime;//开始时间
     
-    private String startTimeStr;
+    private String startTimeStr;//开始时间
     
-    private String startHour;
+    private String startHour;//小时
 
-    private Date endTime;
+    private Date endTime;//结束时间
     
     private String endTimeStr;
     
-    private String endHour;
+    private String endHour;//结束小时
 
     private String status;
 
