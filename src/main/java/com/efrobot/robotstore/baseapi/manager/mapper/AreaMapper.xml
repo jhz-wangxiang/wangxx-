@@ -5,12 +5,12 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
-    <result column="standard" property="standard" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
     <result column="exp1" property="exp1" jdbcType="VARCHAR" />
     <result column="exp2" property="exp2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, area, price, standard, exp1, exp2
+    id, area, price, discount, exp1, exp2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,10 +27,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into area (area, price, 
-      standard, exp1, exp2
+      discount, exp1, exp2
       )
     values (#{area,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{standard,jdbcType=INTEGER}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR}
+      #{discount,jdbcType=INTEGER}, #{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Area" >
@@ -45,8 +45,8 @@
       <if test="price != null" >
         price,
       </if>
-      <if test="standard != null" >
-        standard,
+      <if test="discount != null" >
+        discount,
       </if>
       <if test="exp1 != null" >
         exp1,
@@ -62,8 +62,8 @@
       <if test="price != null" >
         #{price,jdbcType=INTEGER},
       </if>
-      <if test="standard != null" >
-        #{standard,jdbcType=INTEGER},
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
       </if>
       <if test="exp1 != null" >
         #{exp1,jdbcType=VARCHAR},
@@ -82,8 +82,8 @@
       <if test="price != null" >
         price = #{price,jdbcType=INTEGER},
       </if>
-      <if test="standard != null" >
-        standard = #{standard,jdbcType=INTEGER},
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
       </if>
       <if test="exp1 != null" >
         exp1 = #{exp1,jdbcType=VARCHAR},
@@ -98,7 +98,7 @@
     update area
     set area = #{area,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
-      standard = #{standard,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
       exp1 = #{exp1,jdbcType=VARCHAR},
       exp2 = #{exp2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

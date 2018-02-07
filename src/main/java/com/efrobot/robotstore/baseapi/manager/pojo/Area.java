@@ -13,7 +13,7 @@ public class Area implements Serializable {
 
     private Integer price;
 
-    private Integer standard;
+    private Integer discount;
 
     private String exp1;
 
@@ -43,15 +43,21 @@ public class Area implements Serializable {
         this.price = price;
     }
 
-    public Integer getStandard() {
-        return standard;
-    }
 
-    public void setStandard(Integer standard) {
-        this.standard = standard;
-    }
 
-    public String getExp1() {
+    public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getExp1() {
         return exp1;
     }
 
