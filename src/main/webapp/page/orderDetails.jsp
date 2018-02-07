@@ -208,9 +208,8 @@
 	if(id == "" || id == null || id == undefined){
 		location.href = basePath + "v1/page/orderList";
 	}
-	var layform;
 	layui.use(['form'], function () {
-      layform = layui.form;
+      var layform = layui.form;
   })
 	var dtime = function(id,t){
 		layui.use('laydate', function(){
@@ -307,7 +306,10 @@
                           $('input[name="consigneePhone"]').val(json[0].consigneePhone);
                       }
                   }
-                  layform.render();
+                  layui.use(['form'], function () {
+                      var layform = layui.form;
+                      layform.render();
+                  })
               }
           });
       }
