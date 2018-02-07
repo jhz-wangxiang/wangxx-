@@ -98,6 +98,11 @@
 	<if test="channel != null and !channel.isEmpty() and channel != ''">
 		and channel = #{channel,jdbcType=VARCHAR}
 	</if>
+	<if test="exp1 != null and !exp1.isEmpty() and exp1 != ''">
+		and exp1 = #{exp1,jdbcType=VARCHAR}
+	</if>
+	ORDER BY
+	exp1 desc
   </select>
 
 </mapper>

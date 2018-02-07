@@ -1,6 +1,8 @@
 package com.efrobot.robotstore.baseapi.manager.pojo;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FlightNum implements Serializable {
@@ -15,8 +17,12 @@ public class FlightNum implements Serializable {
     private String compay;
 
     private Date startTime;
+    
+    private String startTimeStr;
 
     private Date endTime;
+    
+    private String endTimeStr;
 
     private String status;
 
@@ -26,7 +32,27 @@ public class FlightNum implements Serializable {
 
     private String exp2;
 
-    public Integer getId() {
+    public String getStartTimeStr() {
+		return startTimeStr;
+	}
+
+	public void setStartTimeStr(String startTimeStr) {
+		this.startTimeStr = startTimeStr;
+	}
+
+	public String getEndTimeStr() {
+		return endTimeStr;
+	}
+
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -51,6 +77,16 @@ public class FlightNum implements Serializable {
     }
 
     public Date getStartTime() {
+    	if (null == startTimeStr || "".equals(startTimeStr)) {
+			return startTime;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		try {
+			startTime = sdf.parse(startTimeStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return startTime;
     }
 
@@ -59,6 +95,15 @@ public class FlightNum implements Serializable {
     }
 
     public Date getEndTime() {
+    	if (null == endTimeStr || "".equals(endTimeStr)) {
+			return endTime;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		try {
+			endTime = sdf.parse(endTimeStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
         return endTime;
     }
 

@@ -3,6 +3,7 @@ package com.efrobot.robotstore.baseapi.manager;
 import java.util.List;
 
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
+import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 
 public interface FlightNumMapper {
 
@@ -19,4 +20,6 @@ public interface FlightNumMapper {
     int updateByPrimaryKeySelective(FlightNum record);
 
     int updateByPrimaryKey(FlightNum record);
+    
+    List<FlightNum> selectByParms(FlightNum record);
 }
