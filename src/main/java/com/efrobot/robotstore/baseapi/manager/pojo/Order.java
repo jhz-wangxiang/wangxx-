@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -124,8 +125,18 @@ public class Order implements Serializable {
     private String exp1;
 
     private String exp2;
+    
+    private List<String> list;
 
-    public Date getDeliveryTime() {
+    public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	public Date getDeliveryTime() {
     	if (null == deliveryTimeStr || "".equals(deliveryTimeStr)) {
 			return deliveryTime;
 		}

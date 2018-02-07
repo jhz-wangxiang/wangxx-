@@ -598,6 +598,12 @@
              and now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
             ]]>
 	</if>
+	        <if test="list != null" >
+	        and o.id IN
+		   <foreach collection="list" index="index" open="(" close=")" separator="," item="snss">
+			#{snss,jdbcType=INTEGER}
+		   </foreach>
+       </if>
 	ORDER BY
 	o.create_date desc
 </select>

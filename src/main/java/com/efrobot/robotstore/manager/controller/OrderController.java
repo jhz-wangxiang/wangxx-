@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,24 @@ public class OrderController {
 		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullStringAsEmpty);
 
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getPrintListPage")
+	@ResponseBody
+	public JSONObject getPrintListPage(String ids, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<Order> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		Order record=new Order();
+		record.setList(Arrays.asList(ids.split(",")));
+		rows = orderService.getOrderListPage(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
+		
 		jsonObject = JSONObject.parseObject(result);
 		return jsonObject;
 	}
