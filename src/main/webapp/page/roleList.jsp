@@ -15,7 +15,7 @@
 
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
-	<jsp:param value="role" name="classify"/>
+	<jsp:param value="account" name="classify"/>
 	<jsp:param value="role_list" name="level"/>
 </jsp:include>
 <section class="Hui-article-box">
@@ -36,7 +36,7 @@
                   	</div>
                </div>
             </form>
-            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="staff_add()" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-add"></i> 添加用户</a></span></div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="addRole()" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-add"></i> 添加用户</a></span></div>
             <div class="mt-20">
                 <table class="layui-hide" id="table"></table>
                 <div id="page"></div>
@@ -48,11 +48,12 @@
 <link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
+	var menuArr = [{exp1:"订单列表",menuId:"1"},{exp1:"新建订单",menuId:"2"},{exp1:"异常订单",menuId:"3"},{exp1:"客户账号",menuId:"4"},{exp1:"员工管理",menuId:"5"},{exp1:"角色管理",menuId:"6"},{exp1:"渠道管理",menuId:"7"}];
     var colArr = [
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
 			h.push('<a title="编辑" href="javascript:;" onclick="modifyRole(\''+d.roleName+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
-			h.push('<a title="修改密码" href="javascript:;" onclick="modifyPwd(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-key"></i></a>');
+			h.push('<a title="删除" href="javascript:;" onclick="delRole(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>');
 		    return h.join("");
 		},width:"100",align:"center"},
         {field:"roleName",title:"角色名称",align:"center",width:"100"},
@@ -77,9 +78,21 @@
 		  where: data
 		});
 	}
+	var getStatus = function(){
+		var j;
+		$.ajax({
+			url: basePath+"v1/order/getOrderStatus",
+			async:false, 
+			type:"POST",
+			success:function(m){
+				j = JSON.parse(m);
+			}
+		});
+		return j;
+	}
 	var modifyRole = function(roleName){
 		$.ajax({
-			url: basePath+"v1/role/getRoleListPage",
+			url:basePath+"v1/role/getRoleListPage",
 			type:"POST",
 			data:{
 				pageNumber:"1",
@@ -87,60 +100,191 @@
 				roleName:roleName
 			},
 			success:function(data){
-				var json = JSON.parse(data);
+				var status = getStatus();
 				var html = [];
+				var json = JSON.parse(data);
+				var exp2 = json.list[0].exp2.split(","), 
+					exp1 = json.list[0].exp1.split(","),
+					statusQx = json.list[0].statusQx.split(","),
+					menuId = json.list[0].menuId.split(",");
+				
 				html.push('<div class="pd-20"><form class="layui-form" action="">');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">角色名称：</label>');
-				html.push('<div class="layui-input-block"><input type="text" name="roleName" autocomplete="off" value="'+json.list[0].roleName+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" name="modify_roleName" lay-verify="required" autocomplete="off" value="'+roleName+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">订单状态名称：</label>');
 				html.push('<div class="layui-input-block">');
-				html.push('<input type="checkbox" lay-filter="exp2" value="123" title="发呆" lay-skin="primary">');
+				for(var i=0;i<status.length;i++){
+					statusQx.indexOf(status[i].id+"") === -1 ? html.push('<input type="checkbox" lay-filter="exp2" value="'+status[i].id+'" title="'+status[i].button+'" lay-skin="primary" />') : html.push('<input type="checkbox" lay-filter="exp2" value="'+status[i].id+'" title="'+status[i].button+'" lay-skin="primary" checked />');;  
+		        } 
 				html.push('</div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">菜单名称：</label>');
 				html.push('<div class="layui-input-block">');
-				html.push('<input type="checkbox" lay-filter="exp1" name="" title="发呆" lay-skin="primary">');
-				html.push('<input type="checkbox" lay-filter="exp1" name="" title="发呆" lay-skin="primary">');
-				html.push('<input type="checkbox" lay-filter="exp1" name="" title="发呆" lay-skin="primary">');
+				for(var i=0;i<menuArr.length;i++){  
+					menuId.indexOf(menuArr[i].menuId+"") === -1 ? html.push('<input type="checkbox" lay-filter="exp1" value="'+menuArr[i].menuId+'" title="'+menuArr[i].exp1+'" lay-skin="primary" />') : html.push('<input type="checkbox" lay-filter="exp1" value="'+menuArr[i].menuId+'" title="'+menuArr[i].exp1+'" lay-skin="primary" checked />');;  
+		        } 
 				html.push('</div></div><div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyRole">确认</button></div>');
 				html.push('</form></div>');
 				layui.use(['form','layer'],function(){
 					var form = layui.form;
-					
-					var formData = {
-						//id:id
-					};
 					layui.layer.open({
 					     type: 1
-					    ,title: '账号信息'
+					    ,title: '角色信息'
 					    ,area: '600px'
 					    ,maxmin: true
 					    ,content: html.join(""),
 					    success:function(){
 					    	form.render('checkbox');
 					    	form.on('checkbox(exp2)', function(data){
-					    	  console.log(data.value); //复选框value值，也可以通过data.elem.value得到
-					    	});  
+					    		Common.filter_repeat(exp2,data.elem.title);
+					    		Common.filter_repeat(statusQx,data.value);
+					    	});
+					    	form.on('checkbox(exp1)', function(data){
+					    		Common.filter_repeat(exp1,data.elem.title);
+					    		Common.filter_repeat(menuId,data.value);
+						    });
 					    	form.on('submit(modifyRole)', function(data){
-					    		console.log(data.field)
-					        	  /* var fd = {};
+					    		  if(statusQx.length==0 || menuId.length==0){
+					        		  layui.layer.msg('勾选项不能为空',{icon: 5,time:1000});
+					        		  return false;
+					        	  }
+					        	  var fd = {
+					        		id:json.list[0].id,
+					    			statusQx :statusQx.join(","),
+					    			exp2:exp2.join(","),
+					    			exp1:exp1.join(","),
+					    			menuId:menuId.join(",")
+					    		  };
 					        	  for(var d in data.field){
-					        		  fd[d.replace("staff_add_","")] = data.field[d];
+					        		  fd[d.replace("modify_","")] = data.field[d];
 					        	  }
 					        	  $.ajax({
-					        		  url: basePath+"v1/sysuser/insert",
+					        		  url: basePath+"v1/role/updateRole",
 					        		  type:"POST",
 					        		  data:fd,
-					        		  success:function(data){
-					        			var json = JSON.parse(data);
-					        			location.reload();
+					        		  success:function(d){
+					        			var j = JSON.parse(d);
+						    	    	if(j.resultCode=="SUCCESS"){
+						    	    		layui.layer.msg(j.msg, {
+								    	    	time: 1000,
+								    			shade: 0.4,
+								    	    },function(){
+								    	    	location.reload();
+								    	    });
+						    	    	}else{
+						    	    		layui.layer.msg(j.msg, {
+								    	    	time: 3000,
+								    	    	btn: ['好的'],
+								    			shade: 0.4
+								    	    });
+						    	    	}
 					        		  }
-					        	  }) */
+					        	  })
 					        	  return false;
 					        });
 					    }
 					  });
 				});
 			}
+		})
+	}
+	var addRole = function(){
+		var status = getStatus();
+		var html = [];
+		var exp2 = [] , exp1 = [],statusQx = [] , menuId = [];
+		html.push('<div class="pd-20"><form class="layui-form" action="">');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">角色名称：</label>');
+		html.push('<div class="layui-input-block"><input type="text" name="add_roleName" autocomplete="off" class="layui-input" lay-verify="required"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">订单状态名称：</label>');
+		html.push('<div class="layui-input-block">');
+		for(var i = 0 ;i<status.length;i++){
+			html.push('<input type="checkbox" lay-filter="exp2" value="'+status[i].id+'" title="'+status[i].button+'" lay-skin="primary" />');
+		}
+		html.push('</div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">菜单名称：</label>');
+		html.push('<div class="layui-input-block">');
+		for(var i = 0 ;i<menuArr.length;i++){
+			html.push('<input type="checkbox" lay-filter="exp1" value="'+menuArr[i].menuId+'" title="'+menuArr[i].exp1+'" lay-skin="primary" />');
+		}
+		html.push('</div></div><div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyRole">确认</button></div>');
+		html.push('</form></div>');
+		layui.use(['form','layer'],function(){
+			var form = layui.form;
+			layui.layer.open({
+			     type: 1
+			    ,title: '新增角色'
+			    ,area: '600px'
+			    ,maxmin: true
+			    ,content: html.join(""),
+			    success:function(){
+			    	form.render('checkbox');
+			    	form.on('checkbox(exp2)', function(data){
+			    		Common.filter_repeat(exp2,data.elem.title);
+			    		Common.filter_repeat(statusQx,data.value);
+			    	});
+			    	form.on('checkbox(exp1)', function(data){
+			    		Common.filter_repeat(exp1,data.elem.title);
+			    		Common.filter_repeat(menuId,data.value);
+				    });
+			    	form.on('submit(modifyRole)', function(data){
+			    		  if(statusQx.length==0 || menuId.length==0){
+			        		  layui.layer.msg('勾选项不能为空',{icon: 5,time:1000});
+			        		  return false;
+			        	  }
+			        	  var fd = {
+			    			statusQx :statusQx.join(","),
+			    			exp2:exp2.join(","),
+			    			exp1:exp1.join(","),
+			    			menuId:menuId.join(",")
+			    		  };
+			        	  for(var d in data.field){
+			        		  fd[d.replace("add_","")] = data.field[d];
+			        	  }
+			        	  $.ajax({
+			        		  url: basePath+"v1/role/insertRole",
+			        		  type:"POST",
+			        		  data:fd,
+			        		  success:function(d){
+			        			var j = JSON.parse(d);
+				    	    	if(j.resultCode=="SUCCESS"){
+				    	    		layui.layer.msg(j.msg, {
+						    	    	time: 1000,
+						    			shade: 0.4,
+						    	    },function(){
+						    	    	location.reload();
+						    	    });
+				    	    	}else{
+				    	    		layui.layer.msg(j.msg, {
+						    	    	time: 3000,
+						    	    	btn: ['好的'],
+						    			shade: 0.4
+						    	    });
+				    	    	}
+			        		  }
+			        	  })
+			        	  return false;
+			        });
+			    }
+			  });
+		});
+	}
+	var delRole = function(id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				url: basePath+"v1/channel/deleteChannel",
+				type:"POST",
+				data:{id:id},
+				success:function(data){
+					var j = JSON.parse(data);
+					if(j.resultCode=="SUCCESS"){
+						layer.msg('已删除!',{icon:1,time:1000},function(){
+			    	    	location.reload();
+			    	    });
+					}else{
+						layer.msg(j.msg,{icon:1,time:1000});
+					}
+				}
+			})
+			
 		});
 	}
     layui.use(['form','table'],function(){

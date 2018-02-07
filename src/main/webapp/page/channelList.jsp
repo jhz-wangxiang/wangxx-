@@ -15,7 +15,7 @@
 
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
-	<jsp:param value="channel" name="classify"/>
+	<jsp:param value="account" name="classify"/>
 	<jsp:param value="channel_list" name="level"/>
 </jsp:include>
 <section class="Hui-article-box">
@@ -43,7 +43,7 @@
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
 			h.push('<a title="编辑折扣" href="javascript:;" onclick="modifyChannel(\''+d.channel+'\',\''+d.discount+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
-			h.push('<a title="删除" href="javascript:;" onclick="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>');
+			h.push('<a title="删除" href="javascript:;" onclick="delChannel(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>');
 		    return h.join("");
 		},width:"100",align:"center"},
         {field:"channel",title:"渠道名称",align:"center",width:"100"},
@@ -168,6 +168,26 @@
 			    	layui.layer.closeAll();
 			    }
 			  });
+		});
+	}
+	var delChannel = function(id){
+		layer.confirm('确认要删除吗？',function(index){
+			$.ajax({
+				url: basePath+"v1/role/deleteRole",
+				type:"POST",
+				data:{id:id},
+				success:function(data){
+					var j = JSON.parse(data);
+					if(j.resultCode=="SUCCESS"){
+						layer.msg('已删除!',{icon:1,time:1000},function(){
+			    	    	location.reload();
+			    	    });
+					}else{
+						layer.msg(j.msg,{icon:1,time:1000});
+					}
+				}
+			})
+			
 		});
 	}
     layui.use(['form','table'],function(){

@@ -253,6 +253,16 @@ var Common = function () {
 	   		    layer.close();
 	   		  }
 	   		}); 
+	    },
+	    filter_repeat:function(arr,data){
+	    	var len=arr.length+1;
+	    	   for(var i=0;i<len;i++){
+	    	      if(data == arr[i]){
+	    	    	  arr.splice(i,1);
+	    	         return;
+	    	      }
+	    	   };
+	    	   return arr.push(data);
 	    }
     }
 }();
