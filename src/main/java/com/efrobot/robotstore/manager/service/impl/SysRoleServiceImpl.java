@@ -33,7 +33,11 @@ public class SysRoleServiceImpl implements SysRoleService {
 			record.setRoleId(r.getId());
 			List<SysUser> list2=sysUserMapper.selectByParms(record);
 			r.setNameNum(list2.size()+"");
-			r.setName(StringUtils.join(list2.toArray(), ","));
+			String name="";
+			for(SysUser sy:list2){
+				name=name+sy.getName()+",";
+			}
+			r.setName(name);
 		} 
 		PageInfo<SysRole> page = new PageInfo<SysRole>(list);
 		return page;

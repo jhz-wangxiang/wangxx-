@@ -15,14 +15,22 @@ public class FlightNum implements Serializable {
     private String flightNum;
 
     private String compay;
+    
+    private String startPlace;
+    
+    private String endPlace;
 
     private Date startTime;
     
     private String startTimeStr;
+    
+    private String startHour;
 
     private Date endTime;
     
     private String endTimeStr;
+    
+    private String endHour;
 
     private String status;
 
@@ -31,8 +39,42 @@ public class FlightNum implements Serializable {
     private String exp1;
 
     private String exp2;
+    
 
-    public String getStartTimeStr() {
+    public String getStartPlace() {
+		return startPlace;
+	}
+
+	public void setStartPlace(String startPlace) {
+		this.startPlace = startPlace;
+	}
+
+	public String getEndPlace() {
+		return endPlace;
+	}
+
+	public void setEndPlace(String endPlace) {
+		this.endPlace = endPlace;
+	}
+
+	public String getStartHour() {
+		return startHour;
+	}
+
+	public void setStartHour(String startHour) {
+		this.startHour = startHour;
+	}
+
+
+	public String getEndHour() {
+		return endHour;
+	}
+
+	public void setEndHour(String endHour) {
+		this.endHour = endHour;
+	}
+
+	public String getStartTimeStr() {
 		return startTimeStr;
 	}
 
@@ -80,7 +122,7 @@ public class FlightNum implements Serializable {
     	if (null == startTimeStr || "".equals(startTimeStr)) {
 			return startTime;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			startTime = sdf.parse(startTimeStr);
 		} catch (ParseException e) {
@@ -98,7 +140,7 @@ public class FlightNum implements Serializable {
     	if (null == endTimeStr || "".equals(endTimeStr)) {
 			return endTime;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			endTime = sdf.parse(endTimeStr);
 		} catch (ParseException e) {
