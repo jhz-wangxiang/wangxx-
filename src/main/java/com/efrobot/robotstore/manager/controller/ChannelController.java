@@ -38,6 +38,7 @@ public class ChannelController {
 		PageInfo<Channel> rows = null;
 		JSONObject obj = new JSONObject();
 		String result = "";
+		record.setExp1("1");
 		rows = channelService.getChannelListPage(record, pageNumber, pageSize);
 		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullStringAsEmpty);
@@ -50,6 +51,7 @@ public class ChannelController {
 	@ResponseBody
 	public Map<String, Object> insertChannel(Channel record) throws Exception {
 		int result = -1;
+		record.setExp1("1");
 		result = channelService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -74,20 +76,21 @@ public class ChannelController {
 		}
 		
 	}
-//	
-//	@RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Map<String, Object> deleteRole(Integer id) throws Exception {
-//		int result = -1;
-//		result = sysRoleService.deleteByPrimaryKey(id);
-//		if (result == 0) {
-//			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
-//		} else if (result == 1){
-//			return CommonUtil.resultMsg("SUCCESS", "刪除成功");
-//		}else {
-//			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
-//		}
-//	}
+	
+	@RequestMapping(value = "/deleteChannel", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteChannel(Channel record) throws Exception {
+		int result = -1;
+		record.setExp1("0");
+		result = channelService.updateByPrimaryKeySelective(record);
+		if (result == 0) {
+			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
+		} else if (result == 1){
+			return CommonUtil.resultMsg("SUCCESS", "修改成功");
+		}else {
+			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
+		}
+	}
 //	
 //	@RequestMapping(value = "/getRoleAll", method = RequestMethod.POST)
 //	@ResponseBody
