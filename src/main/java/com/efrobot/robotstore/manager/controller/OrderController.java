@@ -251,6 +251,7 @@ public class OrderController {
 	@RequestMapping(value = "/getChannel", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Channel> getChannel(Channel record) throws Exception {
+		record.setExp1("1");
 		List<Channel> list=orderService.getChannel(record);
 		return list;
 	}
