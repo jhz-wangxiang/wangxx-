@@ -141,6 +141,15 @@ public class UserController {
 		}else{
 			record.setExp1("未");
 		}
+		User user2=new User();
+		user2.setPhone(record.getPhone());
+		List<User> list=userService.selectByUser(user2);
+		if(list.size()>0){
+			User us=list.get(0);
+			if(us.getId()!=record.getId()){
+				return CommonUtil.resultMsg("FAIL", "用户信息已经存在!!!");
+			}
+		}
 		result = userService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
