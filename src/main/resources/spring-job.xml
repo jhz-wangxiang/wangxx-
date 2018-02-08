@@ -17,6 +17,7 @@
 	<bean id="CronTriggerBean1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="getWXAccessJobMethod"></property>
 		<!--每隔10秒同步一次 -->
+		<!-- <property name="cronExpression" value="/* * 1 * * ?"></property> -->
 		<property name="cronExpression" value="/4 * * * * ?"></property>
 	</bean>
 
