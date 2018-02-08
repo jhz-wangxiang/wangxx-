@@ -202,8 +202,12 @@
                 data: $('#form-admin-add').serialize(),
                 success: function (res){
                     var json = JSON.parse(res);
-                    if(json.resultCode == 'SUCCESS'){
-                        window.location.href= basePath + 'v1/page/orderList';
+                    if(json.resultCode=="SUCCESS"){
+                        layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+                            window.location.href= basePath + 'v1/page/orderList';
+                        });
+                    }else{
+                        layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
                     }
                 }
             })
@@ -443,8 +447,12 @@
     		success: function (res){
     			var json = JSON.parse(res);
     			if(json.resultCode == 'SUCCESS'){
-    				window.location.href= basePath + 'v1/page/orderList';
-    			}
+              layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+                  window.location.href= basePath + 'v1/page/orderList';
+              });
+    			}else{
+              layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
+          }
     		}
     	})
     }

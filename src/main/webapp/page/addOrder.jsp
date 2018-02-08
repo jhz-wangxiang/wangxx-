@@ -224,7 +224,11 @@
                             success: function (res){
                                 var json = JSON.parse(res);
                                 if(json.resultCode == 'SUCCESS'){
-                                    window.location.href= basePath + 'v1/page/orderList';
+                                    layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+                                        window.location.href= basePath + 'v1/page/orderList';
+                                    });
+                                }else{
+                                    layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
                                 }
                             }
                         })
@@ -281,6 +285,9 @@
                         $('input[name="name"]').val(json.user.name);
                     }
                 }
+            },
+            error : function() {
+                alert('查询异常');
             }
         })
     }
@@ -317,6 +324,9 @@
                     $('input[name="consigneePhone"]').val(json[0].consigneePhone);
                 }
                 layform.render();
+            },
+            error : function() {
+                alert('查询异常');
             }
         });
     }
@@ -389,6 +399,9 @@
                             })
                         }
                     });
+                },
+                error : function() {
+                    alert('查询异常');
                 }
             })
         }else{
@@ -432,6 +445,9 @@
                                 success: function (res) {
                                     layer.closeAll();
                                     initAddress(true,$('input[name="userId"]').val());
+                                },
+                                error : function() {
+                                    alert('查询异常');
                                 }
                             })
                             return false;
@@ -465,7 +481,7 @@
                 success: function (res) {
                     layer.close(index);
                     initAddress('',$('input[name="userId"]').val());
-                }
+                },
             })
 
         });
