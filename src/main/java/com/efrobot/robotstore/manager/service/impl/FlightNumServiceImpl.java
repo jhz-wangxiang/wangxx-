@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,16 +60,26 @@ public class FlightNumServiceImpl implements FlightNumService {
 		for (String[] arrs : list) {
 			FlightNum manager = new FlightNum();
 			try {
-				manager.setFlightNum(arrs[0]);//
+				manager.setFlightNum(arrs[0]);//arrs[64] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[64])
 				manager.setCompay(arrs[1]);;
 				manager.setStartPlace(arrs[2]);
 				manager.setEndPlace(arrs[3]);
-				manager.setStartTimeStr(arrs[4]);
-				manager.setEndTimeStr(arrs[5]);
+				manager.setStartTime(arrs[4] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[4]));
+				manager.setEndTime(arrs[5] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[5]));
 				manager.setStartHour(arrs[6]);
 				manager.setEndHour(arrs[7]);
 				manager.setExp1(arrs[8]);
-				flightNumMapper.insertSelective(manager);
+				
+				FlightNum flightNum = new FlightNum();
+				flightNum.setFlightNum(arrs[0]);
+				List<FlightNum> list2=flightNumMapper.selectByParms(flightNum);
+				if(list2.size()==0){
+					flightNumMapper.insertSelective(manager);
+				}else
+				{
+					manager.setId(list2.get(0).getId());
+					flightNumMapper.updateByPrimaryKeySelective(manager);
+				}
 				result.put("resultCode", "SUCCESS");// 状态码
 				result.put("msg", "导入成功");
 			} catch (Exception e) {

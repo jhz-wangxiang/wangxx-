@@ -90,6 +90,7 @@ public class FlightNumController {
 		}
 	}
 	@RequestMapping(value = "/importFlightNum")
+	@ResponseBody
 	public Map<String, Object> importFlightNum(MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
 		try {

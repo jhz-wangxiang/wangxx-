@@ -117,5 +117,8 @@
 		<if test="area != null and !area.isEmpty() and area != ''">
 			and area = #{area,jdbcType=VARCHAR}
 		</if>
+		<if test="id != null">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
 	</select>
 </mapper>

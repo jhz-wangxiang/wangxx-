@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
+import com.efrobot.robotstore.manager.service.AreaService;
 import com.efrobot.robotstore.manager.service.FlightNumService;
 import com.efrobot.robotstore.manager.service.OrderService;
 import com.efrobot.robotstore.manager.service.UserService;
@@ -43,6 +45,8 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private AreaService areaService;
 
 	@Autowired
 	private FlightNumService flightNumService;
@@ -150,6 +154,26 @@ public class OrderController {
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
 		record.setOperator("柜台" + sysUser.getName());
+		//价格计算
+		float c=1;
+		float a=1;
+		int p=1;
+		if(null!=record.getChannelId()){//渠道
+			Channel ch=new Channel();
+			ch.setId(record.getChannelId());
+	        List<Channel> listch = orderService.getChannel(ch);
+	        c=listch.get(0).getDiscount().longValue();
+		}
+		if(null!=record.getAreaId()){//區域
+			Area ar=new Area();
+			ar.setId(record.getAreaId());
+			List<Area> listch = areaService.selectByParms(ar);
+			a=listch.get(0).getDiscount().longValue();
+			p=listch.get(0).getPrice();
+		}
+
+		int num= Integer.parseInt(record.getBaggageNum());
+				
 		result = orderService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");

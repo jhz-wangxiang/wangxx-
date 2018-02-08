@@ -39,5 +39,9 @@ public class AreaServiceImpl implements AreaService {
 	public int deleteByPrimaryKey(Integer id){
 		return areaMapper.deleteByPrimaryKey(id);
 	}
+	@Override
+	public List<Area> selectByParms(Area record){
+		return areaMapper.selectByParms(record);
+	}
 	
 }
