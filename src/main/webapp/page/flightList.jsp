@@ -331,14 +331,15 @@
                         } 
         		        return xhr;
         	        },
-        	        success: function(json) {
+        	        success: function(data) {
         	            $("input[name='file']").val("");
+        	            var json = JSON.parse(data)
         	            if(json.resultCode=="SUCCESS"){
         	            	layer.msg('导入成功',{icon:1,time:1000},function(){
         		    	    	location.reload();
         		    	    });
         	            }else{
-        	            	layer.msg('导入失败',{icon:1,time:1000});
+        	            	layer.msg(json.msg,{icon:1,time:1000});
         	            }
         	        }
         	    })
