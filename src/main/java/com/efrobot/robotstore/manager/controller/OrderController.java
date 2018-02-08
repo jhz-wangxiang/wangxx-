@@ -110,15 +110,20 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
 		}
 		if ("".equals(record.getFlightNum()) || null == record.getFlightNum()) {
-			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+			return CommonUtil.resultMsg("FAIL", "航班号不能为空 ");
 		}
 		FlightNum f = new FlightNum();
 		f.setFlightNum(record.getFlightNum());
 		List<FlightNum> list = flightNumService.selectByParms(f);
 		if (list.size() == 0) {
-			return CommonUtil.resultMsg("FAIL", "此航班无法托运行李 ");
+			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
 		}
+		
 		FlightNum flightNum = list.get(0);
+		if(record.getNowTime().getTime()<flightNum.getEndTime().getTime()&&record.getNowTime().getTime()>flightNum.getStartTime().getTime()){
+		}else{
+			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
+		}
 		// 校验航班时间
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
@@ -181,6 +186,10 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。");
 		}
 		FlightNum flightNum = list.get(0);
+		if(record.getNowTime().getTime()<flightNum.getEndTime().getTime()&&record.getNowTime().getTime()>flightNum.getStartTime().getTime()){
+		}else{
+			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。");
+		}
 		// 校验航班时间
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
