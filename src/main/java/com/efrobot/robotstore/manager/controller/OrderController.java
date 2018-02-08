@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -454,7 +455,42 @@ public class OrderController {
 		return result;
 
 	}
+	@RequestMapping(value = "/getPrice", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getPrice(Order record) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		// 价格计算
+		float c = 1;
+		float a = 1;
+		int p = 1;
+		if (null != record.getChannelId()) {// 渠道
+			Channel ch = new Channel();
+			ch.setId(record.getChannelId());
+			List<Channel> listch = orderService.getChannel(ch);
+			c = listch.get(0).getDiscount().longValue();
+		}
+		if (null != record.getAreaId()) {// 區域
+			Area ar = new Area();
+			ar.setId(record.getAreaId());
+			List<Area> listch = areaService.selectByParms(ar);
+			a = listch.get(0).getDiscount().longValue();
+			p = listch.get(0).getPrice();
+		}
 
+		int num = Integer.parseInt(record.getBaggageNum());
+		float paid = (float) ((p + (num - 1) * p * 0.1 * a) * 0.1 * c);
+		record.setTotalFee(new BigDecimal(num * p));
+		record.setPaidFee(new BigDecimal(paid));
+		
+		map.put("resultCode", "SUCCESS");
+		map.put("ChannelDiscount", c);//渠道折扣
+		map.put("AreaDiscount", a);//区域折扣,第二件起的折扣
+		map.put("num", num);//礼包数量
+		map.put("price", p);//单间
+		map.put("totalFee", num * p);//总额
+		map.put("paid", paid);//实际支付价格
+		return map;
+	}
 	public static void main(String[] args) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
