@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page language="java" import="com.efrobot.robotstore.baseapi.manager.pojo.SysUser" %>
+<%@page language="java" import="com.efrobot.robotstore.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+SysUser user = (SysUser)request.getSession().getAttribute(Const.SESSION_USER);
+String  munuId = user.getMenuId();
+System.out.println(munuId);
 %>
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
