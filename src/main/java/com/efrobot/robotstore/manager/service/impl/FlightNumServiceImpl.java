@@ -37,6 +37,11 @@ public class FlightNumServiceImpl implements FlightNumService {
 	public int insertSelective(FlightNum record){
 		return flightNumMapper.insertSelective(record);
 	}
+	
+	@Override
+	public List<FlightNum> selectByParms(FlightNum record){
+		return flightNumMapper.selectByParms(record);
+	}
 	@Override
 	public int updateByPrimaryKeySelective(FlightNum record){
 		return flightNumMapper.updateByPrimaryKeySelective(record);

@@ -83,7 +83,6 @@
 			<if test="exp2 != null">
 				exp2,
 			</if>
-
 			<if test="startHour != null">
 				start_hour,
 			</if>
@@ -167,16 +166,16 @@
 				exp2 = #{exp2,jdbcType=VARCHAR},
 			</if>
 			<if test="startHour != null">
-				startHour=#{startHour,jdbcType=VARCHAR},
+				start_hour=#{startHour,jdbcType=VARCHAR},
 			</if>
 			<if test="endHour != null">
-				endHour=#{endHour,jdbcType=VARCHAR},
+				end_hour=#{endHour,jdbcType=VARCHAR},
 			</if>
 			<if test="startPlace != null">
-				startPlace=#{startPlace,jdbcType=VARCHAR},
+				start_place=#{startPlace,jdbcType=VARCHAR},
 			</if>
 			<if test="endPlace != null">
-				endPlace=#{endPlace,jdbcType=VARCHAR},
+				end_place=#{endPlace,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
