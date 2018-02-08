@@ -68,6 +68,12 @@
                                 <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="createDate" name="createDate" readonly>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="channelId" name="channelId" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <h4>订单信息</h4>
@@ -104,6 +110,7 @@
 <script type="text/javascript">
 	var id = Common.GetUrlRequest()['id'];
 	var basePath = "<%=basePath %>";
+	var channelArr = {};
 	if(id == "" || id == null || id == undefined){
 		location.href = basePath + "v1/page/orderList";
 	}   
@@ -136,6 +143,19 @@
 					console.log(i,json[i])
 					$("#"+i).val(Common.getLocalDate(json[i]));
 					break;
+      case "channelId":
+          $.ajax({
+              type: "POST",
+              url: basePath+'v1/order/getChannel',
+              success: function (res) {
+                  var _json = JSON.parse(res);
+                  for (var k = 0; k< _json.length; k++){
+                      channelArr[_json[k].id] = _json[k].channel;
+                  }
+                  $("#"+i).val(channelArr[json[i]]);
+              }
+          })
+          break;
 				default:
 					$("#"+i).val(json[i]);
 					break;
