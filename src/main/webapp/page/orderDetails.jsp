@@ -94,6 +94,14 @@
                                 <input type="text" class="input-text" value=""  placeholder="" id="phone" name="phone">
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <select name="channelId" class="select" lay-verify="required" id="channelId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <h4>登机人信息</h4>
@@ -110,6 +118,18 @@
                             <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value=""  placeholder="" id="registerPhone" name="registerPhone">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">支付方式：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <select name="payType" class="select" lay-verify="required" id="payTypeSelect">
+                                    <option value="微信支付">微信支付</option>
+                                    <option value="支付宝支付">支付宝支付</option>
+                                    <option value="现金支付">现金支付</option>
+                                    <option value="银行卡支付">银行卡支付</option>
+                                    <option value="信用卡支付">信用卡支付</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -275,6 +295,7 @@
     		$("#history").html('<a class="btn btn-default radius" href="'+basePath+'v1/page/orderHistory?id='+json.orderNo+'">订单历史记录</a>');
     		updateOrder();
     		$('#areaSelect').val(json.area);
+    		$('#payTypeSelect').val(json.payType);
         layui.use(['form'], function () {
             var layform = layui.form;
             layform.render();
@@ -288,6 +309,33 @@
                 $('input[name="area"]').val(data.value);
             })
         })
+          var _channelId = json.channelId;
+      $.ajax({
+          url : basePath+'v1/order/getChannel',
+          type : 'POST',
+          async : false,
+          datatype : 'json',
+          success : function(data) {
+              var json = JSON.parse(data);
+              if(json){
+                  var programme_sel=[];
+                  programme_sel.push('<option value="" selected>请选择</option>')
+                  for(var i=0,len=json.length;i<len;i++){
+                      programme_sel.push('<option value="'+json[i].id+'">'+json[i].channel+'</option>')
+                  }
+                  $("select[name='channelId']").html(programme_sel.join(''));
+                  $(".page-on-load").hide();
+                  $('#channelId').val(_channelId);
+                  layui.use(['form'], function () {
+                      var layform = layui.form;
+                      layform.render();
+                  });
+              }
+          },
+          error : function() {
+              alert('查询异常');
+          }
+      });
     	}
     });
     var updateOrder = function(){

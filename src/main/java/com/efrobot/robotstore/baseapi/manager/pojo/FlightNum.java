@@ -36,7 +36,7 @@ public class FlightNum implements Serializable {
 
     private Date cteateDate;
 
-    private String exp1;
+    private String exp1;//订单字母
 
     private String exp2;
     

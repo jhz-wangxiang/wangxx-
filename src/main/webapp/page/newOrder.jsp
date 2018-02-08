@@ -72,6 +72,18 @@
                                 <input type="text" class="input-text" lay-verify="required|phone" value="" placeholder="" id="registerPhone" name="registerPhone">
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">支付方式：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+                                <select name="payType" class="select" lay-verify="required">
+                                    <option value="微信支付">微信支付</option>
+                                    <option value="支付宝支付">支付宝支付</option>
+                                    <option value="现金支付">现金支付</option>
+                                    <option value="银行卡支付">银行卡支付</option>
+                                    <option value="信用卡支付">信用卡支付</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="cl"></div>
                     </div>
                 </div>

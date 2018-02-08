@@ -17,4 +17,6 @@ public interface FlightNumService {
 	public int updateByPrimaryKeySelective(FlightNum record);
 	
 	public int deleteByPrimaryKey(Integer id);
+	
+	public List<FlightNum> selectByParms(FlightNum record);
 }
