@@ -461,7 +461,7 @@
     			h.push('<tr><td>乘机人姓名：</td><td>'+json.registerName+'</td><td>联系电话：</td><td>'+json.registerPhone+'</td></tr>');
     			h.push('<tr><td>运输地址：</td><td colspan="3">'+json.city+json.area+json.address+'</td></tr>');
     			h.push('<tr><td>收件人姓名：</td><td>'+json.consignee+'</td><td>联系电话：</td><td>'+json.consigneePhone+'</td></tr>');
-    			h.push('<tr><td colspan="2"></td><td>行李号码：</td><td>'+json.baggageNo+'</td></tr>');
+    			h.push('<tr><td colspan="2"><img src="'+basePath+'style/img/print01.png"/></td><td>行李号码：</td><td>'+json.baggageNo+'</td></tr>');
     			h.push('<tr><td colspan="4">备注：'+json.remark+'</td></tr>');
     			h.push('</tbody></table>');
     			//h.push('');

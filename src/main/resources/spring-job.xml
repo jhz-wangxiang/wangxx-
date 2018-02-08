@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<!-- 获取微信access作业 -->
-	<bean id="getWXAccessJob" class="com.efrobot.robotstore.util.SendMail" />
+	<bean id="getWXAccessJob" class="com.efrobot.robotstore.job.GetWXAccessJob" />
 	
 	<bean id="getWXAccessJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject">

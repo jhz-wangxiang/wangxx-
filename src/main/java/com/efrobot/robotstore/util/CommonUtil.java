@@ -100,5 +100,18 @@ public class CommonUtil {
 		
 		return orderNum;
 	}
-
+	public static boolean jisuan(Date start, Date end) throws Exception {
+		long cha = end.getTime() - start.getTime();
+		double result = cha * 1.0 / (1000 * 60 * 60);
+		if (result <= 24) {
+			if (result > 0) {
+				return false;
+			}
+			// System.out.println("可用");
+			return true;
+		} else {
+			// System.out.println("已过期");
+			return false;
+		}
+	}
 }
