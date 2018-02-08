@@ -126,7 +126,7 @@ public class OrderController {
 
 		Date t = sdf2.parse(time);
 		Date n = new Date();
-		if (!jisuan(n, t)) {
+		if (!CommonUtil.jisuan(n, t)) {
 			return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");// 订单可在航班计划落地时间前
 																		// 24
 																		// 小时内下单，如早下单，则提示
@@ -155,7 +155,7 @@ public class OrderController {
 			user.setId(record.getUserId());
 			userService.updateByPrimaryKeySelective(user);
 			setHistory("提交订单", orderNo, "");
-			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
+			return CommonUtil.resultMsg("SUCCESS", "订单创建成功!");
 		} else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
@@ -188,7 +188,7 @@ public class OrderController {
 
 		Date t = sdf2.parse(time);
 		Date n = new Date();
-		if (!jisuan(n, t)) {
+		if (!CommonUtil.jisuan(n, t)) {
 			return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");// 订单可在航班计划落地时间前
 																		// 24
 																		// 小时内下单，如早下单，则提示
@@ -224,24 +224,9 @@ public class OrderController {
 			user.setChannelId(record.getChannelId());
 			userService.updateByPrimaryKeySelective(user);
 			setHistory("提交订单", orderNo, "");
-			return CommonUtil.resultMsg("SUCCESS", "信息插入功");
+			return CommonUtil.resultMsg("SUCCESS", "订单创建成功!");
 		} else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
-		}
-	}
-
-	public static boolean jisuan(Date start, Date end) throws Exception {
-		long cha = end.getTime() - start.getTime();
-		double result = cha * 1.0 / (1000 * 60 * 60);
-		if (result <= 24) {
-			if (result > 0) {
-				return false;
-			}
-			// System.out.println("可用");
-			return true;
-		} else {
-			// System.out.println("已过期");
-			return false;
 		}
 	}
 
