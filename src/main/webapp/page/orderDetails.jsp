@@ -31,7 +31,7 @@
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
         		<span class="l">
         			<a href="javascript:;" onclick="" class="btn btn-primary radius" id="modifyDetails"><i class="Hui-iconfont Hui-iconfont-save"></i> 订单修改</a>
-        			<a href="javascript:;" onclick="" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 打印订单</a>
+        			<a href="javascript:;" onclick="print()" class="btn btn-primary radius ml-5 mr-5"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 打印订单</a>
         		</span>
         		<span id="statusBox" class="r"></span>
         	</div>
@@ -398,6 +398,36 @@
     		}
     	});
 	}
+    var print = function(){
+    	$.ajax({
+    		url: basePath+"v1/order/getOrderDetail",
+    		type:"POST",
+    		data:{id:id},
+    		success:function(data){
+    			var json = JSON.parse(data);
+    			var h = [];
+    			h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
+    			h.push('<tbody class="text-c">');
+    			h.push('<tr><td colspan="4">行李送到家委托书提取单</td></tr>');
+    			h.push('<tr><td colspan="2">航班号/日期：</td><td colspan="2">'+json.nowTime+'</td></tr>');
+    			h.push('<tr><td>乘机人姓名：</td><td>'+json.registerName+'</td><td>联系电话：</td><td>'+json.registerPhone+'</td></tr>');
+    			h.push('<tr><td>运输地址：</td><td colspan="3">'+json.city+json.area+json.address+'</td></tr>');
+    			h.push('<tr><td>收件人姓名：</td><td>'+json.consignee+'</td><td>联系电话：</td><td>'+json.consigneePhone+'</td></tr>');
+    			h.push('<tr><td colspan="2"></td><td>行李号码：</td><td>'+json.baggageNo+'</td></tr>');
+    			h.push('<tr><td colspan="4">备注：'+json.remark+'</td></tr>');
+    			h.push('</tbody></table>');
+    			//h.push('');
+    			var index = layer.open({
+    	    	    type: 1,
+    	    	    title:false,
+    	    	    content: h.join(""),
+    	    	    shade: [1, '#fff'],
+    	    	    skin: 'print_'
+    	    	});
+    	    	layer.full(index);
+    		}
+    	});
+    }
 </script>
 </body>
 </html>

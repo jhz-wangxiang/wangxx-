@@ -36,6 +36,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 			</dd>
 		</dl>
+		<dl id="menu-flight">
+			<dt <c:if test="${param.classify=='flight'}">class="selected"</c:if>><i class="Hui-iconfont Hui-iconfont-log"></i> 航班管理<i class="Hui-iconfont menu_dropdown-arrow Hui-iconfont-arrow2-bottom"></i></dt>
+			<dd <c:if test="${param.classify=='flight'}">style="display: block;"</c:if>>
+				<ul>
+					<li <c:if test="${param.level=='flight_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/flightList" title="航班管理">航班管理</a></li>
+				</ul>
+			</dd>
+		</dl>
 	</div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

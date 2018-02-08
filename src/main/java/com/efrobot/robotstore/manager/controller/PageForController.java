@@ -70,4 +70,9 @@ public class PageForController {
 		request.setAttribute("navName", "渠道管理");
 		return "channelList";
 	}
+	@RequestMapping(value = "/flightList")
+	public String flightList(HttpServletRequest request) {
+		request.setAttribute("navName", "航班管理");
+		return "flightList";
+	}
 }
