@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatusRecord;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
+import com.efrobot.robotstore.manager.service.FlightNumService;
 import com.efrobot.robotstore.manager.service.OrderService;
 import com.efrobot.robotstore.manager.service.UserService;
 import com.efrobot.robotstore.util.CommonUtil;
@@ -41,6 +43,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private FlightNumService flightNumService;
 	@Autowired
 	private UserService userService;
 	public static Map<Integer, String> status_order = new ConcurrentHashMap<Integer,String>();
@@ -98,7 +103,20 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> insertOrder(Order record) throws Exception {
 		int result = -1;
-		String orderNo="A"+SerialNum.getSystemManageOrder();//todo字母+下单日期+航班日期（月日）+航班号（数字部分）+3位顺序数字
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
+		String datestr=sdf.format(new Date());
+		if("".equals(record.getNowTimeStr())||null==record.getNowTimeStr()){
+			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+		}
+		if("".equals(record.getFlightNum())||null==record.getFlightNum()){
+			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+		}
+		FlightNum f=new FlightNum();
+		f.setFlightNum(record.getFlightNum());
+		List<FlightNum> list=flightNumService.selectByParms(f);
+		String zm=list.get(result).getExp1();
+		String orderNo=zm+datestr+mmdd.format(record.getNowTime())+record.getFlightNum()+SerialNum.getSystemManageOrder();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
