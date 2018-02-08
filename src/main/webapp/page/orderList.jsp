@@ -106,11 +106,12 @@
                     </div>
                     
                     <div class='row cl text-c'>
-                    	<button name="" id="" class="btn btn-success" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
+                    	<button name="" id="" class="btn btn-success radius" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
+                    	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印行李运输交接单</button>
                     </div>
             </form>
             <div class="mt-20">
-                <table class="layui-hide" id="table"></table>
+                <table class="layui-hide" lay-filter="checkbox" id="table"></table>
                 <div id="page"></div>
             </div>
         </article>
@@ -121,6 +122,7 @@
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
     var colArr = [
+		{checkbox: true},
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
 			h.push('<a class="layui-btn layui-btn-xs" href="'+basePath+'v1/page/orderDetails?id='+d.id+'">详情</a>');
@@ -171,6 +173,7 @@
     var limit = 10;
     var formData = "";
     var tableIns ;
+    var table;
     function loadSelect(){
         $.ajax({
             url : basePath+'v1/order/getChannel',
@@ -333,17 +336,45 @@
 			  var laydate = layui.laydate;
 			  laydate.render({
 			    elem: '#'+id,
-			    format: 'yyyy/MM/dd'
+			    format: 'yyyy/MM/dd',
+			    //value: new Date
 			  });
 		})
+	}
+	var print = function(){
+		var checkStatus = table.checkStatus('checkbox');
+    	if(checkStatus.data.length==0){
+    		layer.msg('请勾选订单',{icon: 5,time:1000});
+  		  	return false;
+    	}
+    	var h = [];
+    	var ind = 1;
+		h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
+		h.push('<tbody class="text-c">');
+		h.push('<tr><td colspan="8">行李送到家委托书提取单</td></tr>');
+		h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td><td>时间：</td><td></td></tr>');
+		h.push('<tr><td>序号</td><td>收件人</td><td>联系方式</td><td>运输地址</td><td>乘机人</td><td>联系方式</td><td>行李号码</td><td>备注</td></tr>');
+		for(var i =0;i<checkStatus.data.length;i++){
+			
+			h.push('<tr><td>'+(ind++)+'</td><td>'+checkStatus.data[i].consignee+'</td><td>'+checkStatus.data[i].consigneePhone+'</td><td>'+checkStatus.data[i].city+checkStatus.data[i].area+checkStatus.data[i].address+'</td><td>'+checkStatus.data[i].registerName+'</td><td>'+checkStatus.data[i].registerPhone+'</td><td>'+checkStatus.data[i].baggageNo+'</td><td>'+checkStatus.data[i].remark+'</td></tr>');
+		}
+		h.push('</tbody></table>');
+		//h.push('');
+		var index = layer.open({
+    	    type: 1,
+    	    title:false,
+    	    content: h.join(""),
+    	    shade: [1, '#fff'],
+    	    skin: 'print_'
+    	});
+    	layer.full(index);
 	}
     loadSelect();
     dtime("timemin");
     dtime("timemax");
     layui.use(['form','table'],function(){
-    	var table = layui.table;
+    	table = layui.table;
     	var form = layui.form;
-    	console.log(form)
     	tableIns = table.render({
     		elem:"#table",
     		url: basePath+"v1/order/getOrderListPage",
@@ -354,9 +385,15 @@
     		cols:[colArr],
     		page:{
     			limits:[10, 20,50]
-    		}
+    		},
+    		id: 'checkbox'
     	});
     	
+    	/* table.on('checkbox(checkbox)', function(obj){
+   		  console.log(obj.checked); //当前是否选中状态
+   		  console.log(obj); //选中行的相关数据
+   		  console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+   		}); */
     });
 </script>
 </body>

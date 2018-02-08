@@ -31,7 +31,7 @@
             <form action="" method="post" class="form form-horizontal layui-form" id="form-admin-add">
               <div class="row cl">
                   <div class="text-c">
-                  		班次：<input type="text" class="input-text" style="width:250px" id="" name="roleName">
+                  		班次：<input type="text" class="input-text" style="width:250px" id="" name="flightNum">
                           <button name="" id="" class="btn btn-success" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                   	</div>
                </div>
@@ -67,6 +67,7 @@
         }},
         {field:"startHour",title:"计划起飞",align:"center",width:"90"},
         {field:"endHour",title:"计划到达",align:"center",width:"90"},
+        {field:"exp1",title:"订单首字母",align:"center",width:"90"},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;
@@ -97,13 +98,15 @@
 				html.push('<div class="layui-form-item"><label class="layui-form-label">目的地：</label>');
 				html.push('<div class="layui-input-block"><input type="text" name="modify_endPlace" lay-verify="required" autocomplete="off" value="'+json.list[0].endPlace+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">开始时间：</label>');
-				html.push('<div class="layui-input-block"><input type="text" id="modify_startTimeStr" name="modify_startTimeStr" lay-verify="required" autocomplete="off" value="'+json.list[0].startTimeStr+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" id="modify_startTimeStr" name="modify_startTimeStr" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">结束时间：</label>');
-				html.push('<div class="layui-input-block"><input type="text" id="modify_endTimeStr" name="modify_endTimeStr" lay-verify="required" autocomplete="off" value="'+json.list[0].endTimeStr+'" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" id="modify_endTimeStr" name="modify_endTimeStr" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">计划起飞：</label>');
-				html.push('<div class="layui-input-block"><input type="text" id="modify_startHour" name="modify_startHour" lay-verify="required" autocomplete="off" value="01" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" id="modify_startHour" name="modify_startHour" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">计划到达：</label>');
-				html.push('<div class="layui-input-block"><input type="text" id="modify_endHour" name="modify_endHour" lay-verify="required" autocomplete="off" value="01" class="layui-input"></div></div>');
+				html.push('<div class="layui-input-block"><input type="text" id="modify_endHour" name="modify_endHour" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
+				html.push('<div class="layui-form-item"><label class="layui-form-label">订单首字母：</label>');
+				html.push('<div class="layui-input-block"><input type="text" name="modify_exp1" lay-verify="required" autocomplete="off" value="'+json.list[0].exp1+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyFlight">确认</button></div>');
 				html.push('</form></div>');
 				layui.use(['form','layer','laydate'],function(){
@@ -117,23 +120,27 @@
 					    ,content: html.join(""),
 					    success:function(){
 					    	laydate.render({
-					    	    elem: '#modify_startHour'
-					    	    ,type: 'time'
-					    	    ,format:"HH"
-					    	  });
-					    	laydate.render({
 					    	    elem: '#modify_startTimeStr'
 					    	    ,format: 'yyyy/MM/dd'
+					    	    ,value: new Date(json.list[0].startTime)
 					    	  });
 					    	laydate.render({
 					    	    elem: '#modify_endTimeStr'
 					    	    ,format: 'yyyy/MM/dd'
+					    	    ,value: new Date(json.list[0].endTime)
 					    	  });
 					    	
 					    	 laydate.render({
 					    	    elem: '#modify_endHour'
 				    	    	,type: 'time'
 						    	,format:"HH"
+						    	,value:json.list[0].endHour
+					    	  });
+					    	 laydate.render({
+					    	    elem: '#modify_startHour'
+					    	    ,type: 'time'
+					    	    ,format:"HH"
+					    	    ,value:json.list[0].startHour
 					    	  });
 					    	form.on('submit(modifyFlight)', function(data){
 					    		
@@ -193,6 +200,8 @@
 		html.push('<div class="layui-input-block"><input type="text" id="add_startHour" name="add_startHour" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">计划到达：</label>');
 		html.push('<div class="layui-input-block"><input type="text" id="add_endHour" name="add_endHour" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">订单首字母：</label>');
+		html.push('<div class="layui-input-block"><input type="text" name="add_exp1" lay-verify="required" autocomplete="off" value="" class="layui-input"></div></div>');
 		html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="addFlight">确认</button></div>');
 		html.push('</form></div>');
 		layui.use(['form','layer','laydate'],function(){
@@ -214,10 +223,12 @@
 			    	laydate.render({
 			    	    elem: '#add_startTimeStr'
 			    	    ,format: 'yyyy/MM/dd'
+			    	    ,value:new Date()
 			    	  });
 			    	laydate.render({
 			    	    elem: '#add_endTimeStr'
 			    	    ,format: 'yyyy/MM/dd'
+			    	    ,value:new Date()
 			    	  });
 			    	
 			    	 laydate.render({
@@ -280,6 +291,15 @@
 				}
 			})
 			
+		});
+	}
+    var searchTable = function(){
+		var data = {
+			roleName:Common.ltrim($("input[name='flightNum']").val()),
+			start:start
+		}
+		tableIns.reload({
+		  where: data
 		});
 	}
     layui.use(['form','table'],function(){
