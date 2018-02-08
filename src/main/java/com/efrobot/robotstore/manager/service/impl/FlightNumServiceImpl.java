@@ -1,6 +1,8 @@
 package com.efrobot.robotstore.manager.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -51,5 +53,29 @@ public class FlightNumServiceImpl implements FlightNumService {
 	public int deleteByPrimaryKey(Integer id){
 		return flightNumMapper.deleteByPrimaryKey(id);
 	}
-	
+	@Override
+	public Map<String, Object> importFlightNum(List<String[]> list) {
+		Map<String, Object> result = new HashMap<>();
+		for (String[] arrs : list) {
+			FlightNum manager = new FlightNum();
+			try {
+				manager.setFlightNum(arrs[0]);//
+				manager.setCompay(arrs[1]);;
+				manager.setStartPlace(arrs[2]);
+				manager.setEndPlace(arrs[3]);
+				manager.setStartTimeStr(arrs[4]);
+				manager.setEndTimeStr(arrs[5]);
+				manager.setStartHour(arrs[6]);
+				manager.setEndHour(arrs[7]);
+				manager.setExp1(arrs[8]);
+				flightNumMapper.insertSelective(manager);
+				result.put("resultCode", "SUCCESS");// 状态码
+				result.put("msg", "导入成功");
+			} catch (Exception e) {
+				result.put("resultCode", "FAIL");// 状态码
+				result.put("msg", "失败,是否有重复的航班号,是否格式不正确");
+			}
+		}
+		return result;
+	}
 }

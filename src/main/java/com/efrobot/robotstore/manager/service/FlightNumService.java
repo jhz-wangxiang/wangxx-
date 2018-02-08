@@ -1,10 +1,9 @@
 package com.efrobot.robotstore.manager.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
-import com.efrobot.robotstore.baseapi.manager.pojo.Order;
-import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.util.PageInfo;
 
 public interface FlightNumService {
@@ -19,4 +18,6 @@ public interface FlightNumService {
 	public int deleteByPrimaryKey(Integer id);
 	
 	public List<FlightNum> selectByParms(FlightNum record);
+	
+	public Map<String, Object> importFlightNum(List<String[]> list);
 }
