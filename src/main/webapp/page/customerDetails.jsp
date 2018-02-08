@@ -304,7 +304,7 @@
     		elem:"#tableOrder",
     		url: basePath+"v1/order/getOrderListPage",
     		method:"POST",
-    		where: {pageSize:pageSize,start:start,userId:id},
+    		where: {pageSize:pageSize,start:start,userId:id,ids:'1,2,3,4,5'},
     		request: {pageName:"pageNumber",limitName:"limit"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArrOrder],

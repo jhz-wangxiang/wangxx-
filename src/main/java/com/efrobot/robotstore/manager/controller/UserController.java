@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.manager.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.efrobot.robotstore.baseapi.manager.pojo.Address;
+import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
 import com.efrobot.robotstore.manager.service.AddressService;
+import com.efrobot.robotstore.manager.service.OrderService;
 import com.efrobot.robotstore.manager.service.UserService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.PageInfo;
@@ -25,6 +28,8 @@ import com.efrobot.robotstore.util.PageInfo;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private OrderService orderService;
 	
 	@Autowired
 	private AddressService addressService;
@@ -60,7 +65,11 @@ public class UserController {
 		user2.setPhone(user.getPhone());
 		List<User> list=userService.selectByUser(user2);
 		if(list.size()==0){
-			user.setExp2("是");
+			if(user.getName()!=null&&!"".equals(user.getName())){
+				user.setExp1("是");
+			}else{
+				user.setExp1("未");
+			}
 			userService.insertSelective(user);
 			userid=user.getId();
 			map.put("user", user);	
@@ -107,7 +116,11 @@ public class UserController {
 		if(list.size()>0){
 			return CommonUtil.resultMsg("FAIL", "用户信息已经存在!!!");
 		}
-		record.setExp2("是");
+		if(record.getName()!=null&&!"".equals(record.getName())){
+			record.setExp1("是");
+		}else{
+			record.setExp1("未");
+		}
 		result = userService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -123,6 +136,11 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> updateUser(User record ) throws Exception {
 		int result = -1;
+		if(record.getName()!=null&&!"".equals(record.getName())){
+			record.setExp1("是");
+		}else{
+			record.setExp1("未");
+		}
 		result = userService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -137,7 +155,18 @@ public class UserController {
 	@ResponseBody
 	public User getUserDetail(User record) throws Exception {
 		List<User> list = userService.selectByUser(record);
-		return list.get(0);
+		User us=list.get(0);
+		Order order=new Order();
+		String ids="1,2,3,4,5";
+		order.setListStatus(Arrays.asList(ids.split(",")));
+		order.setUserId(us.getId());
+		List<Order> orlist=orderService.selectByParms(order);
+		if(orlist.size()!=0){
+			us.setExp2("有");
+		}else{
+			us.setExp2("未");
+		}
+		return us;
 	}
 	
 }

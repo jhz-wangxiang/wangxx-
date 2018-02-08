@@ -1,11 +1,13 @@
 package com.efrobot.robotstore.manager.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.efrobot.robotstore.baseapi.manager.OrderMapper;
 import com.efrobot.robotstore.baseapi.manager.UserMapper;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
@@ -17,6 +19,8 @@ import com.github.pagehelper.PageHelper;
 public class UserServiceImpl implements UserService {
 	@Resource
 	private UserMapper userMapper;
+	@Resource
+	private OrderMapper orderMapper;
 
 	@Override
 	public List<User> selectByUser(User record) {
@@ -38,6 +42,24 @@ public class UserServiceImpl implements UserService {
 			throws Exception {
 		PageHelper.startPage(pageNum, pageSize);
 		List<User> list = userMapper.selectByParms(user);
+		for(User us:list){
+			if(us.getName()!=null&&!"".equals(us.getName())){
+				us.setExp1("是");
+			}else{
+				us.setExp1("未");
+			}
+			Order order=new Order();
+			String ids="1,2,3,4,5";
+			order.setListStatus(Arrays.asList(ids.split(",")));
+			order.setUserId(us.getId());
+			List<Order> orlist=orderMapper.selectByParms(order);
+			if(orlist.size()!=0){
+				us.setExp2("有");
+			}else{
+				us.setExp2("未");
+			}
+			
+		}
 		PageInfo<User> page = new PageInfo<User>(list);
 		return page;
 	}

@@ -133,9 +133,29 @@ public class Order implements Serializable {
 
     private String exp2;
     
+    private String ids;
+    
     private List<String> list;
+    
+    private List<String> listStatus;
 
-    public List<String> getList() {
+    public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public List<String> getListStatus() {
+		return listStatus;
+	}
+
+	public void setListStatus(List<String> listStatus) {
+		this.listStatus = listStatus;
+	}
+
+	public List<String> getList() {
 		return list;
 	}
 

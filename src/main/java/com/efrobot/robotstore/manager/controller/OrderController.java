@@ -71,6 +71,9 @@ public class OrderController {
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
 		String result = "";
+		if(null!=record.getIds()&&!"".equals(record.getIds())){
+			record.setListStatus(Arrays.asList(record.getIds().split(",")));
+		}
 		rows = orderService.getOrderListPage(record, pageNumber, pageSize);
 		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullStringAsEmpty);
