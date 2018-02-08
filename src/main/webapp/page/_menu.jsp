@@ -11,6 +11,9 @@ SysUser user = (SysUser)request.getSession().getAttribute(Const.SESSION_USER);
 String  munuId = user.getMenuId();
 System.out.println(munuId);
 %>
+<%if(munuId.contains("2")){%>
+<%=munuId%>
+	<%} %>
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
 		<dl id="menu-article">
