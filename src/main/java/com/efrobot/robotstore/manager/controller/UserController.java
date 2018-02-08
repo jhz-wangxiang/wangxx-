@@ -166,6 +166,11 @@ public class UserController {
 		}else{
 			us.setExp2("未");
 		}
+		if(us.getName()!=null&&!"".equals(us.getName())){
+			us.setExp1("是");
+		}else{
+			us.setExp1("未");
+		}
 		return us;
 	}
 	
