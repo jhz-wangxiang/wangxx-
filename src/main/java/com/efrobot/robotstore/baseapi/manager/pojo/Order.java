@@ -337,7 +337,7 @@ public class Order implements Serializable {
     	if (null == nowTimeStr || "".equals(nowTimeStr)) {
 			return nowTime;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			nowTime = sdf.parse(nowTimeStr);
 		} catch (ParseException e) {

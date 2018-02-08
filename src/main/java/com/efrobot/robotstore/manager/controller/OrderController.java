@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -115,7 +116,34 @@ public class OrderController {
 		FlightNum f=new FlightNum();
 		f.setFlightNum(record.getFlightNum());
 		List<FlightNum> list=flightNumService.selectByParms(f);
-		String zm=list.get(result).getExp1();
+		if(list.size()==0){
+			return CommonUtil.resultMsg("FAIL", "此航班无法托运行李 ");
+		}
+		FlightNum flightNum =list.get(0);
+		//校验航班时间
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		
+		String time=sdf.format(record.getNowTime())+" "+flightNum.getEndHour()+":00:00";
+		
+		try {
+			Date t=sdf2.parse(time);
+			Date n=new Date();
+//			long  between = t.getTime() - n.getTime();
+			if(!jisuan(n,t)){
+				return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");//订单可在航班计划落地时间前 24 小时内下单，如早下单，则提示
+			}
+//			if(between < (24* 3600000)||between>0){
+//			}else{
+//				return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");//订单可在航班计划落地时间前 24 小时内下单，如早下单，则提示
+//				//航班未开放，请于落地前 24 小时内下单。未支付订单保留至航班计划落地时间
+//				//后 24 小时，将自动取消。未确认订单在航班计划落地时间后 24 小时，将自动
+//				//退款，并标识订单取消。（
+//			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String zm=flightNum.getExp1();
 		String orderNo=zm+datestr+mmdd.format(record.getNowTime())+record.getFlightNum()+SerialNum.getSystemManageOrder();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
@@ -148,7 +176,47 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> insertOrderbyUser(Order record) throws Exception {
 		int result = -1;
-		String orderNo=CommonUtil.bulidOrderNum("A");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
+		String datestr=sdf.format(new Date());
+		if("".equals(record.getNowTimeStr())||null==record.getNowTimeStr()){
+			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+		}
+		if("".equals(record.getFlightNum())||null==record.getFlightNum()){
+			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+		}
+		FlightNum f=new FlightNum();
+		f.setFlightNum(record.getFlightNum());
+		List<FlightNum> list=flightNumService.selectByParms(f);
+		if(list.size()==0){
+			return CommonUtil.resultMsg("FAIL", "此航班无法托运行李 ");
+		}
+		FlightNum flightNum =list.get(0);
+		//校验航班时间
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		
+		String time=sdf.format(record.getNowTime())+" "+flightNum.getEndHour()+":00:00";
+		
+		try {
+			Date t=sdf2.parse(time);
+			Date n=new Date();
+//			long  between = t.getTime() - n.getTime();
+			if(!jisuan(n,t)){
+				return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");//订单可在航班计划落地时间前 24 小时内下单，如早下单，则提示
+			}
+//			if(between < (24* 3600000)||between>0){
+//			}else{
+//				return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");//订单可在航班计划落地时间前 24 小时内下单，如早下单，则提示
+//				//航班未开放，请于落地前 24 小时内下单。未支付订单保留至航班计划落地时间
+//				//后 24 小时，将自动取消。未确认订单在航班计划落地时间后 24 小时，将自动
+//				//退款，并标识订单取消。（
+//			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String zm=flightNum.getExp1();
+		String orderNo=zm+datestr+mmdd.format(record.getNowTime())+record.getFlightNum()+SerialNum.getSystemManageOrder();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser=(SysUser) session.getAttribute(Const.SESSION_USER);
@@ -178,7 +246,20 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
 	}
-	
+	public static boolean jisuan(Date start, Date end) throws Exception { 
+        long cha = end.getTime() - start.getTime(); 
+        double result = cha * 1.0 / (1000 * 60 * 60); 
+        if(result<=24){ 
+        	if(result>0){
+        		return false; 
+        	}
+             //System.out.println("可用");   
+             return true; 
+        }else{ 
+             //System.out.println("已过期");  
+             return false; 
+        } 
+    } 
 	@RequestMapping(value = "/updateOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateOrder(Order record ) throws Exception {
@@ -337,6 +418,29 @@ public class OrderController {
 		orderStatusRecord.setStatus(1);//1-后台,2-客户
 		int result =orderService.insertSelective(orderStatusRecord);
 		return result;
+		
+	}
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH");
+		
+		String time=sdf2.format(new Date())+" "+"10";
+		
+		try {
+			Date t=sdf2.parse(time);
+			Date n=new Date();
+			long  between = t.getTime() - n.getTime();
+			
+			if(between < (24* 3600000)||between>0){
+				System.out.print(sdf2.format(new Date()));
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 		
 	}
 }
