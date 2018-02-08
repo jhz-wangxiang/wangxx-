@@ -17,7 +17,7 @@
 	     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />   
 	</context:component-scan>
 	<!-- 作业调度引入 <import resource="classpath:spring-job.xml" /> -->
-    <!-- <import resource="classpath:spring-job.xml" /> -->
+    <import resource="classpath:spring-job.xml" />
     
 	<!-- mybatis配置引入 -->
 	<import resource="classpath:spring-mybatis.xml" />
