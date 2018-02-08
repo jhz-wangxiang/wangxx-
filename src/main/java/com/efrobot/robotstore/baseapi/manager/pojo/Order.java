@@ -7,6 +7,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
+import com.efrobot.robotstore.util.Const;
+
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -231,7 +238,14 @@ public class Order implements Serializable {
 //		if (orderStatus!=null&&orderStatus==11) {
 //			cancelDisplay = "0";
 //		}
-		cancelDisplay="1";
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		if(null!=sysUser.getStatusQx()&&sysUser.getStatusQx().contains("10")){
+			cancelDisplay="1";
+		}else{
+			cancelDisplay="0";
+		}
 		return cancelDisplay;
 	}
 
@@ -263,7 +277,14 @@ public class Order implements Serializable {
 		if(abnormalStatus!=null&&"是".equals(abnormalStatus)){
 			orderStatusDisplay="0";
 		}else{
-			orderStatusDisplay="1";
+			Subject subject = SecurityUtils.getSubject();
+			Session session = subject.getSession();
+			SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+			if(null!=sysUser.getStatusQx()&&sysUser.getStatusQx().contains(orderStatus+"")){
+				orderStatusDisplay="1";
+			}else{
+				orderStatusDisplay="0";
+			}
 		}
 		if(orderStatus!=null&&orderStatus==6){
 			orderStatusDisplay="0";
