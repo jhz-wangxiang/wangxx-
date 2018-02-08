@@ -75,4 +75,9 @@ public class PageForController {
 		request.setAttribute("navName", "航班管理");
 		return "flightList";
 	}
+	@RequestMapping(value = "/areaList")
+	public String areaList(HttpServletRequest request) {
+		request.setAttribute("navName", "区域管理");
+		return "areaList";
+	}
 }
