@@ -74,7 +74,7 @@
 				html.push('<div class="layui-input-block"><input type="text" lay-verify="required" name="modify_area" autocomplete="off" value="'+json.list[0].area+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-form-item"><label class="layui-form-label">定价：</label>');
 				html.push('<div class="layui-input-block"><input type="text" lay-verify="required" name="modify_price" autocomplete="off" value="'+json.list[0].price+'" class="layui-input"></div></div>');
-				html.push('<div class="layui-form-item"><label class="layui-form-label">折扣：</label>');
+				html.push('<div class="layui-form-item"><label class="layui-form-label">第二件起费用折扣：</label>');
 				html.push('<div class="layui-input-block"><input type="text" lay-verify="required" name="modify_discount" autocomplete="off" value="'+json.list[0].discount+'" class="layui-input"></div></div>');
 				html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyArea">确认</button></div>');
 				html.push('</form></div>');
