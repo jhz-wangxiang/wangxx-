@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -83,5 +84,11 @@ public class AreaController {
 		}else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
+	}
+	@RequestMapping(value = "/getArea", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Area> getArea(Area record) throws Exception {
+		List<Area> list = areaService.selectByParms(record);
+		return list;
 	}
 }

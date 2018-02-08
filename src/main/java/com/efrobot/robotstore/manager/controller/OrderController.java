@@ -122,10 +122,11 @@ public class OrderController {
 		if (list.size() == 0) {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
 		}
-		
+
 		FlightNum flightNum = list.get(0);
-		if(record.getNowTime().getTime()<flightNum.getEndTime().getTime()&&record.getNowTime().getTime()>flightNum.getStartTime().getTime()){
-		}else{
+		if (record.getNowTime().getTime() < flightNum.getEndTime().getTime()
+				&& record.getNowTime().getTime() > flightNum.getStartTime().getTime()) {
+		} else {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
 		}
 		// 校验航班时间
@@ -154,26 +155,28 @@ public class OrderController {
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
 		record.setOperator("柜台" + sysUser.getName());
-		//价格计算
-		float c=1;
-		float a=1;
-		int p=1;
-		if(null!=record.getChannelId()){//渠道
-			Channel ch=new Channel();
+		// 价格计算
+		float c = 1;
+		float a = 1;
+		int p = 1;
+		if (null != record.getChannelId()) {// 渠道
+			Channel ch = new Channel();
 			ch.setId(record.getChannelId());
-	        List<Channel> listch = orderService.getChannel(ch);
-	        c=listch.get(0).getDiscount().longValue();
+			List<Channel> listch = orderService.getChannel(ch);
+			c = listch.get(0).getDiscount().longValue();
 		}
-		if(null!=record.getAreaId()){//區域
-			Area ar=new Area();
+		if (null != record.getAreaId()) {// 區域
+			Area ar = new Area();
 			ar.setId(record.getAreaId());
 			List<Area> listch = areaService.selectByParms(ar);
-			a=listch.get(0).getDiscount().longValue();
-			p=listch.get(0).getPrice();
+			a = listch.get(0).getDiscount().longValue();
+			p = listch.get(0).getPrice();
 		}
 
-		int num= Integer.parseInt(record.getBaggageNum());
-				
+		int num = Integer.parseInt(record.getBaggageNum());
+		float paid = (float) ((p + (num - 1) * p * 0.1 * a) * 0.1 * c);
+		record.setTotalFee(new BigDecimal(num * p));
+		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -210,8 +213,9 @@ public class OrderController {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。");
 		}
 		FlightNum flightNum = list.get(0);
-		if(record.getNowTime().getTime()<flightNum.getEndTime().getTime()&&record.getNowTime().getTime()>flightNum.getStartTime().getTime()){
-		}else{
+		if (record.getNowTime().getTime() < flightNum.getEndTime().getTime()
+				&& record.getNowTime().getTime() > flightNum.getStartTime().getTime()) {
+		} else {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。");
 		}
 		// 校验航班时间
@@ -244,6 +248,28 @@ public class OrderController {
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
 		record.setOperator("柜台" + sysUser.getName());
+		// 价格计算
+		float c = 1;
+		float a = 1;
+		int p = 1;
+		if (null != record.getChannelId()) {// 渠道
+			Channel ch = new Channel();
+			ch.setId(record.getChannelId());
+			List<Channel> listch = orderService.getChannel(ch);
+			c = listch.get(0).getDiscount().longValue();
+		}
+		if (null != record.getAreaId()) {// 區域
+			Area ar = new Area();
+			ar.setId(record.getAreaId());
+			List<Area> listch = areaService.selectByParms(ar);
+			a = listch.get(0).getDiscount().longValue();
+			p = listch.get(0).getPrice();
+		}
+
+		int num = Integer.parseInt(record.getBaggageNum());
+		float paid = (float) ((p + (num - 1) * p * 0.1 * a) * 0.1 * c);
+		record.setTotalFee(new BigDecimal(num * p));
+		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
