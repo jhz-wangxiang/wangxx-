@@ -36,7 +36,7 @@
                   	</div>
                </div>
             </form>
-            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="flight_add()" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-add"></i> 添加班次</a></span></div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="flight_add()" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-add"></i> 添加班次</a></span><span class="r"><span class="btn-upload form-group"><a href="javascript:void();" class="btn btn-primary upload-btn radius"><i class="Hui-iconfont">&#xe642;</i> 导入航班</a><input type="file" name="file" class="input-file" onchange="file_upload(event)" /></span></span></div>
             <div class="mt-20">
                 <table class="layui-hide" id="table"></table>
                 <div id="page"></div>
@@ -301,6 +301,50 @@
 		tableIns.reload({
 		  where: data
 		});
+	}
+    var file_upload = function(e){
+    	layer.open({
+            type: 1
+            ,title: false
+            ,closeBtn: false
+            ,area: '300px'
+            ,shade: 0.4
+            ,id: 'file'
+            ,moveType: 1
+            ,content: '<div class="progress-bar text-l"><span class="sr-only" id="precent" style="background: linear-gradient(to right, #da81a1 35%,#7aa4c8 68%);"></span></div>'
+            ,success: function(layero){
+            	var fd = new FormData();
+        		fd.append("file", e.target.files[0]);
+        		$.ajax({
+        	        type: 'post',
+        	        url: basePath+'v1/flight/importFlightNum',
+        	        data: fd,
+        	        contentType: false,
+        	        processData: false,
+        	        xhr: function(){
+        	        	var xhr = $.ajaxSettings.xhr();
+        	        	if(xhr.upload){ 
+        	        		xhr.upload.addEventListener('progress',function(e){
+                            	var percent=Math.round(e.loaded * 100 / e.total);
+                            	$('#precent').css("width",percent.toString() + '%');
+                            }, false);
+                        } 
+        		        return xhr;
+        	        },
+        	        success: function(json) {
+        	            $("input[name='file']").val("");
+        	            if(json.resultCode=="SUCCESS"){
+        	            	layer.msg('导入成功',{icon:1,time:1000},function(){
+        		    	    	location.reload();
+        		    	    });
+        	            }else{
+        	            	layer.msg('导入失败',{icon:1,time:1000});
+        	            }
+        	        }
+        	    })
+            }
+          });
+		
 	}
     layui.use(['form','table'],function(){
     	var table = layui.table;

@@ -15,8 +15,8 @@
 
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
-	<jsp:param value="account" name="classify"/>
-	<jsp:param value="channel_list" name="level"/>
+	<jsp:param value="area" name="classify"/>
+	<jsp:param value="area_list" name="level"/>
 </jsp:include>
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
