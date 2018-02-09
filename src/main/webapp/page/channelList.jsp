@@ -48,7 +48,7 @@
 		},width:"100",align:"center"},
         {field:"channel",title:"渠道名称",align:"center",width:"100"},
         {field:"discount",title:"折扣",align:"center",minWidth:"90",templet:function(d){
-        	return (d.discount/10)
+        	return (d.discount)
         }},
     ];
     var basePath = "<%=basePath %>";
