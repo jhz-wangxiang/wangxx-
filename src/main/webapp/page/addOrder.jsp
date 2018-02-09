@@ -127,40 +127,30 @@
                         <div class="cl"></div>
                     </div>
                 </div>
-                <h4>寄送地址</h4>
-                <div class="line"></div>
-                <div class="mt-20">
-                    <div class="layui-form-item">
-                        <div class="layui-input-block" id="address-list"></div>
-                    </div>
-                    <a href="javascript:;" class="btn btn-success" style="margin-left: 110px; margin-top: 10px;" onclick="layer_show('新增地址')">新增地址</a>
-                    <input type="hidden" name="province" id="province" lay-verify="required"><input type="hidden" name="city" id="city" lay-verify="required"><input type="hidden" name="area" id="area" lay-verify="required"><input
-                  type="hidden" name="address" id="address" lay-verify="required"><input type="hidden" name="consignee" id="consignee" lay-verify="required"><input
-                  type="hidden" name="consigneePhone" id="consigneePhone" lay-verify="required">
-                </div>
-                <h4>费用信息</h4>
-                <div class="line"></div>
-                <div class="mt-20">
-                    <div class="row cl">
-                        <div class="fee-box"><p class="lab">基础服务费</p><p class="fee"><span>20</span>元</p><input type="hidden" name="basicFee" id="basicFee" value="20" lay-verify="required"/></div>
-                        <div class="fee-box"><p class="lab">每公里加收2元</p><p class="fee"><span>20</span>元</p><input type="hidden" name="additionalFee" id="additionalFee" value="2"  lay-verify="required"/></div>
-                        <div class="fee-box"><p class="lab">合计服务费</p><p class="fee"><span>20</span>元</p><input type="hidden" name="totalFee" id="totalFee" value="30" lay-verify="required"></div>
-                        <div class="fee-box"><p class="lab">折扣信息</p><p class="fee"><span>20</span>元</p><input type="hidden" name="discount" id="discount" value="0.8" lay-verify="required"></div>
-                        <div class="fee-line"></div>
-                        <div class="fee-box"><p class="lab">应收金额</p><p class="fee"><span>20</span>元</p><input type="hidden" name="paidFee" id="paidFee" value="60" lay-verify="required"></div>
-                        <div class="cl"></div>
-                    </div>
+                <div class="" id="adres" style="display:none">
+                	<h4>寄送地址</h4>
+	                <div class="line"></div>
+	                <div class="mt-20">
+	                    <div class="layui-form-item">
+	                        <div class="layui-input-block" id="address-list" style="min-height:1px;"></div>
+	                        <a href="javascript:;" class="btn btn-success" style="margin-left: 110px; margin-top: 10px;" onclick="layer_show('新增地址')">新增地址</a>
+	                    	<input type="hidden" name="province" id="province" lay-verify="required">
+	                    	<input type="hidden" name="city" id="city" lay-verify="required">
+	                    	<input type="hidden" name="area" id="area" lay-verify="required">
+	                    	<input type="hidden" name="address" id="address" lay-verify="required">
+	                    	<input type="hidden" name="consignee" id="consignee" lay-verify="required">
+	                    	<input type="hidden" name="consigneePhone" id="consigneePhone" lay-verify="required">
+	                    	<input type="hidden" name="areafrom" id="areafrom" lay-verify="required"/>
+	                    </div>
+	                </div>
                 </div>
                 <div class="mt-20">
-                    <div class="row cl">
-                        <button style="float:right;" class="layui-btn btn btn-success" lay-submit="" lay-filter="demo">确认下单</button>
+                    <div class="row cl text-c">
+                        <button class="btn btn-success radius" style="width:100px" lay-submit="" lay-filter="total">费用计算</button>
                     </div>
                 </div>
                 <input type="hidden" name="userId" id="userId">
             </form>
-            <div class="mt-20">
-                <table class="table table-border table-bordered table-bg table-hover table-sort" id="table"></table>
-            </div>
             <div class="page-on-load">
             	<div ng-spinner-bar class="page-spinner-bar" >
 				    <div class="cover"></div>
@@ -184,6 +174,18 @@
     var pageSize = 10;
     var formData = "";
     var layform;
+    var getArea = function(){
+		var j;
+		$.ajax({
+			url: basePath+"v1/area/getArea",
+			async:false, 
+			type:"POST",
+			success:function(m){
+				j = JSON.parse(m);
+			}
+		});
+		return j;
+	}
     layui.use('laydate', function(){
 		  var laydate = layui.laydate;
 		  laydate.render({
@@ -216,23 +218,24 @@
                         $('input[name="consignee"]').val($(data.elem).data('consignee'));
                         $('input[name="consigneePhone"]').val($(data.elem).data('consigneephone'));
                     });
-                    layform.on('submit(demo)', function(data){
-                        $.ajax({
-                            type:'POST',
-                            url: basePath+'v1/order/insertOrderbyUser',
-                            data: $('#form-admin-add').serialize(),
-                            success: function (res){
-                                var json = JSON.parse(res);
-                                if(json.resultCode == 'SUCCESS'){
-                                    layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
-                                        window.location.href= basePath + 'v1/page/orderList';
-                                    });
-                                }else{
-                                    layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
-                                }
-                            }
-                        })
-                        return false;
+                    layform.on('submit(total)', function(data){
+                    	var fd = {};
+                    	for(var d in data.field){
+			        		  fd[d.replace("areafrom","areaId")] = data.field[d];
+			        	}
+                    	$.ajax({
+                    		url: basePath+"v1/order/getPrice",
+                    		type:"POST",
+                    		data:fd,
+                    		success:function(d){
+                    			var j = JSON.parse(d);
+                    			if(j.resultCode=="SUCCESS"){
+                    				priceHtml(j,fd)
+                    			}
+                    			
+                    		}
+                    	})
+                    	return false;
                     });
                     layform.verify({
                         length: function(value){
@@ -251,6 +254,7 @@
     });
     function getUserChannelAndAddress(thisobj ) {
         if(!$(thisobj).val()){
+        	$("#adres").hide();
             return false;
         }
         var tel = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -258,6 +262,7 @@
             layer.alert('电话号码格式不正确',{
                 title: '提示信息'
             });
+            $("#adres").hide();
             return false;
         }
         $.ajax({
@@ -269,6 +274,7 @@
                 if(json.addressList.length>0){
                     initAddress('',json.userid);
                 }
+                $("#adres").show();
                 if(json.user.channelId){
                     $('#channelId').find('option').each(function (i) {
                         if($(this).val() == json.user.channelId){
@@ -304,10 +310,16 @@
             success: function (res){
                 var json = JSON.parse(res);
                 var html = [];
-                for(var i = 0; i< json.length; i++){
-                    html.push('<div style="overflow: hidden"><input type="radio" name="sex" value="" title="'+json[i].consignee+' '+json[i].consigneePhone+'         '+json[i].province+' '+json[i].city+' '+json[i].area+' '+json[i].address+'" '+(isAdd?(i==json.length-1?'checked':''):(i==0?'checked':''))+' data-id="'+json[i].id+'" data-province="'+json[i].province+'" data-city="'+json[i].city+'" data-area="'+json[i].area+'" data-address="'+json[i].address+'" data-consigneePhone="'+json[i].consigneePhone+'" data-consignee="'+json[i].consignee+'"><a href="javascript:;" class="btn btn-success" style="float:left; margin-right: 10px;"  onclick="layer_show(\'编辑地址\',\''+json[i].id+'\')">编辑</a><a href="javascript:;" class="btn btn-success" style="float:left;" onclick="delAddress(\''+json[i].id+'\')">删除</a></div>');
+                if(json.length>0){
+                	for(var i = 0; i< json.length; i++){
+                        html.push('<div style="overflow: hidden"><input type="radio" name="sex" value="" title="'+json[i].consignee+' '+json[i].consigneePhone+'         '+json[i].province+' '+json[i].city+' '+json[i].area+' '+json[i].address+'" '+(isAdd?(i==json.length-1?'checked':''):(i==0?'checked':''))+' data-id="'+json[i].id+'" data-province="'+json[i].province+'" data-city="'+json[i].city+'" data-area="'+json[i].area+'" data-address="'+json[i].address+'" data-consigneePhone="'+json[i].consigneePhone+'" data-consignee="'+json[i].consignee+'" data-areafrom="'+json[i].areafrom+'"><a href="javascript:;" class="btn btn-success" style="float:left; margin-right: 10px;"  onclick="layer_show(\'编辑地址\',\''+json[i].id+'\')">编辑</a><a href="javascript:;" class="btn btn-success" style="float:left;" onclick="delAddress(\''+json[i].id+'\')">删除</a></div>');
+                    }
+                	$('#address-list').html(html.join(''));
+                }else{
+                	$('#address-list').html("");
                 }
-                $('#address-list').html(html.join(''));
+                
+                
                 if(isAdd){
                     $('input[name="province"]').val(json[json.length-1].province);
                     $('input[name="city"]').val(json[json.length-1].city);
@@ -315,6 +327,7 @@
                     $('input[name="address"]').val(json[json.length-1].address);
                     $('input[name="consignee"]').val(json[json.length-1].consignee);
                     $('input[name="consigneePhone"]').val(json[json.length-1].consigneePhone);
+                    $('input[name="areafrom"]').val(json[json.length-1].areafrom);
                 }else{
                     $('input[name="province"]').val(json[0].province);
                     $('input[name="city"]').val(json[0].city);
@@ -322,6 +335,7 @@
                     $('input[name="address"]').val(json[0].address);
                     $('input[name="consignee"]').val(json[0].consignee);
                     $('input[name="consigneePhone"]').val(json[0].consigneePhone);
+                    $('input[name="areafrom"]').val(json[0].areafrom);
                 }
                 layform.render();
             },
@@ -332,6 +346,8 @@
     }
     function layer_show(title,addressid){
         var html = [],formAddress;
+        var area = getArea();
+        
         if(addressid){
             $.ajax({
                 url: basePath + 'v1/address/getAddressDetail',
@@ -345,12 +361,19 @@
                     html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人电话：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="'+json.consigneePhone+'" lay-verify="required|phone"></div>')
                     html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
                     html.push('<div class="layui-form-item"><div class="layui-input-inline"><select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select></div>');
-                    html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>')
-                    html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区" '+(json.area == '海淀区'?'selected':'')+'>海淀区</option><option value="昌平区" '+(json.area == '昌平区'?'selected':'')+'>昌平区</option><option value="朝阳区" '+(json.area == '朝阳区'?'selected':'')+'>朝阳区</option></select></div>')
-                    html.push('</div></div>');
+                    html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>');
+                    html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option>');
+                    for(var i=0;i<area.length;i++){
+                    	if(json.area==area[i].area){
+                    		html.push('<option value="'+area[i].id+'" selected>'+area[i].area+'</option>');
+                    	}else{
+                    		html.push('<option value="'+area[i].id+'">'+area[i].area+'</option>');
+                    	}
+                    }
+                    html.push('</select></div></div></div>');
                     html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="'+json.address+'" lay-verify="required|length100"></div>');
                     html.push('</div>');
-                    html.push('<input type="hidden" name="province" id="province" value="'+json.province+'"><input type="hidden" name="city" id="city" value="'+json.city+'"><input type="hidden" name="area" id="area" value="'+json.area+'"><input type="hidden" name="id" id="id" value="'+addressid+'">');
+                    html.push('<input type="hidden" name="province" id="province" value="'+json.province+'"><input type="hidden" name="city" id="city" value="'+json.city+'"><input type="hidden" name="area" id="area" value="'+json.area+'"><input type="hidden" name="areafrom" id="areafrom" value="'+json.areafrom+'"><input type="hidden" name="id" id="id" value="'+addressid+'">');
                     html.push('<div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="address">确定</button></div>');
                     html.push('</form></article>');
                     layer.open({
@@ -369,7 +392,8 @@
                                     $('input[name="city"]').val(data.value);
                                 })
                                 formAddress.on('select(area)',function (data) {
-                                    $('input[name="area"]').val(data.value);
+                                	$('input[name="areafrom"]').val(data.value);
+                                    $('input[name="area"]').val(data.elem.options[data.elem.selectedIndex].text);
                                 })
                                 formAddress.on('submit(address)',function (data) {
                                     $.ajax({
@@ -412,11 +436,14 @@
             html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
             html.push('<div class="layui-form-item"><div class="layui-input-inline"><select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select></div>');
             html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>')
-            html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区">海淀区</option><option value="昌平区">昌平区</option><option value="朝阳区">朝阳区</option></select></div>')
-            html.push('</div></div>');
+            html.push('<div class="layui-input-inline"><select name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option>');
+            for(var i=0;i<area.length;i++){
+            	html.push('<option value="'+area[i].id+'">'+area[i].area+'</option>');
+            }
+            html.push('</select></div></div></div>');
             html.push('<label class="form-label col-xs-3 col-sm-2">详细地址：</label><div class="formControls col-xs-9 col-sm-10"><input type="text" class="input-text" placeholder="" id="address" name="address" value="" lay-verify="required|length100"></div>');
             html.push('</div>');
-            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="area" id="area" value=""><input type="hidden" name="userid" id="userid" value="'+$('input[name="userId"]').val()+'">');
+            html.push('<input type="hidden" name="province" id="province" value="北京"><input type="hidden" name="city" id="city" value="北京"><input type="hidden" name="areafrom" id="areafrom" value=""><input type="hidden" name="area" id="area" value=""><input type="hidden" name="userid" id="userid" value="'+$('input[name="userId"]').val()+'">');
             html.push('<div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="address">确定</button></div>');
             html.push('</form></article>');
             layer.open({
@@ -435,7 +462,8 @@
                             $('input[name="city"]').val(data.value);
                         })
                         formAddress.on('select(area)',function (data) {
-                            $('input[name="area"]').val(data.value);
+                            $('input[name="areafrom"]').val(data.value);
+                            $('input[name="area"]').val(data.elem.options[data.elem.selectedIndex].text);
                         })
                         formAddress.on('submit(address)',function (data) {
                             $.ajax({
@@ -485,6 +513,49 @@
             })
 
         });
+    }
+    
+    var priceHtml = function(d,dd){
+    	var html = [];
+    	html.push('<div class="pd-20"><form class="layui-form" action=""><h4>费用信息</h4><div class="line"></div><div class="mt-20"><div class="row cl text-c">');
+    	html.push('<div class="fee-box"><p class="lab">物品单价</p><p class="fee"><span>'+d.price+'</span>元</p><input type="hidden" name="price" id="price" value="'+d.price+'" lay-verify="required"/></div>');
+    	html.push('<div class="fee-box"><p class="lab">物品数量</p><p class="fee"><span>'+d.num+'</span>件</p><input type="hidden" name="num" id="num" value="'+d.num+'"  lay-verify="required"/></div>');
+    	html.push('<div class="fee-box"><p class="lab">合计金额</p><p class="fee"><span>'+d.totalFee+'</span>元</p><input type="hidden" name="totalFee" id="totalFee" value="'+d.totalFee+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-box"><p class="lab">渠道折扣</p><p class="fee"><span>'+d.ChannelDiscount+'</span>折</p><input type="hidden" name="ChannelDiscount" id="ChannelDiscount" value="'+d.ChannelDiscount+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-box"><p class="lab">第二件起折扣</p><p class="fee"><span>'+d.AreaDiscount+'</span>折</p><input type="hidden" name="AreaDiscount" id="AreaDiscount" value="'+d.AreaDiscount+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-line"></div><div class="fee-box"><p class="lab">实际支付金额</p><p class="fee"><span>'+d.paid+'</span>元</p><input type="hidden" name="paid" id="paid" value="'+d.paid+'" lay-verify="required"></div>');
+    	html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="addOrder">确认下单</button></div></div></div></form></div>');
+    	layui.use(['form','layer'],function(){
+    		var form = layui.form;
+    		layui.layer.open({
+	   		     type: 1
+	   		    ,title: false
+	   		    ,area: '600px'
+	   		    ,maxmin: false
+	   		    ,content: html.join(""),
+	   		    success:function(){
+	   		    	form.on('submit(addOrder)', function(data){
+	   		    		var json = $.extend({}, dd, data.field);
+	   		    		$.ajax({
+	                        type:'POST',
+	                        url: basePath+'v1/order/insertOrderbyUser',
+	                        data: json,
+	                        success: function (res){
+	                            var json = JSON.parse(res);
+	                            if(json.resultCode == 'SUCCESS'){
+	                                layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+	                                    window.location.href= basePath + 'v1/page/orderList';
+	                                });
+	                            }else{
+	                                layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
+	                            }
+	                        }
+	                    })
+	   		    		return false;
+	   		    	})
+	   		    }
+	   		});
+    	});
     }
 </script>
 </body>

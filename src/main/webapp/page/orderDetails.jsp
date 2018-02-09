@@ -186,25 +186,27 @@
                                 <input type="text" class="input-text" value="" placeholder="" id="consigneePhone" name="consigneePhone">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">所在区域：</label>
+                        <div class="col-xs-12 col-sm-12 col-md-12 mb-10">
+                            <label class="form-label col-xs-2 col-sm-2">所在区域：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <div class="layui-form-item">
-                                    <div class="layui-input-inline" style="width: 162px;">
-                                        <select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select>
-                                    </div>
-                                    <div class="layui-input-inline" style="width: 162px;">
-                                        <select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select>
-                                    </div>
-                                    <div class="layui-input-inline" style="width: 162px;">
-                                        <select id="areaSelect" name="quiz3" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option><option value="海淀区">海淀区</option><option value="昌平区">昌平区</option><option value="朝阳区">朝阳区</option></select>
-                                    </div>
+                                <div class="layui-input-inline mr-5" style="width: 162px;">
+                                    <select lay-filter="province" lay-verify="required"><option value="北京" selected>北京市</option></select>
+                                </div>
+                                <div class="layui-input-inline mr-5" style="width: 162px;">
+                                    <select lay-filter="city" lay-verify="required"><option value="北京" selected>北京市</option></select>
+                                </div>
+                                <div class="layui-input-inline mr-5" style="width: 162px;">
+                                    <select id="areaSelect" lay-filter="area" lay-verify="required" ><option value="">请选择县/区</option></select>
                                 </div>
                             </div>
-                            <input type="hidden" name="province" id="province" value=""><input type="hidden" name="city" id="city" value=""><input type="hidden" name="area" id="area" value="">
+                            <input type="hidden" name="province" id="province" value="">
+                            <input type="hidden" name="city" id="city" value="">
+                            <input type="hidden" name="area" id="area" value="">
+                            <input type="hidden" name="areafrom" id="areafrom" value="">
+                            <input type="hidden" name="areaId" id="areaId" value="">
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">详细地址：</label>
+                        <div class="col-xs-12 col-sm-12 col-md-12 mb-10">
+                            <label class="form-label col-xs-2 col-sm-2">详细地址：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <textarea class="textarea" id = "address" name="address"></textarea>
                             </div>
@@ -222,6 +224,11 @@
                     </div>
                 </div>
             </div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20">
+        		<span class="r">
+        			<a href="javascript:;" onclick="" class="btn btn-primary radius" id="modifyDetails"><i class="Hui-iconfont Hui-iconfont-save"></i> 订单修改</a>
+        		</span>
+        	</div>
         </article>
     </div>
 </section>
@@ -248,12 +255,25 @@
 			  });
 		})
 	}
+	var getArea = function(){
+		var j;
+		$.ajax({
+			url: basePath+"v1/area/getArea",
+			async:false, 
+			type:"POST",
+			success:function(m){
+				j = JSON.parse(m);
+			}
+		});
+		return j;
+	}
     $.ajax({
     	url: basePath+"v1/order/getOrderDetail",
     	type:"POST",
     	data:{id:id},
     	success:function(data){
     		var json = JSON.parse(data);
+    		var area = getArea();
     		var h = [];
     		if(json.orderStatusDisplay == "1"){
         		if(json.orderStatus=="6"){
@@ -286,6 +306,10 @@
 				case "nowTime":
 					dtime(i,json[i])
 					break;
+				case "areaId":
+					$("#areaId").val(json[i]);
+					$("#areafrom").val(json[i]);
+					break;
 				default:
 					$("#"+i).val(json[i]);
 					break;
@@ -294,21 +318,29 @@
     		$("#statusBox").html(h.join(""));
     		$("#history").html('<a class="btn btn-default radius" href="'+basePath+'v1/page/orderHistory?id='+json.orderNo+'">订单历史记录</a>');
     		updateOrder();
-    		$('#areaSelect').val(json.area);
     		$('#payTypeSelect').val(json.payType);
-        layui.use(['form'], function () {
-            var layform = layui.form;
-            layform.render();
-            layform.on('select(province)',function (data) {
-                $('input[name="province"]').val(data.value);
-            })
-            layform.on('select(city)',function (data) {
-                $('input[name="city"]').val(data.value);
-            })
-            layform.on('select(area)',function (data) {
-                $('input[name="area"]').val(data.value);
-            })
-        })
+    		for(var i=0;i<area.length;i++){
+            	if(json.area==area[i].area){
+            		$("#areaSelect").append('<option value="'+area[i].id+'" selected>'+area[i].area+'</option>')
+            	}else{
+            		$("#areaSelect").append('<option value="'+area[i].id+'">'+area[i].area+'</option>');
+            	}
+            }
+	        layui.use(['form'], function () {
+	            var layform = layui.form;
+	            layform.render();
+	            layform.on('select(province)',function (data) {
+	                $('input[name="province"]').val(data.value);
+	            })
+	            layform.on('select(city)',function (data) {
+	                $('input[name="city"]').val(data.value);
+	            })
+	            layform.on('select(area)',function (data) {
+	            	$('input[name="areaId"]').val(data.value);
+	            	$('input[name="areafrom"]').val(data.value);
+                    $('input[name="area"]').val(data.elem.options[data.elem.selectedIndex].text);
+	            })
+	        })
           var _channelId = json.channelId;
       $.ajax({
           url : basePath+'v1/order/getChannel',
@@ -341,18 +373,18 @@
     var updateOrder = function(){
     	$("#modifyDetails").click(function(){
     		$.ajax({
-    			url: basePath+"v1/order/updateOrder",
-    			type:"POST",
-    	    	data:$("#form-details").serializeArray(),
-    	    	success:function(json){
-    	    		var json = JSON.parse(json);
-    	    		if(json.resultCode=="SUCCESS"){
-    	    			layer.msg(json.msg,{icon: 6,time:1000});
-    	    		}else{
-    	    			layer.msg(json.msg,{icon: 5,time:1000});
-    	    		}
-    	    	}
-    		})
+           		url: basePath+"v1/order/getPrice",
+           		type:"POST",
+           		data:$("#form-details").serializeArray(),
+           		success:function(d){
+           			var j = JSON.parse(d);
+           			if(j.resultCode=="SUCCESS"){
+           				priceHtml(j,$("#form-details").serializeArray())
+           			}
+           			
+           		}
+           	})
+    		
     	})
     }
     var zfzt = function(obj,id){
@@ -474,6 +506,52 @@
     	    	});
     	    	layer.full(index);
     		}
+    	});
+    }
+    var priceHtml = function(d,dd){
+    	var html = [];
+    	html.push('<div class="pd-20"><form class="layui-form" action=""><h4>费用信息</h4><div class="line"></div><div class="mt-20"><div class="row cl text-c">');
+    	html.push('<div class="fee-box"><p class="lab">物品单价</p><p class="fee"><span>'+d.price+'</span>元</p><input type="hidden" name="price" id="price" value="'+d.price+'" lay-verify="required"/></div>');
+    	html.push('<div class="fee-box"><p class="lab">物品数量</p><p class="fee"><span>'+d.num+'</span>件</p><input type="hidden" name="num" id="num" value="'+d.num+'"  lay-verify="required"/></div>');
+    	html.push('<div class="fee-box"><p class="lab">合计金额</p><p class="fee"><span>'+d.totalFee+'</span>元</p><input type="hidden" name="totalFee" id="totalFee" value="'+d.totalFee+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-box"><p class="lab">渠道折扣</p><p class="fee"><span>'+d.ChannelDiscount+'</span>折</p><input type="hidden" name="ChannelDiscount" id="ChannelDiscount" value="'+d.ChannelDiscount+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-box"><p class="lab">第二件起折扣</p><p class="fee"><span>'+d.AreaDiscount+'</span>折</p><input type="hidden" name="AreaDiscount" id="AreaDiscount" value="'+d.AreaDiscount+'" lay-verify="required"></div>');
+    	html.push('<div class="fee-line"></div><div class="fee-box"><p class="lab">实际支付金额</p><p class="fee"><span>'+d.paid+'</span>元</p><input type="hidden" name="paid" id="paid" value="'+d.paid+'" lay-verify="required"></div>');
+    	html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="addOrder">确认下单</button></div></div></div></form></div>');
+    	layui.use(['form','layer'],function(){
+    		var form = layui.form;
+    		layui.layer.open({
+	   		     type: 1
+	   		    ,title: false
+	   		    ,area: '600px'
+	   		    ,maxmin: false
+	   		    ,content: html.join(""),
+	   		    success:function(){
+	   		    	form.on('submit(addOrder)', function(data){
+	   		    		var fd = {};
+	   		    		for(var i in dd){
+	   		    			fd[dd[i].name] = dd[i].value;
+	   		    		}
+	   		    		var json = $.extend({}, fd, data.field);
+	   		    		$.ajax({
+	                        type:'POST',
+	                        url: basePath+'v1/order/updateOrder',
+	                        data: json,
+	                        success: function (res){
+	                            var json = JSON.parse(res);
+	                            if(json.resultCode == 'SUCCESS'){
+	                            	layer.msg(json.msg,{icon: 6,time:1000,shade:0.3},function(){
+	                            		location.reload();
+	                            	});
+	                            }else{
+	                                layer.msg(json.msg,{icon: 5,time:1000,shade:0.3});
+	                            }
+	                        }
+	                    })
+	   		    		return false;
+	   		    	})
+	   		    }
+	   		});
     	});
     }
 </script>

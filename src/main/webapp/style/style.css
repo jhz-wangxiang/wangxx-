@@ -1,7 +1,7 @@
 .air_input_readonly{ border:0 none !important;}
 .fee-box{
-	float: left;
-    margin: 0 60px;
+	display:inline-block;
+    margin: 0 30px;
     text-align: center;
 }
 .fee-box p.lab{

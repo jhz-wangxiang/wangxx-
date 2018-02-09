@@ -30,7 +30,7 @@
         <article class="cl pd-20">
         	<div class="cl pd-5 bg-1 bk-gray mt-20">
         		<span class="r">
-        			<a href="javascript:;" onclick="addOrderFn()" id="addOrderDom" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-dayinji"></i> 创建订单</a>
+        			<a href="javascript:;" onclick="addOrderFn()" id="addOrderDom" class="btn btn-primary radius"><i class="Hui-iconfont Hui-iconfont-add"></i> 创建订单</a>
         		</span>
         	</div>
             <form action="" method="post" class="form form-horizontal" id="form-admin-add">
