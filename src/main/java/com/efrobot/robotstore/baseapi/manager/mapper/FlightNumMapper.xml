@@ -215,6 +215,6 @@
 			and id = #{id,jdbcType=INTEGER}
 		</if>
 		ORDER BY
-		create_date desc
+		cteate_date desc
 	</select>
 </mapper>
