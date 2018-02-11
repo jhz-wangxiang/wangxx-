@@ -80,4 +80,9 @@ public class PageForController {
 		request.setAttribute("navName", "区域管理");
 		return "areaList";
 	}
+	@RequestMapping(value = "/dispatchList")
+	public String dispatchList(HttpServletRequest request) {
+		request.setAttribute("navName", "派送人管理");
+		return "dispatchList";
+	}
 }
