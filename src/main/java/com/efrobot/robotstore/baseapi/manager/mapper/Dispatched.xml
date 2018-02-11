@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.efrobot.robotstore.baseapi.manager.DispatchedMapper">
+	<resultMap id="BaseResultMap"
+		type="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dispatched" property="dispatched" jdbcType="VARCHAR" />
+		<result column="exp1" property="exp1" jdbcType="VARCHAR" />
+		<result column="exp2" property="exp2" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, dispatched, exp1, exp2
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from dispatched
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from dispatched
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into dispatched (dispatched,
+		exp1, exp2)
+		values (#{dispatched,jdbcType=VARCHAR},
+		#{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into dispatched
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dispatched != null">
+				dispatched,
+			</if>
+			
+			<if test="exp1 != null">
+				exp1,
+			</if>
+			<if test="exp2 != null">
+				exp2,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dispatched != null">
+				#{dispatched,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="exp1 != null">
+				#{exp1,jdbcType=VARCHAR},
+			</if>
+			<if test="exp2 != null">
+				#{exp2,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		update dispatched
+		<set>
+			<if test="dispatched != null">
+				dispatched = #{dispatched,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="exp1 != null">
+				exp1 = #{exp1,jdbcType=VARCHAR},
+			</if>
+			<if test="exp2 != null">
+				exp2 = #{exp2,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		update dispatched
+		set dispatched = #{dispatched,jdbcType=VARCHAR},
+		exp1 = #{exp1,jdbcType=VARCHAR},
+		exp2 = #{exp2,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getDispatched" resultMap="BaseResultMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Dispatched">
+		select
+		<include refid="Base_Column_List" />
+		from dispatched
+		where 1=1
+		<if test="dispatched != null and !dispatched.isEmpty() and dispatched != ''">
+			and dispatched = #{dispatched,jdbcType=VARCHAR}
+		</if>
+		<if test="exp1 != null and !exp1.isEmpty() and exp1 != ''">
+			and exp1 = #{exp1,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+	</select>
+
+</mapper>
