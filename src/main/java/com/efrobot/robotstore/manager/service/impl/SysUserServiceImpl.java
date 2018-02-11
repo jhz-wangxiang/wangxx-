@@ -52,7 +52,7 @@ public class SysUserServiceImpl implements SysUserService {
 //		}
 //		return sysUserMapper.selectByParams(record);
 //	}
-
+	@Override
 	public int insertSelective(SysUser record) {
 		if (null != record && !StringUtils.isBlank(record.getPassword())) {
 			String pssword = md5.getMD5String(record.getPassword());
@@ -60,13 +60,17 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		return sysUserMapper.insertSelective(record);
 	}
-	
+	@Override
 	public int updateByPrimaryKeySelective(SysUser record) {
 		if (null != record && !StringUtils.isBlank(record.getPassword())) {
 			String pssword = md5.getMD5String(record.getPassword());
 			record.setPassword(pssword);
 		}
 		return sysUserMapper.updateByPrimaryKeySelective(record);
+	}
+	@Override
+	public List<SysUser> selectByParms(SysUser record) {
+		return sysUserMapper.selectByParms(record);
 	}
 //
 //	/**
@@ -85,6 +89,7 @@ public class SysUserServiceImpl implements SysUserService {
 //
 //	/**
 //	  * 
+	@Override
 	public SysUser selectByPrimaryKey(Integer userId) {
 		return sysUserMapper.selectByPrimaryKey(userId);
 	}

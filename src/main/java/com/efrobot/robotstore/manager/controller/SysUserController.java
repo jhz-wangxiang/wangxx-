@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.manager.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -59,7 +60,12 @@ public class SysUserController {
 		if (StringUtils.isBlank(sysUser.getPassword())) {
 			return CommonUtil.resultMsg("FAIL", "密码不能为空");
 		}
-		// try {
+		SysUser sysUser2=new SysUser();
+		sysUser2.setUsername(sysUser.getUsername());
+		List<SysUser>  list=sysUserService.selectByParms(sysUser2);
+		if(list.size()!=0){
+			return CommonUtil.resultMsg("FAIL", "新增失败,帐号不能重复");
+		}
 		int flag = sysUserService.insertSelective(sysUser);
 		if (flag <= 0) {
 			return CommonUtil.resultMsg("FAIL", "新增失败");

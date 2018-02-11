@@ -19,6 +19,8 @@ public interface SysUserService {
 
 	int insertSelective(SysUser record) throws Exception;
 	
+	List<SysUser> selectByParms(SysUser record);
+	
 	int updateByPrimaryKeySelective(SysUser record)throws Exception;
 //	/**
 //	 * 

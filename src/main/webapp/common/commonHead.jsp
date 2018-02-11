@@ -17,15 +17,11 @@
 	System.out.println(userName);
 	//操作员姓名
 	String operName = user.getName();
-	System.out.println(operName);
-	//角色
-	Integer roleId = user.getRoleId();
 %>
 <script type="text/javascript">
 	//定义变量
 	var rootPath = "<%=rootPath%>";
 	var userId = "<%=userId%>";
 	var userName = "<%=userName%>";
-	var operName = "<%=operName%>";
 </script>
 

@@ -25,29 +25,29 @@ import com.github.pagehelper.PageHelper;
 public class DispatchedServiceImpl implements DispatchedService {
 
 	@Resource
-	private DispatchedMapper channelMapper;
+	private DispatchedMapper dispatchedMapper;
 
 	@Override
 	public PageInfo<Dispatched> getDispatchedListPage(Dispatched channel, Integer pageNum, Integer pageSize)
 			throws Exception {
 		PageHelper.startPage(pageNum, pageSize);
-		List<Dispatched> list = channelMapper.getDispatched(channel);
+		List<Dispatched> list = dispatchedMapper.getDispatched(channel);
 		PageInfo<Dispatched> page = new PageInfo<Dispatched>(list);
 		return page;
 	}
 	
 	@Override
 	public int insertSelective(Dispatched record){
-		return channelMapper.insertSelective(record);
+		return dispatchedMapper.insertSelective(record);
 	}
 	@Override
 	public int updateByPrimaryKeySelective(Dispatched record){
-		return channelMapper.updateByPrimaryKeySelective(record);
+		return dispatchedMapper.updateByPrimaryKeySelective(record);
 	}
 	
 	@Override
 	public int deleteByPrimaryKey(Integer id){
-		return channelMapper.deleteByPrimaryKey(id);
+		return dispatchedMapper.deleteByPrimaryKey(id);
 	}
 //	
 //	@Override
