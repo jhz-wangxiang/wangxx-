@@ -321,13 +321,7 @@ public class OrderController {
 		record.setList(Arrays.asList(ids.split(",")));
 		record.setExp1("是");
 		result = orderService.setDispatched(record);
-		if (result == 0) {
-			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
-		} else if (result == 1)
-			return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
-		else {
-			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
-		}
+		return CommonUtil.resultMsg("SUCCESS", "编辑信息成功");
 	}
 
 	// 修改订单过程状态
