@@ -42,7 +42,7 @@
     var colArr = [
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
-			h.push('<a title="编辑折扣" href="javascript:;" onclick="modifyChannel(\''+d.channel+'\',\''+d.discount+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
+			h.push('<a title="编辑折扣" href="javascript:;" onclick="modifyChannel(\''+d.channel+'\',\''+d.discount+'\',\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
 			h.push('<a title="删除" href="javascript:;" onclick="delChannel(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>');
 		    return h.join("");
 		},width:"100",align:"center"},
@@ -58,7 +58,7 @@
     var limit = 10;
     var formData = "";
     var tableIns ;
-	var modifyChannel = function(c,d){
+	var modifyChannel = function(c,d,id){
 		var html = [];
 		html.push('<div class="pd-20"><form class="layui-form" action="">');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">渠道名称：</label>');
@@ -80,7 +80,7 @@
 			    		$.ajax({
 				    		type:'POST',
 				    		url:basePath+'v1/channel/updateChannel',
-				    		data:{channel:c,discount:Common.ltrim($("input[name='modifyChannel_dis']").val())},
+				    		data:{channel:c,discount:Common.ltrim($("input[name='modifyChannel_dis']").val()),id:id},
 				    	    success:function(d){
 				    	    	var j = JSON.parse(d);
 				    	    	if(j.resultCode=="SUCCESS"){
