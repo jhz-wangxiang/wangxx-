@@ -24,9 +24,9 @@ public class DispatchedController {
 	private DispatchedService dispatchedService;
 	
 	@SuppressWarnings("static-access")
-	@RequestMapping(value = "/getChannelListPage")
+	@RequestMapping(value = "/getDispatchedListPage")
 	@ResponseBody
-	public JSONObject getChannelListPage(Dispatched record, Integer pageNumber, Integer pageSize) throws Exception {
+	public JSONObject getDispatchedListPage(Dispatched record, Integer pageNumber, Integer pageSize) throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		PageInfo<Dispatched> rows = null;
 		JSONObject obj = new JSONObject();
