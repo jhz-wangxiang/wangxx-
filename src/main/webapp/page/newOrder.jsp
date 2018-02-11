@@ -34,46 +34,46 @@
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">客户姓名：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>客户姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text air_input_readonly" value="" placeholder="" id="name" name="name" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text air_input_readonly" value="" placeholder="" id="phone" name="phone" readonly>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                        <%--<div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">客户渠道：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <select name="channelId" class="select" lay-verify="required">
                                     <option value="">请选择</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="cl"></div>
                     </div>
                 </div>
-                <h4>登机人信息</h4>
+                <h4>乘机人信息</h4>
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">登机人姓名：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>乘机人姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="registerName" name="registerName">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">联系电话：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" lay-verify="required|phone" value="" placeholder="" id="registerPhone" name="registerPhone">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">支付方式：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>支付方式：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <select name="payType" class="select" lay-verify="required">
                                     <option value="微信支付">微信支付</option>
@@ -92,13 +92,13 @@
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">航班号：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>航班号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="required|length" value="" placeholder="" id="flightNum" name="flightNum">
+                                <input type="text" class="input-text" lay-verify="required|length" value="" placeholder="" id="flightNum" name="flightNum" onblur="checkFlightNum(this)">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">日期：</label>
+                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>日期：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" lay-verify="required|length" value="" placeholder="" id="nowTimeStr" name="nowTimeStr">
                             </div>
@@ -278,29 +278,31 @@
             data:{"userid":id},
             success: function (res){
                 var json = JSON.parse(res);
-                var html = [];
-                for(var i = 0; i< json.length; i++){
-                    html.push('<div style="overflow: hidden"><input type="radio" name="sex" value="" title="'+json[i].consignee+' '+json[i].consigneePhone+'         '+json[i].province+' '+json[i].city+' '+json[i].area+' '+json[i].address+'" '+(isAdd?(i==json.length-1?'checked':''):(i==0?'checked':''))+' data-id="'+json[i].id+'" data-province="'+json[i].province+'" data-city="'+json[i].city+'" data-area="'+json[i].area+'" data-address="'+json[i].address+'" data-consigneePhone="'+json[i].consigneePhone+'" data-consignee="'+json[i].consignee+'" data-areafrom="'+json[i].areafrom+'"><a href="javascript:;" class="btn btn-success" style="float:left; margin-right: 10px;"  onclick="layer_show(\'编辑地址\',\''+json[i].id+'\')">编辑</a><a href="javascript:;" class="btn btn-success" style="float:left;" onclick="delAddress(\''+json[i].id+'\')">删除</a></div>');
+                if(json.length>0){
+                    var html = [];
+                    for(var i = 0; i< json.length; i++){
+                        html.push('<div style="overflow: hidden"><input type="radio" name="sex" value="" title="'+json[i].consignee+' '+json[i].consigneePhone+'         '+json[i].province+' '+json[i].city+' '+json[i].area+' '+json[i].address+'" '+(isAdd?(i==json.length-1?'checked':''):(i==0?'checked':''))+' data-id="'+json[i].id+'" data-province="'+json[i].province+'" data-city="'+json[i].city+'" data-area="'+json[i].area+'" data-address="'+json[i].address+'" data-consigneePhone="'+json[i].consigneePhone+'" data-consignee="'+json[i].consignee+'" data-areafrom="'+json[i].areafrom+'"><a href="javascript:;" class="btn btn-success" style="float:left; margin-right: 10px;"  onclick="layer_show(\'编辑地址\',\''+json[i].id+'\')">编辑</a><a href="javascript:;" class="btn btn-success" style="float:left;" onclick="delAddress(\''+json[i].id+'\')">删除</a></div>');
+                    }
+                    $('#address-list').html(html.join(''));
+                    if(isAdd){
+                        $('input[name="province"]').val(json[json.length-1].province);
+                        $('input[name="city"]').val(json[json.length-1].city);
+                        $('input[name="area"]').val(json[json.length-1].area);
+                        $('input[name="address"]').val(json[json.length-1].address);
+                        $('input[name="consignee"]').val(json[json.length-1].consignee);
+                        $('input[name="consigneePhone"]').val(json[json.length-1].consigneePhone);
+                        $('input[name="areafrom"]').val(json[json.length-1].areafrom);
+                    }else{
+                        $('input[name="province"]').val(json[0].province);
+                        $('input[name="city"]').val(json[0].city);
+                        $('input[name="area"]').val(json[0].area);
+                        $('input[name="address"]').val(json[0].address);
+                        $('input[name="consignee"]').val(json[0].consignee);
+                        $('input[name="consigneePhone"]').val(json[0].consigneePhone);
+                        $('input[name="areafrom"]').val(json[0].areafrom);
+                    }
+                    layform.render();
                 }
-                $('#address-list').html(html.join(''));
-                if(isAdd){
-                    $('input[name="province"]').val(json[json.length-1].province);
-                    $('input[name="city"]').val(json[json.length-1].city);
-                    $('input[name="area"]').val(json[json.length-1].area);
-                    $('input[name="address"]').val(json[json.length-1].address);
-                    $('input[name="consignee"]').val(json[json.length-1].consignee);
-                    $('input[name="consigneePhone"]').val(json[json.length-1].consigneePhone);
-                    $('input[name="areafrom"]').val(json[json.length-1].areafrom);
-                }else{
-                    $('input[name="province"]').val(json[0].province);
-                    $('input[name="city"]').val(json[0].city);
-                    $('input[name="area"]').val(json[0].area);
-                    $('input[name="address"]').val(json[0].address);
-                    $('input[name="consignee"]').val(json[0].consignee);
-                    $('input[name="consigneePhone"]').val(json[0].consigneePhone);
-                    $('input[name="areafrom"]').val(json[0].areafrom);
-                }
-                layform.render();
             }
         });
     }
@@ -526,6 +528,21 @@
 	   		    }
 	   		});
     	});
+    }
+    function checkFlightNum(thisobj) {
+        $.ajax({
+            url: basePath + 'v1/order/checkflightNum',
+            type: 'POST',
+            data: {'flightNum':$(thisobj).val()},
+            success: function (res) {
+                var json = JSON.parse(res);
+                if(json.resultCode == 'SUCCESS'){
+
+                }else{
+                    layui.layer.msg(json.msg);
+                }
+            }
+        })
     }
 </script>
 </body>

@@ -153,6 +153,7 @@
 		    return h.join("");
 		},minWidth:"300",align:"center"},
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
+        {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
         {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
         {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
         {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
@@ -161,7 +162,6 @@
         }},
         {field:"consignee",title:"收货人",align:"center",minWidth:"50"},
         {field:"totalFee",title:"服务费",align:"center",minWidth:"10"},
-        {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
         {field:"abnormalStatus",title:"异常状态",align:"center",minWidth:"90"},
         {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
         {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
@@ -207,7 +207,7 @@
                     var programme_sel=[];
                     programme_sel.push('<option value="" selected>请选择</option>')
                     for(var i=0,len=json.length;i<len;i++){
-                        programme_sel.push('<option value="'+json[i].id+'">'+json[i].describe+'</option>')
+                        programme_sel.push('<option value="'+json[i].id+'">'+json[i].button+'</option>')
                     }
                     $("select[name='orderStatus']").html(programme_sel.join(' '));
                 }

@@ -73,7 +73,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">服务费：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="totalFee" name="totalFee">
+                                <input type="text" class="input-text air_input_readonly" value=""  placeholder="" id="paidFee" name="paidFee">
                             </div>
                         </div>
                     </div>
@@ -104,12 +104,12 @@
                         </div>
                     </div>
                 </div>
-                <h4>登机人信息</h4>
+                <h4>乘机人信息</h4>
                 <div class="line"></div>
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">登机人姓名：</label>
+                            <label class="form-label col-xs-4 col-sm-4">乘机人姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value=""  placeholder="" id="registerName" name="registerName">
                             </div>
@@ -141,7 +141,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
                             <label class="form-label col-xs-4 col-sm-4">航班号：</label>
                             <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" value="" placeholder="" id="flightNum" name="flightNum">
+                                <input type="text" class="input-text" value="" placeholder="" id="flightNum" name="flightNum" onblur="checkFlightNum(this)">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 mb-10">
@@ -554,6 +554,21 @@
 	   		});
     	});
     }
+  function checkFlightNum(thisobj) {
+      $.ajax({
+          url: basePath + 'v1/order/checkflightNum',
+          type: 'POST',
+          data: {'flightNum':$(thisobj).val()},
+          success: function (res) {
+              var json = JSON.parse(res);
+              if(json.resultCode == 'SUCCESS'){
+
+              }else{
+                  layui.layer.msg(json.msg);
+              }
+          }
+      })
+  }
 </script>
 </body>
 </html>
