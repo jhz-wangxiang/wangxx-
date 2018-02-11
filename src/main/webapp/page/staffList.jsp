@@ -298,8 +298,13 @@
 		        		  type:"POST",
 		        		  data:fd,
 		        		  success:function(data){
-		        			var json = JSON.parse(data);
-		        			location.reload();
+		        			  var json = JSON.parse(data);
+		        			  if(json.resultCode == 'SUCCESS'){
+		        			      location.reload();
+                    }else{
+		        			      layui.layer.msg(json.msg)
+                        return false;
+                    }
 		        		  }
 		        	  })
 		        	  return false;
