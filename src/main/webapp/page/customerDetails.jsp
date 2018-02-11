@@ -175,7 +175,7 @@
     		elem:"#tableAddress",
     		url: basePath+"v1/address/getAddressListPage",
     		method:"POST",
-    		where: {id:id,pageSize:10,start:0},
+    		where: {id:id,pageSize:10,start:0,userid:id},
     		request: {pageName:"pageNumber",limitName:"limit"},
     		response: {dataName: 'list',countName: 'total',statusCode: "1"},
     		cols:[colArr],
