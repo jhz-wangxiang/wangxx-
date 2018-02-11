@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.manager.service.SysUserService;
 import com.efrobot.robotstore.util.CommonUtil;

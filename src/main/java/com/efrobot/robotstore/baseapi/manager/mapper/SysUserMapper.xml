@@ -186,5 +186,8 @@
 		<if test="roleName != null and !roleName.isEmpty() and roleName != ''">
 			and r.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
 		</if>
+		<if test="id != null">
+			and us.id = #{id,jdbcType=INTEGER}
+		</if>
 	</select>
 </mapper>
