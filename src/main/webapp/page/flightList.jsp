@@ -51,7 +51,7 @@
     var colArr = [
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
-			h.push('<a title="编辑" href="javascript:;" onclick="modifyFlight(\''+d.flightNum+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
+			h.push('<a title="编辑" href="javascript:;" onclick="modifyFlight(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"></i></a>');
 			h.push('<a title="删除" href="javascript:;" onclick="delFlight(\''+d.id+'\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-del3"></i></a>');
 		    return h.join("");
 		},width:"100",align:"center"},
