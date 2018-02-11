@@ -9,4 +9,4 @@ target/
 target/
 .idea/
 /bin/
-*.iml
+air-manager.iml

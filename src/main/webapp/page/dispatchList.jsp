@@ -75,7 +75,7 @@
 			    		$.ajax({
 				    		type:'POST',
 				    		url:basePath+'v1/dispatched/updateDispatched',
-				    		data:{dispatched:c,id:d},
+				    		data:{dispatched:Common.ltrim($("input[name='dispatched']").val()),id:d},
 				    	    success:function(d){
 				    	    	var j = JSON.parse(d);
 				    	    	if(j.resultCode=="SUCCESS"){
