@@ -211,5 +211,8 @@
 		<if test="compay != null and !compay.isEmpty() and compay != ''">
 			and compay = #{compay,jdbcType=VARCHAR}
 		</if>
+		<if test="id != null">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
 	</select>
 </mapper>
