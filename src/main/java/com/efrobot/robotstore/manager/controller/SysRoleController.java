@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,16 +16,19 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.SysRole;
+import com.efrobot.robotstore.baseapi.manager.pojo.SysUser;
 import com.efrobot.robotstore.baseapi.manager.pojo.User;
 import com.efrobot.robotstore.manager.service.SysMenuService;
 import com.efrobot.robotstore.manager.service.SysRoleService;
+import com.efrobot.robotstore.manager.service.SysUserService;
 import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.PageInfo;
 
 @RequestMapping("/v1/role")
 @Controller
 public class SysRoleController {
-
+	@Autowired
+	private SysUserService sysUserService;
 	@Resource
 	private SysRoleService sysRoleService;
 	
@@ -78,6 +82,12 @@ public class SysRoleController {
 	@ResponseBody
 	public Map<String, Object> deleteRole(Integer id) throws Exception {
 		int result = -1;
+		SysUser record=new SysUser();
+		record.setRoleId(id);
+		List<SysUser> list=sysUserService.selectByParms(record);
+		if(list.size()!=0){
+			return CommonUtil.resultMsg("FAIL", "请先解除登录用户角色,后在删除角色");
+		}
 		result = sysRoleService.deleteByPrimaryKey(id);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");

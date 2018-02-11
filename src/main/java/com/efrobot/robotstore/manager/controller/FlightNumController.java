@@ -51,6 +51,12 @@ public class FlightNumController {
 	@ResponseBody
 	public Map<String, Object> insertFlightNum(FlightNum record) throws Exception {
 		int result = -1;
+		FlightNum f=new FlightNum();
+		f.setFlightNum(record.getFlightNum());
+		List<FlightNum> list=flightNumRoleService.selectByParms(f);
+		if(list.size()!=0){
+			return CommonUtil.resultMsg("FAIL", "航班号已经存在!");
+		}
 		record.setCteateDate(new Date());
 		result = flightNumRoleService.insertSelective(record);
 		if (result == 0) {
