@@ -173,7 +173,7 @@
 	var delChannel = function(id){
 		layer.confirm('确认要删除吗？',function(index){
 			$.ajax({
-				url: basePath+"v1/role/deleteRole",
+				url: basePath+"v1/channel/deleteChannel",
 				type:"POST",
 				data:{id:id},
 				success:function(data){

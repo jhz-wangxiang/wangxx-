@@ -217,8 +217,8 @@
 			    	laydate.render({
 			    	    elem: '#add_startHour'
 			    	    ,type: 'time'
-			    	    ,format:"HH"
-			    	    ,value:new Date().getHours()
+			    	    ,format:"HH:mm"
+			    	    ,value:new Date()
 			    	  });
 			    	laydate.render({
 			    	    elem: '#add_startTimeStr'
@@ -234,8 +234,8 @@
 			    	 laydate.render({
 			    	    elem: '#add_endHour'
 		    	    	,type: 'time'
-				    	,format:"HH"
-				    	,value:new Date().getHours()
+				    	,format:"HH:mm"
+				    	,value:new Date()
 			    	  });
 			    	form.on('submit(addFlight)', function(data){
 			        	  var fd = {
@@ -295,7 +295,7 @@
 	}
     var searchTable = function(){
 		var data = {
-			roleName:Common.ltrim($("input[name='flightNum']").val()),
+		    flightNum:Common.ltrim($("input[name='flightNum']").val()),
 			start:start
 		}
 		tableIns.reload({
