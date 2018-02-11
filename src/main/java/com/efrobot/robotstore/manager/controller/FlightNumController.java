@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.manager.controller;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,7 @@ public class FlightNumController {
 	@ResponseBody
 	public Map<String, Object> insertFlightNum(FlightNum record) throws Exception {
 		int result = -1;
+		record.setCteateDate(new Date());
 		result = flightNumRoleService.insertSelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");

@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.manager.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,7 @@ public class FlightNumServiceImpl implements FlightNumService {
 				flightNum.setFlightNum(arrs[0]);
 				List<FlightNum> list2=flightNumMapper.selectByParms(flightNum);
 				if(list2.size()==0){
+					manager.setCteateDate(new Date());
 					flightNumMapper.insertSelective(manager);
 				}else
 				{
