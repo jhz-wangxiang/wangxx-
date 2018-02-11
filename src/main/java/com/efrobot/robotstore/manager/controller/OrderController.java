@@ -161,6 +161,7 @@ public class OrderController {
 		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
+		record.setExp1("否");
 		record.setOperator("柜台" + sysUser.getName());
 		// 价格计算
 		float c = 1;
@@ -318,6 +319,7 @@ public class OrderController {
 	public Map<String, Object> setDispatched(Order record, String ids) throws Exception {
 		int result = -1;
 		record.setList(Arrays.asList(ids.split(",")));
+		record.setExp1("是");
 		result = orderService.setDispatched(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
