@@ -154,8 +154,10 @@
 		},minWidth:"300",align:"center"},
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
         {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
-        {field:"name",title:"客户姓名",align:"center",minWidth:"90"},
-        {field:"phone",title:"联系方式",align:"center",minWidth:"90"},
+        {field:"exp1",title:"是否派送",align:"center",minWidth:"100"},
+        {field:"exp2",title:"派送人",align:"center",minWidth:"100"},
+        {field:"registerName",title:"乘机人姓名",align:"center",minWidth:"90"},
+        {field:"registerPhone",title:"联系方式",align:"center",minWidth:"90"},
         {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
         {field:"createDate",title:"下单时间",align:"center",minWidth:"150",templet:function(d){
         	return Common.getLocalDate(d.createDate)
@@ -240,7 +242,7 @@
     			}
     		}
     	});
-    	
+
     }
 	var qxdd = function(obj,id){
 		$.ajax({
@@ -360,7 +362,7 @@
 		h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td><td>时间：</td><td></td></tr>');
 		h.push('<tr><td>序号</td><td>收件人</td><td>联系方式</td><td>运输地址</td><td>乘机人</td><td>联系方式</td><td>行李号码</td><td>备注</td></tr>');
 		for(var i =0;i<checkStatus.data.length;i++){
-			
+
 			h.push('<tr><td>'+(ind++)+'</td><td>'+checkStatus.data[i].consignee+'</td><td>'+checkStatus.data[i].consigneePhone+'</td><td>'+checkStatus.data[i].city+checkStatus.data[i].area+checkStatus.data[i].address+'</td><td>'+checkStatus.data[i].registerName+'</td><td>'+checkStatus.data[i].registerPhone+'</td><td>'+checkStatus.data[i].baggageNo+'</td><td>'+checkStatus.data[i].remark+'</td></tr>');
 		}
 		h.push('</tbody></table>');
@@ -376,6 +378,7 @@
 	}
 	var print1 = function(){
 		var checkStatus = table.checkStatus('checkbox');
+		var idsArr = [];
     	if(checkStatus.data.length==0){
     		layer.msg('请勾选订单',{icon: 5,time:1000});
   		  	return false;
@@ -384,27 +387,75 @@
     		layer.msg('勾选订单不能超过10个',{icon: 5,time:1000});
   		  	return false;
     	}
-    	var h = [];
-    	var ind = 1;
-		h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
-		h.push('<tbody class="text-c">');
-		h.push('<tr><td colspan="6">送货表</td></tr>');
-		h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td></tr>');
-		h.push('<tr><td>序号</td><td>收件人</td><td>联系方式</td><td>运输地址</td><td>行李号码</td><td>备注</td></tr>');
-		for(var i =0;i<checkStatus.data.length;i++){
-			
-			h.push('<tr><td>'+(ind++)+'</td><td>'+checkStatus.data[i].consignee+'</td><td>'+checkStatus.data[i].consigneePhone+'</td><td>'+checkStatus.data[i].city+checkStatus.data[i].area+checkStatus.data[i].address+'</td><td>'+checkStatus.data[i].baggageNo+'</td><td>'+checkStatus.data[i].remark+'</td></tr>');
-		}
-		h.push('</tbody></table>');
-		//h.push('');
-		var index = layer.open({
-    	    type: 1,
-    	    title:false,
-    	    content: h.join(""),
-    	    shade: [1, '#fff'],
-    	    skin: 'print_'
-    	});
-    	layer.full(index);
+    	for(var k = 0; k<checkStatus.data.length; k++){
+          idsArr.push(checkStatus.data[k].id);
+      }
+    	$.ajax({
+          url: basePath + 'v1/dispatched/getDispatched',
+          type: "POST",
+          success: function (res) {
+              console.log(checkStatus);
+              var json = JSON.parse(res);
+              var html = [];
+              html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal layui-form" id="form-dispatch-select"><div class="row cl"><label class="form-label col-xs-3 col-sm-4 mb-15">派送人：</label><div class="formControls col-xs-9 col-sm-8 mb-15"><div class="layui-input-inline"><select name="exp2" lay-filter="dispatch" lay-verify="required"><option value="" selected>请选择</option>')
+              for(var i = 0; i< json.length; i++){
+                  html.push('<option value="'+json[i].dispatched+'">'+json[i].dispatched+'</option>');
+              }
+              html.push('</select></div></div></div><div class="layui-layer-btn layui-layer-btn-" style="margin-top: 20px; position: absolute; bottom: 0; right: 50px;"><button class="btn btn-success aasdda" lay-submit="" lay-filter="dispatch">确定</button></div><input type="hidden" name="ids" value="'+idsArr+'"></form></article>');
+              layer.open({
+                  title: '选择派送人',
+                  content: html.join(""),
+                  area:['400px','400px'],
+                  type:1,
+                  success: function (layero, index) {
+                      layui.use(['form'], function(){
+                          var formdispatch = layui.form;
+                          formdispatch.render();
+                          formdispatch.on('submit(dispatch)',function (data) {
+                              $.ajax({
+                                  url: basePath + 'v1/order/setDispatched',
+                                  data: $('#form-dispatch-select').serialize(),
+                                  type: "POST",
+                                  success: function (_res) {
+                                      var _json = JSON.parse(_res);
+                                      if(_json.resultCode == 'SUCCESS'){
+                                          layer.close(index);
+                                          var h = [];
+                                          var ind = 1;
+                                          h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
+                                          h.push('<tbody class="text-c">');
+                                          h.push('<tr><td colspan="6">送货表</td></tr>');
+                                          h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td></tr>');
+                                          h.push('<tr><td>序号</td><td>收件人</td><td>联系方式</td><td>运输地址</td><td>行李号码</td><td>备注</td></tr>');
+                                          for(var i =0;i<checkStatus.data.length;i++){
+                                              h.push('<tr><td>'+(ind++)+'</td><td>'+checkStatus.data[i].consignee+'</td><td>'+checkStatus.data[i].consigneePhone+'</td><td>'+checkStatus.data[i].city+checkStatus.data[i].area+checkStatus.data[i].address+'</td><td>'+checkStatus.data[i].baggageNo+'</td><td>'+checkStatus.data[i].remark+'</td></tr>');
+                                          }
+                                          h.push('</tbody></table>');
+                                          //h.push('');
+                                          var _index = layer.open({
+                                              type: 1,
+                                              title:false,
+                                              content: h.join(""),
+                                              shade: [1, '#fff'],
+                                              skin: 'print_'
+                                          });
+                                          layer.full(_index);
+                                      }else{
+                                          layer.msg(_json.msg);
+                                      }
+                                  }
+                              })
+                              return false;
+                          });
+                      })
+                  }
+              });
+          }
+      })
+
+
+
+
 	}
     loadSelect();
     dtime("timemin");
