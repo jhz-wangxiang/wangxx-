@@ -25,6 +25,8 @@ public interface OrderService {
 	
 	public int updateByPrimaryKeySelective(Order record);
 	
+	public int setDispatched(Order record);
+	
 	public List<OrderStatus> selectSelectList(String selected);
 	
 	public List<Channel> getChannel(Channel record);

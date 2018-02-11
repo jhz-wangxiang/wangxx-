@@ -247,11 +247,6 @@ public class Order implements Serializable {
 //		if (abnormalStatus!=null&&"是".equals(abnormalStatus)) {
 //			cancelDisplay = "0";
 //		}
-//		if (orderStatus!=null&&orderStatus > 2) {
-//			cancelDisplay = "0";
-//		} else {
-//			cancelDisplay = "1";
-//		}
 //		if(orderStatus!=null&&orderStatus==10){
 //			cancelDisplay = "0";
 //		}
@@ -262,17 +257,17 @@ public class Order implements Serializable {
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
 		if(null!=sysUser.getStatusQx()&&sysUser.getStatusQx().contains("10")){
-			cancelDisplay="1";
+			cancelDisplay = "1";
+			if(orderStatus!=null&&orderStatus==10){
+				cancelDisplay = "0";
+			}
+			if(orderStatus!=null&&orderStatus==6){
+				cancelDisplay = "0";
+			}
 		}else{
 			cancelDisplay="0";
 		}
-		if(orderStatus!=null&&orderStatus==10){
-			cancelDisplay = "0";
-		}
-		if(orderStatus!=null&&orderStatus==6){
-			cancelDisplay = "0";
-		}
-		return cancelDisplay;
+			return cancelDisplay;
 	}
 
 	public void setCancelDisplay(String cancelDisplay) {

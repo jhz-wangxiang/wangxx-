@@ -76,6 +76,10 @@ public class OrderServiceImpl implements OrderService {
 	public int updateByPrimaryKeySelective(Order record) {
 		return orderMapper.updateByPrimaryKeySelective(record);
 	}
+	@Override
+	public int setDispatched(Order record) {
+		return orderMapper.setDispatched(record);
+	}
 	
 	@Override
 	public List<OrderStatus> selectSelectList(String selected) {

@@ -524,6 +524,22 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	<update id="setDispatched" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		update orders
+		<set>
+			<if test="exp1 != null">
+				exp1 = #{exp1,jdbcType=VARCHAR},
+			</if>
+			<if test="exp2 != null">
+				exp2 = #{exp2,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where  id IN
+			<foreach collection="list" index="index" open="(" close=")"
+				separator="," item="snss">
+				#{snss,jdbcType=INTEGER}
+			</foreach>
+	</update>
 	<update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		update orders
 		set user_id = #{userId,jdbcType=INTEGER},
@@ -605,8 +621,10 @@
 		<if test="channelId != null">
 			AND o.channel_id = #{channelId,jdbcType=INTEGER}
 		</if>
-		<if
-			test="abnormalStatus != null and !abnormalStatus.isEmpty() and abnormalStatus != ''">
+		<if test="exp1 != null and !exp1.isEmpty() and exp1 != ''">
+			AND o.exp1 = #{exp1,jdbcType=VARCHAR}
+		</if>
+		<if test="abnormalStatus != null and !abnormalStatus.isEmpty() and abnormalStatus != ''">
 			AND o.abnormal_status = #{abnormalStatus,jdbcType=VARCHAR}
 		</if>
 		<if test="orderStatus != null">
@@ -617,12 +635,12 @@
 		</if>
 		<if test="nowTimeEnd != null and nowTimeEnd != ''">
 			  <![CDATA[
-             and now_time <= DATE_FORMAT(#{nowTimeEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.now_time <= DATE_FORMAT(#{nowTimeEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="nowTimeStart != null and nowTimeStart != ''">
 			  <![CDATA[
-             and now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
+             and o.now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="list != null">
