@@ -481,9 +481,9 @@ public class OrderController {
 	public Map<String, Object> getPrice(Order record) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 价格计算
-		float c = 1;
-		float a = 1;
-		int p = 1;
+		float c = 10;
+		float a = 10;
+		int p = 100;
 		if (null != record.getChannelId()) {// 渠道
 			Channel ch = new Channel();
 			ch.setId(record.getChannelId());
