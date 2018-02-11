@@ -37,6 +37,10 @@ public class DispatchedServiceImpl implements DispatchedService {
 	}
 	
 	@Override
+	public List<Dispatched> getDispatched(Dispatched channel){
+		return dispatchedMapper.getDispatched(channel);
+	}
+	@Override
 	public int insertSelective(Dispatched record){
 		return dispatchedMapper.insertSelective(record);
 	}

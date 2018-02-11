@@ -1,5 +1,6 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.efrobot.robotstore.baseapi.manager.pojo.Area;
 import com.efrobot.robotstore.baseapi.manager.pojo.Dispatched;
 import com.efrobot.robotstore.manager.service.DispatchedService;
 import com.efrobot.robotstore.util.CommonUtil;
@@ -80,6 +82,12 @@ public class DispatchedController {
 		}else {
 			return CommonUtil.resultMsg("FAIL", "更新异常: 多条数据被更新 ");
 		}
+	}
+	@RequestMapping(value = "/getDispatched", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Dispatched> getDispatched(Dispatched record) throws Exception {
+		List<Dispatched> list = dispatchedService.getDispatched(record);
+		return list;
 	}
 //	
 //	@RequestMapping(value = "/getRoleAll", method = RequestMethod.POST)

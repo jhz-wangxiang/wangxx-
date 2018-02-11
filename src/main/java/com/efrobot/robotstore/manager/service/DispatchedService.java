@@ -1,5 +1,7 @@
 package com.efrobot.robotstore.manager.service;
 
+import java.util.List;
+
 import com.efrobot.robotstore.baseapi.manager.pojo.Dispatched;
 import com.efrobot.robotstore.util.PageInfo;
 
@@ -13,5 +15,7 @@ public interface DispatchedService {
 	public int updateByPrimaryKeySelective(Dispatched record);
 	
 	public int deleteByPrimaryKey(Integer id);
+	
+	public List<Dispatched> getDispatched(Dispatched channel);
 //	
 }
