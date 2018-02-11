@@ -252,9 +252,9 @@ public class Order implements Serializable {
 //		} else {
 //			cancelDisplay = "1";
 //		}
-		if(orderStatus!=null&&orderStatus==10){
-			cancelDisplay = "0";
-		}
+//		if(orderStatus!=null&&orderStatus==10){
+//			cancelDisplay = "0";
+//		}
 //		if (orderStatus!=null&&orderStatus==11) {
 //			cancelDisplay = "0";
 //		}
@@ -265,6 +265,12 @@ public class Order implements Serializable {
 			cancelDisplay="1";
 		}else{
 			cancelDisplay="0";
+		}
+		if(orderStatus!=null&&orderStatus==10){
+			cancelDisplay = "0";
+		}
+		if(orderStatus!=null&&orderStatus==6){
+			cancelDisplay = "0";
 		}
 		return cancelDisplay;
 	}

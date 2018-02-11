@@ -71,7 +71,7 @@ public class OrderController {
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
 		String result = "";
-		if(null!=record.getIds()&&!"".equals(record.getIds())){
+		if (null != record.getIds() && !"".equals(record.getIds())) {
 			record.setListStatus(Arrays.asList(record.getIds().split(",")));
 		}
 		rows = orderService.getOrderListPage(record, pageNumber, pageSize);
@@ -458,10 +458,11 @@ public class OrderController {
 		return result;
 
 	}
+
 	@RequestMapping(value = "/getPrice", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getPrice(Order record) throws Exception {
-		Map<String,Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		// 价格计算
 		float c = 1;
 		float a = 1;
@@ -484,16 +485,55 @@ public class OrderController {
 		float paid = (float) ((p + (num - 1) * p * 0.1 * a) * 0.1 * c);
 		record.setTotalFee(new BigDecimal(num * p));
 		record.setPaidFee(new BigDecimal(paid));
-		
+
 		map.put("resultCode", "SUCCESS");
-		map.put("ChannelDiscount", c);//渠道折扣
-		map.put("AreaDiscount", a);//区域折扣,第二件起的折扣
-		map.put("num", num);//礼包数量
-		map.put("price", p);//单间
-		map.put("totalFee", num * p);//总额
-		map.put("paid", paid);//实际支付价格
+		map.put("ChannelDiscount", c);// 渠道折扣
+		map.put("AreaDiscount", a);// 区域折扣,第二件起的折扣
+		map.put("num", num);// 礼包数量
+		map.put("price", p);// 单间
+		map.put("totalFee", num * p);// 总额
+		map.put("paid", paid);// 实际支付价格
 		return map;
 	}
+
+	@RequestMapping(value = "/checkflightNum", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> checkflightNum(Order record) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		if ("".equals(record.getNowTimeStr()) || null == record.getNowTimeStr()) {
+			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
+		}
+		if ("".equals(record.getFlightNum()) || null == record.getFlightNum()) {
+			return CommonUtil.resultMsg("FAIL", "航班号不能为空 ");
+		}
+		FlightNum f = new FlightNum();
+		f.setFlightNum(record.getFlightNum());
+		List<FlightNum> list = flightNumService.selectByParms(f);
+		if (list.size() == 0) {
+			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
+		}
+
+		FlightNum flightNum = list.get(0);
+		if (record.getNowTime().getTime() < flightNum.getEndTime().getTime()
+				&& record.getNowTime().getTime() > flightNum.getStartTime().getTime()) {
+		} else {
+			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
+		}
+		// 校验航班时间
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+
+		String time = sdf.format(record.getNowTime()) + " " + flightNum.getEndHour() + ":00:00";
+
+		Date t = sdf2.parse(time);
+		Date n = new Date();
+		if (!CommonUtil.jisuan(n, t)) {
+			return CommonUtil.resultMsg("FAIL", "航班未开放，请于落地前 24 小时内下单");// 订单可在航班计划落地时间前
+																		// 24
+																		// 小时内下单，如早下单，则提示
+		}
+		return CommonUtil.resultMsg("SUCCESS", "校验成功");
+	}
+
 	public static void main(String[] args) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
