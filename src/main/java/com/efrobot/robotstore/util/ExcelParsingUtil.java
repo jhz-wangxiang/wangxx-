@@ -80,7 +80,7 @@ public class ExcelParsingUtil {
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
 								Date date = cell.getDateCellValue();
 								if (date != null) {
-									value = new SimpleDateFormat("yyyy/MM/dd").format(date);
+									value = new SimpleDateFormat("yyyy/MM/dd HH:mm").format(date);
 								} else {
 									value = "";
 								}

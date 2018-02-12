@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">客户姓名：</label>
+                            <label class="form-label col-xs-4 col-sm-4">乘机人姓名：</label>
                             <div class="formControls col-xs-8 col-sm-8">
                                 <input type="text" class="input-text" value="" placeholder="" id="" name="name">
                             </div>
@@ -59,7 +59,7 @@
 	                            </div>
 	                        </div>
 	                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-	                            <label class="form-label col-xs-4 col-sm-4">手机号：</label>
+	                            <label class="form-label col-xs-4 col-sm-4">乘机人手机号：</label>
 	                            <div class="formControls col-xs-8 col-sm-8">
 	                                <input type="text" class="input-text" value="" placeholder="" id="" name="phone">
 	                            </div>
@@ -319,13 +319,13 @@
 	var searchTable = function(){
 		var data = {
 			orderNo:Common.ltrim($("input[name='orderNo']").val()),
-			name:Common.ltrim($("input[name='name']").val()),
+			registerName:Common.ltrim($("input[name='name']").val()),
 			channelId:$("select[name='channel']").val()==""?null:$("select[name='channel']").val(),
 			abnormalStatus:$("select[name='abnormal']").val()==""?null:$("select[name='abnormal']").val(),
 			orderStatus:$("select[name='orderStatus']").val()==""?null:$("select[name='orderStatus']").val(),
 			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val(),
 			flightNum:Common.ltrim($("input[name='flightNum']").val()),
-			phone:Common.ltrim($("input[name='phone']").val()),
+			registerPhone:Common.ltrim($("input[name='phone']").val()),
 			nowTimeStart:Common.ltrim($("input[name='nowTimeStart']").val()),
 			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
 			start:start
