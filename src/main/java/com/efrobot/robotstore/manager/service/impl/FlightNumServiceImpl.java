@@ -1,6 +1,7 @@
 package com.efrobot.robotstore.manager.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,7 @@ public class FlightNumServiceImpl implements FlightNumService {
 	@Override
 	public Map<String, Object> importFlightNum(List<String[]> list) {
 		Map<String, Object> result = new HashMap<>();
+		List<String> failList = new ArrayList<>(); // 失败的 系统订单号
 		for (String[] arrs : list) {
 			FlightNum manager = new FlightNum();
 			try {
@@ -75,20 +77,20 @@ public class FlightNumServiceImpl implements FlightNumService {
 				flightNum.setFlightNum(arrs[0]);
 				List<FlightNum> list2=flightNumMapper.selectByParms(flightNum);
 				if(list2.size()==0){
-					manager.setCteateDate(new Date());
 					flightNumMapper.insertSelective(manager);
 				}else
 				{
 					manager.setId(list2.get(0).getId());
 					flightNumMapper.updateByPrimaryKeySelective(manager);
 				}
-				result.put("resultCode", "SUCCESS");// 状态码
-				result.put("msg", "导入成功");
 			} catch (Exception e) {
-				result.put("resultCode", "FAIL");// 状态码
-				result.put("msg", "失败,是否有重复的航班号,是否格式不正确");
+				failList.add("航班号:" + arrs[0]);
 			}
 		}
+		result.put("resultCode", "SUCCESS");// 状态码
+		result.put("msg", "导入成功");
+		result.put("failList", failList);
+		result.put("num", failList.size());
 		return result;
 	}
 }
