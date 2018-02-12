@@ -335,9 +335,30 @@
         	            $("input[name='file']").val("");
         	            var json = JSON.parse(data)
         	            if(json.resultCode=="SUCCESS"){
-        	            	layer.msg('导入成功',{icon:1,time:1000},function(){
-        		    	    	location.reload();
-        		    	    });
+//        	            	layer.alert('提示信息',{title:'导入成功',icon:1},function () {
+//                            location.reload();
+//                        });
+        	            	var _h = [];
+        	            	_h.push('<div style="padding: 20px;"><p style="text-align: center; font-size: 16px;margin: 10px;">导入成功</p>');
+        	            	if(json.num>0){
+        	            	    _h.push('<p>失败条数：'+json.num+'</p>');
+        	            	    _h.push('<ul>');
+        	            	    for (var i = 0; i< json.failList.length; i++){
+        	            	        _h.push('<li>'+json.failList[i]+'</li>')
+                            }
+                            _h.push('</ul>')
+                        }
+                        _h.push('</div>');
+        	            	layer.open({
+                            type: 1,
+                            title: '提示信息',
+                            area:'300px',
+                            btn:'确定',
+                            content: _h.join(''),
+                            yes: function () {
+                                location.reload();
+                            }
+                        })
         	            }else{
         	            	layer.msg(json.msg,{icon:1,time:1000});
         	            }
