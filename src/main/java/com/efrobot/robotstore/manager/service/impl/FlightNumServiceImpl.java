@@ -64,13 +64,21 @@ public class FlightNumServiceImpl implements FlightNumService {
 			FlightNum manager = new FlightNum();
 			try {
 				manager.setFlightNum(arrs[0]);//arrs[64] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[64])
-				manager.setCompay(arrs[1]);;
+				manager.setCompay(arrs[1]);
 				manager.setStartPlace(arrs[2]);
 				manager.setEndPlace(arrs[3]);
 				manager.setStartTime(arrs[4] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[4]));
 				manager.setEndTime(arrs[5] == null ? null : new SimpleDateFormat("yyyy/MM/dd").parse(arrs[5]));
-				manager.setStartHour(arrs[6].substring(10));
-				manager.setEndHour(arrs[7].substring(10));
+				if(arrs[6].length()>=10){
+					manager.setStartHour(arrs[6].substring(10));
+				}else{
+					manager.setStartHour(arrs[6]);
+				}
+				if(arrs[6].length()>=10){
+					manager.setEndHour(arrs[7].substring(10));
+				}else{
+					manager.setEndHour(arrs[7]);
+				}
 				manager.setExp1(arrs[8]);
 				
 				FlightNum flightNum = new FlightNum();
