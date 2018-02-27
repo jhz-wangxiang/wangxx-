@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.efrobot.robotstore.baseapi.manager.pojo.Area;
 import com.efrobot.robotstore.baseapi.manager.pojo.Channel;
+import com.efrobot.robotstore.baseapi.manager.pojo.Count;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
@@ -148,6 +149,7 @@ public class OrderController {
 		// // 24
 		// // 小时内下单，如早下单，则提示
 		// }
+		record.setFlightNum(record.getFlightNum().toUpperCase());
 		String zm = flightNum.getExp1();
 		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
 				+ SerialNum.getSystemManageOrder();
@@ -245,6 +247,7 @@ public class OrderController {
 		// //航班未开放，请于落地前 24 小时内下单。未支付订单保留至航班计划落地时间
 		// //后 24 小时，将自动取消。未确认订单在航班计划落地时间后 24 小时，将自动
 		// //退款，并标识订单取消。（
+		record.setFlightNum(record.getFlightNum().toUpperCase());
 		String zm = flightNum.getExp1();
 		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
 				+ SerialNum.getSystemManageOrder();
@@ -554,7 +557,28 @@ public class OrderController {
 		// }
 		return CommonUtil.resultMsg("SUCCESS", "校验成功");
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getOrderCount")
+	@ResponseBody
+	public JSONObject getOrderCount(Order record, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<Count> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		if (null != record.getIds() && !"".equals(record.getIds())) {
+			record.setListStatus(Arrays.asList(record.getIds().split(",")));
+		}
+		rows = orderService.getOrderCount(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
 
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 

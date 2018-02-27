@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.efrobot.robotstore.baseapi.manager.pojo.Area;
 import com.efrobot.robotstore.baseapi.manager.pojo.Channel;
+import com.efrobot.robotstore.baseapi.manager.pojo.Count;
 import com.efrobot.robotstore.baseapi.manager.pojo.FlightNum;
 import com.efrobot.robotstore.baseapi.manager.pojo.Order;
 import com.efrobot.robotstore.baseapi.manager.pojo.OrderStatus;
@@ -12,6 +13,8 @@ import com.efrobot.robotstore.util.PageInfo;
 
 public interface OrderService {
 	public PageInfo<Order> getOrderListPage(Order order, Integer pageNum, Integer pageSize)
+			throws Exception;
+	public PageInfo<Count> getOrderCount(Order order, Integer pageNum, Integer pageSize)
 			throws Exception;
 	
 	public PageInfo<OrderStatusRecord> getOrderStatusRecordListPage(String orderNo, Integer pageNum, Integer pageSize)

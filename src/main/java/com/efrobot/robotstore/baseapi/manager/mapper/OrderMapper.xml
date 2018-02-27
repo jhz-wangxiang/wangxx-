@@ -63,15 +63,24 @@
 		<result column="delivery_time" property="deliveryTime"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
-
+	<resultMap id="BaseCountMap"
+		type="com.efrobot.robotstore.baseapi.manager.pojo.Count">
+		<result column="count" property="count" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="VARCHAR" />
+	</resultMap>
 	<sql id="Base_Column_List">
-		id, user_id, flight_num, now_time, baggage_num, baggage, register_name,
+		id, user_id, flight_num, now_time, baggage_num, baggage,
+		register_name,
 		register_phone, channel_id,
-		consignee, consignee_phone, address, area_id, mileage, basic_fee, discount,
+		consignee, consignee_phone,
+		address, area_id, mileage, basic_fee, discount,
 		additional_fee,
-		pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no, order_wx_no,
+		pay_cost, refund_fee, total_fee, pay_type, pay_status, order_no,
+		order_wx_no,
 		order_status,
-		abnormal_status, abnorma_reason, remark, refund_reason, cancel_reason, operator,
+		abnormal_status, abnorma_reason, remark,
+		refund_reason, cancel_reason, operator,
 		create_date,
 		update_date,paid_fee,exp_fee,single_way,baggage_no,province,city,area,exp1,exp2,delivery_time
 	</sql>
@@ -94,13 +103,17 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into orders (user_id, flight_num,
-		now_time, baggage_num, baggage,
+		now_time, baggage_num,
+		baggage,
 		register_name, register_phone, channel_id,
-		consignee, consignee_phone, address,
+		consignee,
+		consignee_phone, address,
 		area_id, mileage, basic_fee,
-		discount, additional_fee, pay_cost,
+		discount,
+		additional_fee, pay_cost,
 		refund_fee, total_fee, pay_type,
-		pay_status, order_no, order_wx_no,
+		pay_status,
+		order_no, order_wx_no,
 		order_status, abnormal_status, abnorma_reason,
 		remark, refund_reason, cancel_reason,
 		operator, create_date,
@@ -109,24 +122,33 @@
 		values (#{userId,jdbcType=INTEGER}, #{flightNum,jdbcType=VARCHAR},
 		#{nowTime,jdbcType=TIMESTAMP}, #{baggageNum,jdbcType=VARCHAR},
 		#{baggage,jdbcType=VARCHAR},
-		#{registerName,jdbcType=VARCHAR}, #{registerPhone,jdbcType=VARCHAR}, #{channelId,jdbcType=INTEGER},
+		#{registerName,jdbcType=VARCHAR},
+		#{registerPhone,jdbcType=VARCHAR}, #{channelId,jdbcType=INTEGER},
 		#{consignee,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR},
-		#{areaId,jdbcType=INTEGER}, #{mileage,jdbcType=INTEGER}, #{basicFee,jdbcType=DECIMAL},
+		#{areaId,jdbcType=INTEGER},
+		#{mileage,jdbcType=INTEGER}, #{basicFee,jdbcType=DECIMAL},
 		#{discount,jdbcType=DECIMAL}, #{additionalFee,jdbcType=DECIMAL},
 		#{payCost,jdbcType=DECIMAL},
-		#{refundFee,jdbcType=DECIMAL}, #{totalFee,jdbcType=DECIMAL}, #{payType,jdbcType=VARCHAR},
+		#{refundFee,jdbcType=DECIMAL},
+		#{totalFee,jdbcType=DECIMAL}, #{payType,jdbcType=VARCHAR},
 		#{payStatus,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
 		#{orderWxNo,jdbcType=VARCHAR},
-		#{orderStatus,jdbcType=INTEGER}, #{abnormalStatus,jdbcType=VARCHAR},
+		#{orderStatus,jdbcType=INTEGER},
+		#{abnormalStatus,jdbcType=VARCHAR},
 		#{abnormaReason,jdbcType=VARCHAR},
-		#{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR},
-		#{operator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR}, #{refundReason,jdbcType=VARCHAR},
+		#{cancelReason,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
 		#{updateDate,jdbcType=TIMESTAMP},
-		#{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL}, #{singleWay,jdbcType=VARCHAR},
+		#{paidFee,jdbcType=DECIMAL}, #{expFee,jdbcType=DECIMAL},
+		#{singleWay,jdbcType=VARCHAR},
 		#{baggageNo,jdbcType=VARCHAR},
-		#{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR},
-		#{exp1,jdbcType=VARCHAR}, #{exp2,jdbcType=VARCHAR}
+		#{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+		#{area,jdbcType=VARCHAR},
+		#{exp1,jdbcType=VARCHAR},
+		#{exp2,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
@@ -534,56 +556,81 @@
 				exp2 = #{exp2,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where  id IN
-			<foreach collection="list" index="index" open="(" close=")"
-				separator="," item="snss">
-				#{snss,jdbcType=INTEGER}
-			</foreach>
+		where id IN
+		<foreach collection="list" index="index" open="(" close=")"
+			separator="," item="snss">
+			#{snss,jdbcType=INTEGER}
+		</foreach>
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		update orders
-		set user_id = #{userId,jdbcType=INTEGER},
-		flight_num = #{flightNum,jdbcType=VARCHAR},
-		now_time = #{nowTime,jdbcType=TIMESTAMP},
-		baggage_num = #{baggageNum,jdbcType=VARCHAR},
+		set
+		user_id = #{userId,jdbcType=INTEGER},
+		flight_num =
+		#{flightNum,jdbcType=VARCHAR},
+		now_time =
+		#{nowTime,jdbcType=TIMESTAMP},
+		baggage_num =
+		#{baggageNum,jdbcType=VARCHAR},
 		baggage = #{baggage,jdbcType=VARCHAR},
 		register_name = #{registerName,jdbcType=VARCHAR},
-		register_phone = #{registerPhone,jdbcType=VARCHAR},
-		channel_id = #{channelId,jdbcType=INTEGER},
-		consignee = #{consignee,jdbcType=VARCHAR},
-		consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
-		address = #{address,jdbcType=VARCHAR},
+		register_phone =
+		#{registerPhone,jdbcType=VARCHAR},
+		channel_id =
+		#{channelId,jdbcType=INTEGER},
+		consignee =
+		#{consignee,jdbcType=VARCHAR},
+		consignee_phone =
+		#{consigneePhone,jdbcType=VARCHAR},
+		address =
+		#{address,jdbcType=VARCHAR},
 		area_id = #{areaId,jdbcType=INTEGER},
 		mileage = #{mileage,jdbcType=INTEGER},
-		basic_fee = #{basicFee,jdbcType=DECIMAL},
+		basic_fee =
+		#{basicFee,jdbcType=DECIMAL},
 		discount = #{discount,jdbcType=DECIMAL},
 		additional_fee = #{additionalFee,jdbcType=DECIMAL},
-		pay_cost = #{payCost,jdbcType=DECIMAL},
+		pay_cost =
+		#{payCost,jdbcType=DECIMAL},
 		paid_fee = #{paidFee,jdbcType=DECIMAL},
 		exp_fee = #{expFee,jdbcType=DECIMAL},
-		refund_fee = #{refundFee,jdbcType=DECIMAL},
-		total_fee = #{totalFee,jdbcType=DECIMAL},
+		refund_fee =
+		#{refundFee,jdbcType=DECIMAL},
+		total_fee =
+		#{totalFee,jdbcType=DECIMAL},
 		pay_type = #{payType,jdbcType=VARCHAR},
 		pay_status = #{payStatus,jdbcType=VARCHAR},
-		order_no = #{orderNo,jdbcType=VARCHAR},
-		order_wx_no = #{orderWxNo,jdbcType=VARCHAR},
-		order_status = #{orderStatus,jdbcType=INTEGER},
-		abnormal_status = #{abnormalStatus,jdbcType=VARCHAR},
-		abnorma_reason = #{abnormaReason,jdbcType=VARCHAR},
+		order_no =
+		#{orderNo,jdbcType=VARCHAR},
+		order_wx_no =
+		#{orderWxNo,jdbcType=VARCHAR},
+		order_status =
+		#{orderStatus,jdbcType=INTEGER},
+		abnormal_status =
+		#{abnormalStatus,jdbcType=VARCHAR},
+		abnorma_reason =
+		#{abnormaReason,jdbcType=VARCHAR},
 		remark = #{remark,jdbcType=VARCHAR},
 		refund_reason = #{refundReason,jdbcType=VARCHAR},
-		cancel_reason = #{cancelReason,jdbcType=VARCHAR},
-		operator = #{operator,jdbcType=VARCHAR},
-		update_date = #{updateDate,jdbcType=TIMESTAMP},
-		single_way = #{singleWay,jdbcType=VARCHAR},
-		baggage_no = #{baggageNo,jdbcType=VARCHAR},
+		cancel_reason =
+		#{cancelReason,jdbcType=VARCHAR},
+		operator =
+		#{operator,jdbcType=VARCHAR},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		single_way =
+		#{singleWay,jdbcType=VARCHAR},
+		baggage_no =
+		#{baggageNo,jdbcType=VARCHAR},
 		province = #{province,jdbcType=VARCHAR},
 		city = #{city,jdbcType=VARCHAR},
 		area = #{area,jdbcType=VARCHAR},
-		exp1 = #{exp1,jdbcType=VARCHAR},
+		exp1 =
+		#{exp1,jdbcType=VARCHAR},
 		exp2 = #{exp2,jdbcType=VARCHAR},
 		delivery_time = #{deliveryTime,jdbcType=TIMESTAMP}
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
 	<select id="selectByParms" resultMap="BaseResultMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
@@ -597,7 +644,8 @@
 		FROM
 		orders o
 		LEFT JOIN channel c ON o.channel_id = c.id
-		LEFT JOIN USER u ON o.user_id = u.id
+		LEFT JOIN USER u ON
+		o.user_id = u.id
 		LEFT JOIN order_status s ON o.order_status = s.status
 		where 1=1
 		<if test="id != null">
@@ -612,10 +660,12 @@
 		<if test="phone != null and !phone.isEmpty() and phone != ''">
 			AND u.phone = #{phone,jdbcType=VARCHAR}
 		</if>
-		<if test="registerName != null and !registerName.isEmpty() and registerName != ''">
+		<if
+			test="registerName != null and !registerName.isEmpty() and registerName != ''">
 			AND o.register_name = #{registerName,jdbcType=VARCHAR}
 		</if>
-		<if test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
+		<if
+			test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
 			AND o.register_phone = #{registerPhone,jdbcType=VARCHAR}
 		</if>
 		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
@@ -630,7 +680,8 @@
 		<if test="exp1 != null and !exp1.isEmpty() and exp1 != ''">
 			AND o.exp1 = #{exp1,jdbcType=VARCHAR}
 		</if>
-		<if test="abnormalStatus != null and !abnormalStatus.isEmpty() and abnormalStatus != ''">
+		<if
+			test="abnormalStatus != null and !abnormalStatus.isEmpty() and abnormalStatus != ''">
 			AND o.abnormal_status = #{abnormalStatus,jdbcType=VARCHAR}
 		</if>
 		<if test="orderStatus != null">
@@ -658,12 +709,614 @@
 		</if>
 		<if test="listStatus != null">
 			and o.order_status IN
-			<foreach collection="listStatus" index="index" open="(" close=")"
-				separator="," item="snss">
+			<foreach collection="listStatus" index="index" open="("
+				close=")" separator="," item="snss">
 				#{snss,jdbcType=INTEGER}
 			</foreach>
 		</if>
 		ORDER BY
 		o.create_date desc
+	</select>
+
+	<select id="getOrderCountDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order"
+		statementType="STATEMENT">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m%d') time,
+		count(*) count
+		FROM
+		orders
+		WHERE 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(${createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(${createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		time
+	</select>
+	<select id="getOrderCountWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%u') time,
+		count(*) count
+		FROM
+		orders
+		WHERE 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		time
+	</select>
+	<select id="getOrderCountYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y') time,
+		count(*) count
+		FROM
+		orders
+		WHERE 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		time
+	</select>
+	<select id="getOrderCountMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m') time,
+		count(*) count
+		FROM
+		orders
+		WHERE 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		time
+	</select>
+	<select id="getOrderStaffDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		operator name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderStaffWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%u') days,
+		operator name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderStaffMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m') days,
+		operator name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderStaffYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y') days,
+		operator name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderPayTypeDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		pay_type name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderPayTypeWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%u') days,
+		pay_type name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderPayTypeMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m') days,
+		pay_type name,
+		count(*)
+		count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderPayTypeYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y') days,
+		pay_type name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderFlightYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y') days,
+		left(flight_num, 2) name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderFlightMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m') days,
+		left(flight_num, 2) name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderFlightWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%u') days,
+		left(flight_num, 2) name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderFlightDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		left(flight_num, 2)
+		name,
+		count(*) count
+		FROM
+		orders
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderAreaDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		area.area name,
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		count(*)
+		count
+		FROM
+		orders ors
+		LEFT JOIN
+		area area ON ors.area_id = area.id
+		where
+		1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderAreaWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		area.area name,
+		DATE_FORMAT(create_date, '%Y%u') days,
+		count(*)
+		count
+		FROM
+		orders ors
+		LEFT JOIN
+		area area ON ors.area_id = area.id
+		where
+		1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderAreaMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		area.area name,
+		DATE_FORMAT(create_date, '%Y%m') days,
+		count(*)
+		count
+		FROM
+		orders ors
+		LEFT JOIN
+		area area ON ors.area_id = area.id
+		where
+		1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderAreaYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		area.area name,
+		DATE_FORMAT(create_date, '%Y') days,
+		count(*)
+		count
+		FROM
+		orders ors
+		LEFT JOIN
+		area area ON ors.area_id = area.id
+		where
+		1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderChannelDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		ch.channel name,
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		count(*) count
+		FROM
+		orders ors
+		LEFT JOIN
+		channel ch ON ors.channel_id = ch.id
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderChannelDay" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		ch.channel name,
+		DATE_FORMAT(create_date, '%Y%m%d') days,
+		count(*) count
+		FROM
+		orders ors
+		LEFT JOIN
+		channel ch ON ors.channel_id = ch.id
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderChannelWeek" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		ch.channel name,
+		DATE_FORMAT(create_date, '%Y%u') days,
+		count(*) count
+		FROM
+		orders ors
+		LEFT JOIN
+		channel ch ON ors.channel_id = ch.id
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderChannelMon" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		ch.channel name,
+		DATE_FORMAT(create_date, '%Y%m') days,
+		count(*) count
+		FROM
+		orders ors
+		LEFT JOIN
+		channel ch ON ors.channel_id = ch.id
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
+	</select>
+	<select id="getOrderChannelYear" resultMap="BaseCountMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		ch.channel name,
+		DATE_FORMAT(create_date, '%Y') days,
+		count(*) count
+		FROM
+		orders ors
+		LEFT JOIN
+		channel ch ON ors.channel_id = ch.id
+		where 1=1
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		GROUP BY
+		days,
+		name
 	</select>
 </mapper>

@@ -104,6 +104,10 @@ public class Order implements Serializable {
     private String operator;//操作人姓名
 
     private Date createDate;//下单时间
+    
+    private String createDateStart;//下单时间
+    
+    private String createDateEnd;//下单时间
 
     private Date updateDate;
     
@@ -138,8 +142,28 @@ public class Order implements Serializable {
     private List<String> list;
     
     private List<String> listStatus;
+    
+    public String getCreateDateStart() {
+		return createDateStart;
+	}
 
-    public String getIds() {
+	public void setCreateDateStart(String createDateStart) {
+		this.createDateStart = createDateStart;
+	}
+
+	public String getCreateDateEnd() {
+		return createDateEnd;
+	}
+
+	public void setCreateDateEnd(String createDateEnd) {
+		if (null == createDateEnd || "".equals(createDateEnd)) {
+			this.createDateEnd = createDateEnd;
+		} else {
+			this.createDateEnd = createDateEnd + " 23:59:59";
+		}
+	}
+
+	public String getIds() {
 		return ids;
 	}
 
