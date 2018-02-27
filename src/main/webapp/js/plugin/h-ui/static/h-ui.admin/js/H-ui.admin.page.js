@@ -87,7 +87,6 @@ $(function(){
         titCell:'.menu_dropdown dl dt',
         mainCell:'.menu_dropdown dl dd',
     });
-
 	/*换肤*/
     $("#Hui-skin .dropDown-menu a").click(function(){
         var v = $(this).attr("data-val");

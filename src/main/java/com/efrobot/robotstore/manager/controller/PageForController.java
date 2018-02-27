@@ -85,4 +85,9 @@ public class PageForController {
 		request.setAttribute("navName", "派送人管理");
 		return "dispatchList";
 	}
+	@RequestMapping(value = "/count")
+	public String count(HttpServletRequest request) {
+		request.setAttribute("navName", "统计管理");
+		return "count";
+	}
 }

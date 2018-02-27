@@ -68,11 +68,21 @@ System.out.println(munuId);
 		</dl>
 		<%} %>
 		<%if(munuId.contains("10")){%>
-		<dl id="menu-area">
+		<dl id="menu-dispatch">
 			<dt <c:if test="${param.classify=='dispatch'}">class="selected"</c:if>><i class="Hui-iconfont Hui-iconfont-log"></i> 派送人管理<i class="Hui-iconfont menu_dropdown-arrow Hui-iconfont-arrow2-bottom"></i></dt>
 			<dd <c:if test="${param.classify=='dispatch'}">style="display: block;"</c:if>>
 				<ul>
 					<%if(munuId.contains("10")){%><li <c:if test="${param.level=='dispatch_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/dispatchList" title="派送人管理">派送人管理</a></li><%} %>
+				</ul>
+			</dd>
+		</dl>
+		<%} %>
+		<%if(munuId.contains("10")){%>
+		<dl id="menu-count">
+			<dt <c:if test="${param.classify=='count'}">class="selected"</c:if>><i class="Hui-iconfont Hui-iconfont-log"></i> 统计管理<i class="Hui-iconfont menu_dropdown-arrow Hui-iconfont-arrow2-bottom"></i></dt>
+			<dd <c:if test="${param.classify=='count'}">style="display: block;"</c:if>>
+				<ul>
+					<%if(munuId.contains("10")){%><li <c:if test="${param.level=='count_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/count" title="统计管理">统计管理</a></li><%} %>
 				</ul>
 			</dd>
 		</dl>
