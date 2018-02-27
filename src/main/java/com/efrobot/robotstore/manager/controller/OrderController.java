@@ -1,5 +1,8 @@
 package com.efrobot.robotstore.manager.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +14,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -49,7 +59,9 @@ public class OrderController {
 	private OrderService orderService;
 	@Autowired
 	private AreaService areaService;
+	private final static int SPLIT_COUNT = 65535; // Excel每个工作簿的行数
 
+	private static Workbook workBook;
 	@Autowired
 	private FlightNumService flightNumService;
 	@Autowired
@@ -557,7 +569,7 @@ public class OrderController {
 		// }
 		return CommonUtil.resultMsg("SUCCESS", "校验成功");
 	}
-	
+
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getOrderCount")
 	@ResponseBody
@@ -576,9 +588,219 @@ public class OrderController {
 		jsonObject = JSONObject.parseObject(result);
 		return jsonObject;
 	}
-	
-	
-	
+
+	/**
+	 * @方法名: exportOrderLLogis
+	 * @功能描述: 导出物流信息订单信息xml
+	 * @param ids
+	 * @return
+	 * @作者 wxx
+	 * @日期 2016年7月14日
+	 */
+	@RequestMapping(value = "/exportOrderJiaojie")
+	public void exportOrderJiaojie(String ids, HttpServletResponse res, HttpSession session) throws Exception {
+		OutputStream os = res.getOutputStream();
+		List<Order> list = null;
+		Order record = new Order();
+		record.setList(Arrays.asList(ids.split(",")));
+		list = orderService.selectByParms(record);
+
+		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
+		res.setHeader("Content-disposition",
+				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
+		res.setContentType("application/msexcel");
+		createOrderWorkbook(list, os);
+		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
+		// } catch (Exception e) {
+		// //LOG.error(e.getMessage(), e);
+		// return CommonUtil.resultMsg("FAIL", "导出失败");
+		// }
+	}
+	/**
+	 * @方法名: exportOrderLLogis
+	 * @功能描述: 导出物流信息订单信息xml
+	 * @param ids
+	 * @return
+	 * @作者 wxx
+	 * @日期 2016年7月14日
+	 */
+	@RequestMapping(value = "/exportOrderSendGoogs")
+	public void exportOrderSendGoogs(String ids, HttpServletResponse res, HttpSession session) throws Exception {
+		OutputStream os = res.getOutputStream();
+		List<Order> list = null;
+		Order record = new Order();
+		record.setList(Arrays.asList(ids.split(",")));
+		list = orderService.selectByParms(record);
+		
+		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
+		res.setHeader("Content-disposition",
+				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
+		res.setContentType("application/msexcel");
+		createSendGoogsWorkbook(list, os);
+		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
+		// } catch (Exception e) {
+		// //LOG.error(e.getMessage(), e);
+		// return CommonUtil.resultMsg("FAIL", "导出失败");
+		// }
+	}
+
+	/**
+	 * 创建订单信息XSSFWorkbook对象
+	 * 
+	 * @return XSSFWorkbook
+	 */
+	public static void createOrderWorkbook(List<Order> fieldData, OutputStream os) throws Exception {
+		String pathfile = OrderController.class.getResource("/xls/机场运输交接表.xlsx").getPath();
+		workBook = new XSSFWorkbook(new FileInputStream(new File(pathfile)));
+		int sheetNum = 0; // 指定sheet的页数
+		int rows = 0;
+		if (fieldData != null && fieldData.size() > 0) {
+			rows = fieldData.size();// 总的记录数
+			if (rows % SPLIT_COUNT == 0) {
+				sheetNum = rows / SPLIT_COUNT;
+			} else {
+				sheetNum = rows / SPLIT_COUNT + 1;
+			}
+		} else {
+			Sheet sheet0 = workBook.getSheet("Sheet" + 1);// 使用workbook对象创建sheet对象
+		}
+		for (int i = 1; i <= sheetNum; i++) {// 循环2个sheet的值
+			Sheet sheet = workBook.getSheet("Sheet" + i);
+			// 分页处理excel的数据，遍历所有的结果
+			String flag = "";// 标记合并单元格
+			int rownum = 0;
+			int k2=0;
+			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
+				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
+					break;
+				Row row = sheet.createRow((k + 3));// 创建1行l'
+				k2=k;
+				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
+				Order order = (Order) fieldData.get((i - 1) * SPLIT_COUNT + k);
+
+				Cell cell = row.createCell(0);//
+				cell.setCellValue(k+1);
+
+				cell = row.createCell(1);// 
+				cell.setCellValue(
+						order.getConsignee() == null ? "" : order.getConsignee());
+
+				cell = row.createCell(2);// 
+				cell.setCellValue(
+						order.getConsigneePhone() == null ? "" : order.getConsigneePhone());
+				cell = row.createCell(3);// 
+				String address="";
+				if(order.getCity()!=null){
+					address=order.getCity();
+				}
+				if(order.getArea()!=null){
+					address=address+order.getArea();
+				}
+				if(order.getAddress()!=null){
+					address=address+order.getAddress();
+				}
+				cell.setCellValue(address);
+				
+				cell = row.createCell(4);// 
+				cell.setCellValue(
+						order.getRegisterName() == null ? "" : order.getRegisterName());
+				cell = row.createCell(5);// 
+				cell.setCellValue(
+						order.getRegisterPhone() == null ? "" : order.getRegisterPhone());
+				cell = row.createCell(6);// 
+				cell.setCellValue(
+						order.getBaggageNo() == null ? "" : order.getBaggageNo());
+				cell = row.createCell(7);// 
+				cell.setCellValue(
+						order.getRemark() == null ? "" : order.getRemark());
+				
+			}
+			Row row = sheet.createRow((k2 + 3));// 创建1行l'
+			Cell cell = row.createCell(1);//
+			cell.setCellValue("交出人:");
+			Row row1 = sheet.createRow((k2 + 4));// 创建1行l'
+			Cell cell1 = row1.createCell(1);//
+			cell1.setCellValue("接收人:");
+		}
+		workBook.write(os);// 将excel中的数据写到输出流中，用于文件的输出
+		os.close();
+	}
+	/**
+	 * 创建订单信息XSSFWorkbook对象
+	 * 
+	 * @return XSSFWorkbook
+	 */
+	public static void createSendGoogsWorkbook(List<Order> fieldData, OutputStream os) throws Exception {
+		String pathfile = OrderController.class.getResource("/xls/送货表调度.xlsx").getPath();
+		workBook = new XSSFWorkbook(new FileInputStream(new File(pathfile)));
+		int sheetNum = 0; // 指定sheet的页数
+		int rows = 0;
+		if (fieldData != null && fieldData.size() > 0) {
+			rows = fieldData.size();// 总的记录数
+			if (rows % SPLIT_COUNT == 0) {
+				sheetNum = rows / SPLIT_COUNT;
+			} else {
+				sheetNum = rows / SPLIT_COUNT + 1;
+			}
+		} else {
+			Sheet sheet0 = workBook.getSheet("Sheet" + 1);// 使用workbook对象创建sheet对象
+		}
+		for (int i = 1; i <= sheetNum; i++) {// 循环2个sheet的值
+			Sheet sheet = workBook.getSheet("Sheet" + i);
+			// 分页处理excel的数据，遍历所有的结果
+			String flag = "";// 标记合并单元格
+			int rownum = 0;
+			int k2=0;
+			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
+				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
+					break;
+				Row row = sheet.createRow((k + 3));// 创建1行l'
+				k2=k;
+				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
+				Order order = (Order) fieldData.get((i - 1) * SPLIT_COUNT + k);
+				
+				Cell cell = row.createCell(0);//
+				cell.setCellValue(k+1);
+				
+				cell = row.createCell(1);// 
+				cell.setCellValue(
+						order.getConsignee() == null ? "" : order.getConsignee());
+				
+				cell = row.createCell(2);// 
+				cell.setCellValue(
+						order.getConsigneePhone() == null ? "" : order.getConsigneePhone());
+				cell = row.createCell(3);// 
+				String address="";
+				if(order.getCity()!=null){
+					address=order.getCity();
+				}
+				if(order.getArea()!=null){
+					address=address+order.getArea();
+				}
+				if(order.getAddress()!=null){
+					address=address+order.getAddress();
+				}
+				cell.setCellValue(address);
+				
+				cell = row.createCell(6);// 
+				cell.setCellValue(
+						order.getBaggageNo() == null ? "" : order.getBaggageNo());
+				cell = row.createCell(7);// 
+				cell.setCellValue(
+						order.getRemark() == null ? "" : order.getRemark());
+				
+			}
+//			Row row = sheet.createRow((k2 + 3));// 创建1行l'
+//			Cell cell = row.createCell(1);//
+//			cell.setCellValue("交出人:");
+//			Row row1 = sheet.createRow((k2 + 4));// 创建1行l'
+//			Cell cell1 = row1.createCell(1);//
+//			cell1.setCellValue("接收人:");
+		}
+		workBook.write(os);// 将excel中的数据写到输出流中，用于文件的输出
+		os.close();
+	}
+
 	public static void main(String[] args) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
