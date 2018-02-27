@@ -107,7 +107,7 @@
                     
                     <div class='row cl text-c'>
                     	<button name="" id="" class="btn btn-success radius" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
-                    	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印行李运输交接单</button>
+                    	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印运输交接单</button>
                     	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print1()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印送货单</button>
                     </div>
             </form>
@@ -350,7 +350,7 @@
     		layer.msg('请勾选订单',{icon: 5,time:1000});
   		  	return false;
     	}
-    	if(checkStatus.data.length>=10){
+    	if(checkStatus.data.length>10){
     		layer.msg('勾选订单不能超过10个',{icon: 5,time:1000});
   		  	return false;
     	}
@@ -358,13 +358,15 @@
     	var ind = 1;
 		h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
 		h.push('<tbody class="text-c">');
-		h.push('<tr><td colspan="8">行李送到家委托书提取单</td></tr>');
+		h.push('<tr><td colspan="8">行李运输交接单</td></tr>');
 		h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td><td>时间：</td><td></td></tr>');
 		h.push('<tr><td>序号</td><td>收件人</td><td>联系方式</td><td>运输地址</td><td>乘机人</td><td>联系方式</td><td>行李号码</td><td>备注</td></tr>');
 		for(var i =0;i<checkStatus.data.length;i++){
 
 			h.push('<tr><td>'+(ind++)+'</td><td>'+checkStatus.data[i].consignee+'</td><td>'+checkStatus.data[i].consigneePhone+'</td><td>'+checkStatus.data[i].city+checkStatus.data[i].area+checkStatus.data[i].address+'</td><td>'+checkStatus.data[i].registerName+'</td><td>'+checkStatus.data[i].registerPhone+'</td><td>'+checkStatus.data[i].baggageNo+'</td><td>'+checkStatus.data[i].remark+'</td></tr>');
 		}
+		h.push('<tr><td colspan="2">交出人</td><td colspan="6"></td></tr>');
+		h.push('<tr><td colspan="2">接收人</td><td colspan="6"></td></tr>');
 		h.push('</tbody></table>');
 		//h.push('');
 		var index = layer.open({
