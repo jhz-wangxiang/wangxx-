@@ -719,8 +719,7 @@
 	</select>
 
 	<select id="getOrderCountDay" resultMap="BaseCountMap"
-		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order"
-		statementType="STATEMENT">
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		DATE_FORMAT(create_date, '%Y%m%d') time,
 		count(*) count
@@ -729,12 +728,12 @@
 		WHERE 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(${createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(${createDateStart}, '%Y/%m/%d')
+             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		GROUP BY
