@@ -15,7 +15,7 @@
 
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp">
-	<jsp:param value="account" name="classify"/>
+	<jsp:param value="dispatch" name="classify"/>
 	<jsp:param value="dispatched_list" name="level"/>
 </jsp:include>
 <section class="Hui-article-box">
