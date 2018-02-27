@@ -805,7 +805,7 @@
 	<select id="getOrderStaffDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') days,
+		DATE_FORMAT(create_date, '%Y%m%d') time,
 		operator name,
 		count(*)
 		count
@@ -823,13 +823,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderStaffWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') days,
+		DATE_FORMAT(create_date, '%Y%u') time,
 		operator name,
 		count(*)
 		count
@@ -847,13 +847,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderStaffMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') days,
+		DATE_FORMAT(create_date, '%Y%m') time,
 		operator name,
 		count(*)
 		count
@@ -871,13 +871,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderStaffYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') days,
+		DATE_FORMAT(create_date, '%Y') time,
 		operator name,
 		count(*) count
 		FROM
@@ -894,13 +894,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderPayTypeDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') days,
+		DATE_FORMAT(create_date, '%Y%m%d') time,
 		pay_type name,
 		count(*)
 		count
@@ -918,13 +918,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderPayTypeWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') days,
+		DATE_FORMAT(create_date, '%Y%u') time,
 		pay_type name,
 		count(*)
 		count
@@ -942,13 +942,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderPayTypeMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') days,
+		DATE_FORMAT(create_date, '%Y%m') time,
 		pay_type name,
 		count(*)
 		count
@@ -966,13 +966,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderPayTypeYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') days,
+		DATE_FORMAT(create_date, '%Y') time,
 		pay_type name,
 		count(*) count
 		FROM
@@ -989,13 +989,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderFlightYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') days,
+		DATE_FORMAT(create_date, '%Y') time,
 		left(flight_num, 2) name,
 		count(*) count
 		FROM
@@ -1012,13 +1012,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderFlightMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') days,
+		DATE_FORMAT(create_date, '%Y%m') time,
 		left(flight_num, 2) name,
 		count(*) count
 		FROM
@@ -1035,13 +1035,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderFlightWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') days,
+		DATE_FORMAT(create_date, '%Y%u') time,
 		left(flight_num, 2) name,
 		count(*) count
 		FROM
@@ -1058,13 +1058,13 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderFlightDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') days,
+		DATE_FORMAT(create_date, '%Y%m%d') time,
 		left(flight_num, 2)
 		name,
 		count(*) count
@@ -1082,14 +1082,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderAreaDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area.area name,
-		DATE_FORMAT(create_date, '%Y%m%d') days,
+		DATE_FORMAT(create_date, '%Y%m%d') time,
 		count(*)
 		count
 		FROM
@@ -1109,14 +1109,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderAreaWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area.area name,
-		DATE_FORMAT(create_date, '%Y%u') days,
+		DATE_FORMAT(create_date, '%Y%u') time,
 		count(*)
 		count
 		FROM
@@ -1136,14 +1136,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderAreaMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area.area name,
-		DATE_FORMAT(create_date, '%Y%m') days,
+		DATE_FORMAT(create_date, '%Y%m') time,
 		count(*)
 		count
 		FROM
@@ -1163,14 +1163,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderAreaYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area.area name,
-		DATE_FORMAT(create_date, '%Y') days,
+		DATE_FORMAT(create_date, '%Y') time,
 		count(*)
 		count
 		FROM
@@ -1190,14 +1190,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderChannelDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%m%d') days,
+		DATE_FORMAT(create_date, '%Y%m%d') time,
 		count(*) count
 		FROM
 		orders ors
@@ -1215,14 +1215,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderChannelWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%u') days,
+		DATE_FORMAT(create_date, '%Y%u') time,
 		count(*) count
 		FROM
 		orders ors
@@ -1240,14 +1240,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderChannelMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%m') days,
+		DATE_FORMAT(create_date, '%Y%m') time,
 		count(*) count
 		FROM
 		orders ors
@@ -1265,14 +1265,14 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 	<select id="getOrderChannelYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y') days,
+		DATE_FORMAT(create_date, '%Y') time,
 		count(*) count
 		FROM
 		orders ors
@@ -1290,7 +1290,7 @@
             ]]>
 		</if>
 		GROUP BY
-		days,
+		time,
 		name
 	</select>
 </mapper>
