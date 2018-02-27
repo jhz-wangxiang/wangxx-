@@ -48,7 +48,7 @@
 <link rel="stylesheet" type="text/css" href="<%=basePath%>js/plugin/layui/css/layui.css" />
 <script type="text/javascript" src="<%=basePath%>js/plugin/layui/layui.js"></script>
 <script type="text/javascript">
-	var menuArr = [{exp1:"订单列表",menuId:"1"},{exp1:"新建订单",menuId:"2"},{exp1:"异常订单",menuId:"3"},{exp1:"客户账号",menuId:"4"},{exp1:"员工管理",menuId:"5"},{exp1:"角色管理",menuId:"6"},{exp1:"渠道管理",menuId:"7"},{exp1:"航班管理",menuId:"8"},{exp1:"区域管理",menuId:"9"},{exp1:"派送人管理",menuId:"10"}];
+	var menuArr = [{exp1:"订单列表",menuId:"1"},{exp1:"新建订单",menuId:"2"},{exp1:"异常订单",menuId:"3"},{exp1:"客户账号",menuId:"4"},{exp1:"员工管理",menuId:"5"},{exp1:"角色管理",menuId:"6"},{exp1:"渠道管理",menuId:"7"},{exp1:"航班管理",menuId:"8"},{exp1:"区域管理",menuId:"9"},{exp1:"派送人管理",menuId:"10"},{exp1:"统计管理",menuId:"11"}];
     var colArr = [
 		{field:"operation",title:"操作",templet: function(d){
 			var h = [];
