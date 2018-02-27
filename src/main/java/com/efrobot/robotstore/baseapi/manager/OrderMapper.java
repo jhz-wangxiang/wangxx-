@@ -55,5 +55,4 @@ public interface OrderMapper {
     List<Count> getOrderChannelMon(Order record);
     List<Count> getOrderChannelYear(Order record);
     
-    List<Count> getOrderCountBystatus(Order record);
 }

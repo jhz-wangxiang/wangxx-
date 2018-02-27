@@ -1219,31 +1219,6 @@
 		days,
 		name
 	</select>
-	<select id="getOrderChannelDay" resultMap="BaseCountMap"
-		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
-		SELECT
-		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%m%d') days,
-		count(*) count
-		FROM
-		orders ors
-		LEFT JOIN
-		channel ch ON ors.channel_id = ch.id
-		where 1=1
-		<if test="createDateEnd != null and createDateEnd != ''">
-			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
-              ]]>
-		</if>
-		<if test="createDateStart != null and createDateStart != ''">
-			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
-            ]]>
-		</if>
-		GROUP BY
-		days,
-		name
-	</select>
 	<select id="getOrderChannelWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
