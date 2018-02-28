@@ -26,10 +26,14 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -50,6 +54,7 @@ import com.efrobot.robotstore.util.CommonUtil;
 import com.efrobot.robotstore.util.Const;
 import com.efrobot.robotstore.util.PageInfo;
 import com.efrobot.robotstore.util.SerialNum;
+import com.efrobot.toolkit.util.http.RestClient;
 
 @RequestMapping("/v1/order")
 @RestController
@@ -60,7 +65,7 @@ public class OrderController {
 	@Autowired
 	private AreaService areaService;
 	private final static int SPLIT_COUNT = 65535; // Excel每个工作簿的行数
-
+	public static RestTemplate restTemplate = RestClient.getInstance();// 请求类
 	private static Workbook workBook;
 	@Autowired
 	private FlightNumService flightNumService;
@@ -163,8 +168,6 @@ public class OrderController {
 		// }
 		record.setFlightNum(record.getFlightNum().toUpperCase());
 		String zm = flightNum.getExp1();
-		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
-				+ SerialNum.getSystemManageOrder();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
@@ -172,7 +175,7 @@ public class OrderController {
 		record.setOrderStatus(1);// 支付变成2
 		record.setPayStatus("未支付");
 		record.setCreateDate(new Date());
-		record.setOrderNo(orderNo);
+//		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
 		record.setExp1("否");
@@ -200,6 +203,20 @@ public class OrderController {
 		record.setTotalFee(new BigDecimal(num * p));
 		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
+		String idStr=record.getId().toString();
+		if(idStr.length()==1){
+			idStr="000"+idStr;
+		}
+		if(idStr.length()==2){
+			idStr="00"+idStr;
+		}
+		if(idStr.length()==3){
+			idStr="0"+idStr;
+		}
+		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
+		+ idStr;
+		record.setOrderNo(orderNo);
+		orderService.updateByPrimaryKey(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1) {
@@ -261,8 +278,6 @@ public class OrderController {
 		// //退款，并标识订单取消。（
 		record.setFlightNum(record.getFlightNum().toUpperCase());
 		String zm = flightNum.getExp1();
-		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
-				+ SerialNum.getSystemManageOrder();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
@@ -270,7 +285,7 @@ public class OrderController {
 		record.setOrderStatus(1);// 支付变成2
 		record.setPayStatus("未支付");
 		record.setCreateDate(new Date());
-		record.setOrderNo(orderNo);
+//		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
 		record.setAbnormalStatus("否");
 		record.setOperator("柜台" + sysUser.getName());
@@ -297,6 +312,20 @@ public class OrderController {
 		record.setTotalFee(new BigDecimal(num * p));
 		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
+		String idStr=record.getId().toString();
+		if(idStr.length()==1){
+			idStr="000"+idStr;
+		}
+		if(idStr.length()==2){
+			idStr="00"+idStr;
+		}
+		if(idStr.length()==3){
+			idStr="0"+idStr;
+		}
+		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
+		+ idStr;
+		record.setOrderNo(orderNo);
+		orderService.updateByPrimaryKey(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
 		} else if (result == 1) {
@@ -392,6 +421,21 @@ public class OrderController {
 		record.setOrderStatus(10);
 		result = orderService.updateByPrimaryKeySelective(record);
 		setHistory(status_order.get("订单取消"), order2.getOrderNo(), record.getCancelReason());
+		if(order2.getOrderWxNo()!=null&&!"".equals(order2.getOrderWxNo())){
+			HttpHeaders headers = new HttpHeaders();
+			MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+			headers.setContentType(type);
+			headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("out_trade_no",order2.getOrderNo() );
+			BigDecimal bb=new BigDecimal("100");
+			BigDecimal total=bb.multiply(order2.getPaidFee());
+			jsonObject.put("total_fee", total.intValue());
+			jsonObject.put("refund_fee", total.intValue());
+			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
+	        restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
+					String.class);
+		}
 		// } else {
 		// return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
 		// }
@@ -715,10 +759,10 @@ public class OrderController {
 						order.getRemark() == null ? "" : order.getRemark());
 				
 			}
-			Row row = sheet.createRow((k2 + 3));// 创建1行l'
+			Row row = sheet.createRow((k2 + 5));// 创建1行l'
 			Cell cell = row.createCell(1);//
 			cell.setCellValue("交出人:");
-			Row row1 = sheet.createRow((k2 + 4));// 创建1行l'
+			Row row1 = sheet.createRow((k2 + 6));// 创建1行l'
 			Cell cell1 = row1.createCell(1);//
 			cell1.setCellValue("接收人:");
 		}
@@ -802,6 +846,9 @@ public class OrderController {
 	}
 
 	public static void main(String[] args) {
+		
+		
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH");
