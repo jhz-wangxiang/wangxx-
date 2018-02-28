@@ -109,6 +109,8 @@
                     	<button name="" id="" class="btn btn-success radius" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                     	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印运输交接单</button>
                     	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print1()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印送货单</button>
+                    	<a href="javascript:;" class="btn btn-primary radius" onclick="exe('v1/order/exportOrderJiaojie',this)"><i class="Hui-iconfont Hui-iconfont-daochu"></i>导出运输交接单</a>
+                    	<a href="javascript:;" class="btn btn-primary radius" onclick="exe('v1/order/exportOrderSendGoogs',this)"><i class="Hui-iconfont Hui-iconfont-daochu"></i>导出送货单</a>
                     </div>
             </form>
             <div class="mt-20">
@@ -385,7 +387,7 @@
     		layer.msg('请勾选订单',{icon: 5,time:1000});
   		  	return false;
     	}
-    	if(checkStatus.data.length>=10){
+    	if(checkStatus.data.length>10){
     		layer.msg('勾选订单不能超过10个',{icon: 5,time:1000});
   		  	return false;
     	}
@@ -396,7 +398,6 @@
           url: basePath + 'v1/dispatched/getDispatched',
           type: "POST",
           success: function (res) {
-              console.log(checkStatus);
               var json = JSON.parse(res);
               var html = [];
               html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal layui-form" id="form-dispatch-select"><div class="row cl"><label class="form-label col-xs-3 col-sm-4 mb-15">派送人：</label><div class="formControls col-xs-9 col-sm-8 mb-15"><div class="layui-input-inline"><select name="exp2" lay-filter="dispatch" lay-verify="required"><option value="" selected>请选择</option>')
@@ -454,10 +455,26 @@
               });
           }
       })
-
-
-
-
+	}
+	var exe = function(url,obj){
+		var checkStatus = table.checkStatus('checkbox');
+		var idsArr = [];
+    	if(checkStatus.data.length==0){
+    		layer.msg('请勾选订单',{icon: 5,time:1000});
+  		  	return false;
+    	}
+    	for(var k = 0; k<checkStatus.data.length; k++){
+            idsArr.push(checkStatus.data[k].id);
+        }
+    	var u = basePath+url+"?ids="+idsArr.join(",");
+    	var a = document.createElement ("a");
+    	a.href = u;
+    	a.onclick = function(){
+    		a.onclick = null;
+    		document.getElementsByTagName("body")[0].removeChild(a);
+    	};
+    	document.getElementsByTagName("body")[0].appendChild(a);
+    	a.click();
 	}
     loadSelect();
     dtime("timemin");
@@ -478,12 +495,6 @@
     		},
     		id: 'checkbox'
     	});
-    	
-    	/* table.on('checkbox(checkbox)', function(obj){
-   		  console.log(obj.checked); //当前是否选中状态
-   		  console.log(obj); //选中行的相关数据
-   		  console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
-   		}); */
     });
 </script>
 </body>
