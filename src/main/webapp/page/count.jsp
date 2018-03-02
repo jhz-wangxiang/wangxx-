@@ -45,7 +45,10 @@
             		<a href="javascript:;" data-index = "7" class="btn btn-primary radius">航班号</a>
             	</span>
             </div>
-            <div class="cl pd-5 bg-1 bk-gray mt-20"> 
+            <div class="cl pd-5 bg-1 bk-gray mt-20">
+            	<span class="l">
+            		<a href="javascript:;" class="btn btn-primary radius" onclick="exe()"><i class="Hui-iconfont Hui-iconfont-daochu"></i>导出</a>
+            	</span>
             	<span class="r" id="date_list">
             		<a href="javascript:;" data-date = "YEAR" class="btn btn-secondary radius">年</a>
             		<a href="javascript:;" data-date = "MON" class="btn btn-secondary radius">月</a>
@@ -154,6 +157,20 @@
 			});
 		}
 	}
+    var exe = function(){
+    	var u = basePath+"v1/order/exportCount?createDateStart="+Common.ltrim($("input[name='createDateStart']").val())
+    			+"&createDateEnd="+Common.ltrim($("input[name='createDateEnd']").val())
+    			+"&exp1="+$("input[name='exp1']").val()
+    			+"&exp2="+$("input[name='exp2']").val();
+    	var a = document.createElement ("a");
+    	a.href = u;
+    	a.onclick = function(){
+    		a.onclick = null;
+    		document.getElementsByTagName("body")[0].removeChild(a);
+    	};
+    	document.getElementsByTagName("body")[0].appendChild(a);
+    	a.click();
+    }
     $(function(){
     	dtime("timemin");
         dtime("timemax");
