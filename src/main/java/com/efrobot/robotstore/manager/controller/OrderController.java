@@ -643,6 +643,31 @@ public class OrderController {
 	 * @作者 wxx
 	 * @日期 2016年7月14日
 	 */
+	@RequestMapping(value = "/exportCount")
+	public void exportCount(Order record, HttpServletResponse res, HttpSession session) throws Exception {
+		OutputStream os = res.getOutputStream();
+		List<Count> list = null;
+		list = orderService.getOrderCountAll(record);
+
+		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
+		res.setHeader("Content-disposition",
+				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
+		res.setContentType("application/msexcel");
+		createCountWorkbook(list, os);
+		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
+		// } catch (Exception e) {
+		// //LOG.error(e.getMessage(), e);
+		// return CommonUtil.resultMsg("FAIL", "导出失败");
+		// }
+	}
+	/**
+	 * @方法名: exportOrderLLogis
+	 * @功能描述: 导出物流信息订单信息xml
+	 * @param ids
+	 * @return
+	 * @作者 wxx
+	 * @日期 2016年7月14日
+	 */
 	@RequestMapping(value = "/exportOrderJiaojie")
 	public void exportOrderJiaojie(String ids, HttpServletResponse res, HttpSession session) throws Exception {
 		OutputStream os = res.getOutputStream();
@@ -650,7 +675,7 @@ public class OrderController {
 		Order record = new Order();
 		record.setList(Arrays.asList(ids.split(",")));
 		list = orderService.selectByParms(record);
-
+		
 		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
 		res.setHeader("Content-disposition",
 				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
@@ -846,6 +871,56 @@ public class OrderController {
 		workBook.write(os);// 将excel中的数据写到输出流中，用于文件的输出
 		os.close();
 	}
+	/**
+	 * 创建订单信息XSSFWorkbook对象
+	 * 
+	 * @return XSSFWorkbook
+	 */
+	public static void createCountWorkbook(List<Count> fieldData, OutputStream os) throws Exception {
+		String pathfile = OrderController.class.getResource("/xls/count.xlsx").getPath();
+		workBook = new XSSFWorkbook(new FileInputStream(new File(pathfile)));
+		int sheetNum = 0; // 指定sheet的页数
+		int rows = 0;
+		if (fieldData != null && fieldData.size() > 0) {
+			rows = fieldData.size();// 总的记录数
+			if (rows % SPLIT_COUNT == 0) {
+				sheetNum = rows / SPLIT_COUNT;
+			} else {
+				sheetNum = rows / SPLIT_COUNT + 1;
+			}
+		} else {
+			Sheet sheet0 = workBook.getSheet("Sheet" + 1);// 使用workbook对象创建sheet对象
+		}
+		for (int i = 1; i <= sheetNum; i++) {// 循环2个sheet的值
+			Sheet sheet = workBook.getSheet("Sheet" + i);
+			// 分页处理excel的数据，遍历所有的结果
+			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
+				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
+					break;
+				Row row = sheet.createRow((k + 3));// 创建1行l'
+				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
+				Count order = (Count) fieldData.get((i - 1) * SPLIT_COUNT + k);
+				
+				Cell cell = row.createCell(0);//
+				cell.setCellValue(
+						order.getTime() == null ? "" : order.getTime());
+				
+				cell = row.createCell(1);// 
+				cell.setCellValue(
+						order.getName() == null ? "" : order.getName());
+				cell = row.createCell(2);// 
+				cell.setCellValue(
+						order.getCount() == null ? "" : order.getCount().toString());
+				cell = row.createCell(3);// 
+				cell.setCellValue(
+						order.getPrice() == null ? "" : order.getPrice().toString());
+				
+			}
+		}
+		workBook.write(os);// 将excel中的数据写到输出流中，用于文件的输出
+		os.close();
+	}
+	
 
 	public static void main(String[] args) {
 		

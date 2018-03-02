@@ -127,6 +127,82 @@ public class OrderServiceImpl implements OrderService {
 		PageInfo<Count> page = new PageInfo<Count>(list);
 		return page;
 	}
+	@Override
+	public List<Count> getOrderCountAll(Order order) {
+		List<Count> list = new ArrayList<>();
+		if ("1".equals(order.getExp2())) {// 订单总量
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderCountYear(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderCountMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderCountWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderCountDay(order);
+			}
+		} else if ("2".equals(order.getExp2())) {// 员工新建订单
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderStaffYear(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderStaffMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderStaffWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderStaffDay(order);
+			}
+		} else if ("3".equals(order.getExp2())) {// 支付方式
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderPayTypeYear(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderPayTypeMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderPayTypeWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderPayTypeDay(order);
+			}
+		} else if ("4".equals(order.getExp2())) {// 航空公司
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightYear(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightDay(order);
+			}
+		}else if ("5".equals(order.getExp2())) {// 区域
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderAreaDay(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderAreaDay(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderAreaDay(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderAreaDay(order);
+			}
+		}else if ("6".equals(order.getExp2())) {// 渠道
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderChannelYear(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderChannelMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderChannelWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderChannelDay(order);
+			}
+		}else if ("7".equals(order.getExp2())) {// hangb
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumDay(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumDay(order);
+			}
+		}
+		return list;
+	}
 
 	@Override
 	public PageInfo<OrderStatusRecord> getOrderStatusRecordListPage(String orderNo, Integer pageNum, Integer pageSize)

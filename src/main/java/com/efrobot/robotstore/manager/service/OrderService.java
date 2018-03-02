@@ -22,6 +22,8 @@ public interface OrderService {
 	
 	public List<Order> selectByParms(Order record) ;
 	
+	public List<Count> getOrderCountAll(Order record) ;
+	
 	public int insertSelective(Order record);
 	
 	public int updateByPrimaryKey(Order record);
