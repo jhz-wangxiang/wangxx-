@@ -65,6 +65,14 @@ public class SysUserController {
 		if(list.size()!=0){
 			return CommonUtil.resultMsg("FAIL", "新增失败,帐号不能重复");
 		}
+		
+		SysUser sysUser3=new SysUser();
+		sysUser3.setName(sysUser.getName());
+		List<SysUser>  list3=sysUserService.selectByParms(sysUser3);
+		if(list3.size()!=0){
+			return CommonUtil.resultMsg("FAIL", "新增失败,员工名称不能重复");
+		}
+		
 		int flag = sysUserService.insertSelective(sysUser);
 		if (flag <= 0) {
 			return CommonUtil.resultMsg("FAIL", "新增失败");

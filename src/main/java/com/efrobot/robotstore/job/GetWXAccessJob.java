@@ -84,8 +84,10 @@ public class GetWXAccessJob {
 						jsonObject.put("out_trade_no",order.getOrderNo() );
 						BigDecimal bb=new BigDecimal("100");
 						BigDecimal total=bb.multiply(order.getPaidFee());
-						jsonObject.put("total_fee", total.intValue());
-						jsonObject.put("refund_fee", total.intValue());
+//						jsonObject.put("total_fee", total.intValue());
+//						jsonObject.put("refund_fee", total.intValue());
+						jsonObject.put("total_fee", 1);
+						jsonObject.put("refund_fee", 1);
 						HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
                         restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
 								String.class);

@@ -42,6 +42,7 @@
             		<a href="javascript:;" data-index = "4" class="btn btn-primary radius">航空公司</a>
             		<a href="javascript:;" data-index = "5" class="btn btn-primary radius">区域</a>
             		<a href="javascript:;" data-index = "6" class="btn btn-primary radius">渠道</a>
+            		<a href="javascript:;" data-index = "7" class="btn btn-primary radius">航班号</a>
             	</span>
             </div>
             <div class="cl pd-5 bg-1 bk-gray mt-20"> 
@@ -68,10 +69,12 @@
         {field:"time",title:"时间",align:"center"},
         {field:"name",title:"名称",align:"center"},
         {field:"count",title:"数量",align:"center"},
+        {field:"price",title:"总金额",align:"center"},
     ];
     var colArr1 = [
         {field:"time",title:"时间",align:"center"},
         {field:"count",title:"数量",align:"center"},
+        {field:"price",title:"总金额",align:"center"},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;

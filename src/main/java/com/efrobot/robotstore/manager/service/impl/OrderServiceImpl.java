@@ -113,6 +113,16 @@ public class OrderServiceImpl implements OrderService {
 			} else if ("DAY".equals(order.getExp1())) {
 				list = orderMapper.getOrderChannelDay(order);
 			}
+		}else if ("7".equals(order.getExp2())) {// hangb
+			if ("YEAR".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumDay(order);
+			} else if ("MON".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumMon(order);
+			} else if ("WEEK".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumWeek(order);
+			} else if ("DAY".equals(order.getExp1())) {
+				list = orderMapper.getOrderFlightNumDay(order);
+			}
 		}
 		PageInfo<Count> page = new PageInfo<Count>(list);
 		return page;

@@ -55,4 +55,9 @@ public interface OrderMapper {
     List<Count> getOrderChannelMon(Order record);
     List<Count> getOrderChannelYear(Order record);
     
+    List<Count> getOrderFlightNumDay(Order record);
+    List<Count> getOrderFlightNumWeek(Order record);
+    List<Count> getOrderFlightNumMon(Order record);
+    List<Count> getOrderFlightNumYear(Order record);
+    
 }
