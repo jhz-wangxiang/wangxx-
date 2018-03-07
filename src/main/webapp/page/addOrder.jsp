@@ -34,14 +34,14 @@
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" value="" placeholder="" id="phone" name="phone" onblur="getUserChannelAndAddress(this)" lay-verify="required">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>客户姓名：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>客户姓名：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" value="" placeholder="" id="name" name="name" lay-verify="required">
                             </div>
                         </div>
@@ -61,21 +61,22 @@
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>乘机人姓名：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>乘机人姓名：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="required" value="" placeholder="" id="registerName" name="registerName">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>联系电话：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="required|phone" value="" placeholder="" id="registerPhone" name="registerPhone">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>支付方式：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>支付方式：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <select name="payType" class="select" lay-verify="required" id="payType">
+                                	<option value="" selected>无</option>
                                     <option value="微信支付">微信支付</option>
                                     <option value="支付宝支付">支付宝支付</option>
                                     <option value="现金支付">现金支付</option>
@@ -92,20 +93,20 @@
                 <div class="mt-20">
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>航班号：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>航班号：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="flightNum" name="flightNum" onblur="checkFlightNum(this)">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4"><i style="color: red; font-size: 16px;">*</i>日期：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>日期：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="nowTimeStr" name="nowTimeStr">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">行李号码：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5">行李号码：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggageNo" name="baggageNo">
                             </div>
                         </div>
@@ -113,15 +114,15 @@
                     </div>
                     <div class="row cl">
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">行李内物品：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
+                            <label class="form-label col-xs-5 col-sm-5">行李内物品：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
                                 <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggage" name="baggage">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-                            <label class="form-label col-xs-4 col-sm-4">行李数量：</label>
-                            <div class="formControls col-xs-8 col-sm-8">
-                                <input type="text" class="input-text" lay-verify="length" value="" placeholder="" id="baggageNum" name="baggageNum">
+                            <label class="form-label col-xs-5 col-sm-5"><i style="color: red; font-size: 16px;">*</i>行李数量：</label>
+                            <div class="formControls col-xs-7 col-sm-7">
+                                <input type="text" class="input-text" lay-verify="required|length" value="" placeholder="" id="baggageNum" name="baggageNum">
                             </div>
                         </div>
                         <div class="cl"></div>
@@ -181,6 +182,9 @@
 			async:false, 
 			type:"POST",
 			success:function(m){
+				if(new RegExp("<+").test(m)){
+					location.reload();
+				}
 				j = JSON.parse(m);
 			}
 		});
@@ -190,7 +194,8 @@
 		  var laydate = layui.laydate;
 		  laydate.render({
 		    elem: '#nowTimeStr',
-		    format: 'yyyy/MM/dd'
+		    format: 'yyyy/MM/dd',
+		    value:new Date()
 		  });
 	});
     $.ajax({
@@ -285,19 +290,19 @@
                 }
                 if(json.userid){
                     $('input[name="userId"]').val(json.userid);
-                }else{
-                    $('input[name="userId"]').val('');
                 }
-                if(json.user.name){
-                    if(!$('input[name="name"]').val()){
-                        $('input[name="name"]').val(json.user.name);
+                if(Common.ltrim($('input[name="name"]').val())==""&&Common.ltrim($('input[name="registerName"]').val())==""&&Common.ltrim($('input[name="registerPhone"]').val())==""){
+                    if(json.user.name){
+                        if(!$('input[name="name"]').val()){
+                            $('input[name="name"]').val(json.user.name);
+                        }
+                        $('input[name="registerName"]').val(json.user.name);
+                        $('input[name="registerPhone"]').val(json.user.phone);
                     }
-                    $('input[name="registerName"]').val(json.user.name);
-                    $('input[name="registerPhone"]').val(json.user.phone);
                 }else{
-                    $('input[name="name"]').val('');
-                    $('input[name="registerName"]').val('');
-                    $('input[name="registerPhone"]').val('');
+                	if(Common.ltrim($('input[name="registerPhone"]').val())==""){
+                		$('input[name="registerPhone"]').val($('input[name="phone"]').val());
+                    }
                 }
             },
             error : function() {
@@ -305,6 +310,11 @@
             }
         })
     }
+    $('input[name="name"]').change(function(){
+    	if(Common.ltrim($('input[name="registerName"]').val())==""){
+    		$('input[name="registerName"]').val($('input[name="name"]').val());
+        }
+    })
     /**
      * 地址列表初始化
      * @param isAdd 是否是新增地址后获取列表
@@ -439,8 +449,8 @@
         }else{
             html.push('<article class="cl pd-20"><form method="post" class="form form-horizontal layui-form" id="form-address-add">');
             html.push('<div class="row cl">');
-            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consignee" name="consignee" value="" lay-verify="required|length50"></div>')
-            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人电话：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="" lay-verify="required|phone"></div>')
+            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人姓名：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consignee" name="consignee" value="'+$("input[name='registerName']").val()+'" lay-verify="required|length50"></div>')
+            html.push('<label class="form-label col-xs-3 col-sm-2 mb-15">收件人电话：</label><div class="formControls col-xs-9 col-sm-10 mb-15"><input type="text" class="input-text" id="consigneePhone" name="consigneePhone" value="'+$("input[name='registerPhone']").val()+'" lay-verify="required|phone"></div>')
             html.push('<label class="form-label col-xs-3 col-sm-2">所在区域：</label><div class="formControls col-xs-9 col-sm-10">')
             html.push('<div class="layui-form-item"><div class="layui-input-inline"><select name="quiz1" lay-filter="province"><option value="北京" selected>北京市</option></select></div>');
             html.push('<div class="layui-input-inline"><select name="quiz2" lay-filter="city"><option value="北京" selected>北京市</option></select></div>')
