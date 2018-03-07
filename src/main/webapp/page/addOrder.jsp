@@ -299,10 +299,10 @@
                         $('input[name="registerName"]').val(json.user.name);
                         $('input[name="registerPhone"]').val(json.user.phone);
                     }
-                }else{
-                	if(Common.ltrim($('input[name="registerPhone"]').val())==""){
-                		$('input[name="registerPhone"]').val($('input[name="phone"]').val());
-                    }
+                }
+                
+                if(!Common.ltrim($('input[name="registerPhone"]').val())&&json.user.phone){
+            		$('input[name="registerPhone"]').val($('input[name="phone"]').val());
                 }
             },
             error : function() {
