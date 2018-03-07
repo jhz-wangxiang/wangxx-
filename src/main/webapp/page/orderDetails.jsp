@@ -125,6 +125,7 @@
                             <div class="formControls col-xs-8 col-sm-8">
                                 <select name="payType" class="select" lay-verify="required" id="payTypeSelect">
                                     <option value="微信支付">微信支付</option>
+                                    <option value="微信公众号支付">微信公众号支付</option>
                                     <option value="支付宝支付">支付宝支付</option>
                                     <option value="现金支付">现金支付</option>
                                     <option value="银行卡支付">银行卡支付</option>
@@ -214,6 +215,7 @@
                     </div>
                 </div>
                 <input type="hidden" name = "id" id="id"/>
+                <input type="hidden" name = "userId" id="userId"/>
             </form>
             <h4>订单历史记录</h4>
             <div class="line"></div>
@@ -224,11 +226,6 @@
                     </div>
                 </div>
             </div>
-            <div class="cl pd-5 bg-1 bk-gray mt-20">
-        		<span class="r">
-        			<a href="javascript:;" onclick="" class="btn btn-primary radius" id="modifyDetails"><i class="Hui-iconfont Hui-iconfont-save"></i> 订单修改</a>
-        		</span>
-        	</div>
         </article>
     </div>
 </section>

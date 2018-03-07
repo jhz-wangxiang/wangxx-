@@ -78,6 +78,7 @@
                                 <select name="payType" class="select" lay-verify="required" id="payType">
                                 	<option value="" selected>无</option>
                                     <option value="微信支付">微信支付</option>
+                                    <option value="微信公众号支付">微信公众号支付</option>
                                     <option value="支付宝支付">支付宝支付</option>
                                     <option value="现金支付">现金支付</option>
                                     <option value="银行卡支付">银行卡支付</option>

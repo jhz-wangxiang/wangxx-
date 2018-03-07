@@ -154,12 +154,12 @@
 			}
 		    return h.join("");
 		},minWidth:"300",align:"center"},
-        {field:"orderNo",title:"订单编号",align:"center",minWidth:"100"},
+        {field:"orderNo",title:"订单编号",align:"center",minWidth:"250"},
+        {field:"registerName",title:"乘机人",align:"center",minWidth:"90"},
+        {field:"registerPhone",title:"联系电话",align:"center",minWidth:"150"},
         {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
         {field:"exp1",title:"是否派送",align:"center",minWidth:"100"},
         {field:"exp2",title:"派送人",align:"center",minWidth:"100"},
-        {field:"registerName",title:"乘机人姓名",align:"center",minWidth:"90"},
-        {field:"registerPhone",title:"联系方式",align:"center",minWidth:"90"},
         {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
         {field:"createDate",title:"下单时间",align:"center",minWidth:"150",templet:function(d){
         	return Common.getLocalDate(d.createDate)

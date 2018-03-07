@@ -653,21 +653,20 @@
 			AND o.id=#{id,jdbcType=INTEGER}
 		</if>
 		<if test="orderNo != null and !orderNo.isEmpty() and orderNo != ''">
-			AND o.order_no = #{orderNo,jdbcType=VARCHAR}
+			AND o.order_no like '%${orderNo}%'
 		</if>
 		<if test="name != null and !name.isEmpty() and name != ''">
 			AND u.name = #{name,jdbcType=VARCHAR}
 		</if>
 		<if test="phone != null and !phone.isEmpty() and phone != ''">
-			AND u.phone = #{phone,jdbcType=VARCHAR}
+			AND ( u.phone like '%${phone}%' or o.register_phone like '%${phone}%' or o.consignee_phone like '%${phone}%'  )
 		</if>
 		<if
 			test="registerName != null and !registerName.isEmpty() and registerName != ''">
 			AND o.register_name = #{registerName,jdbcType=VARCHAR}
 		</if>
-		<if
-			test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
-			AND o.register_phone = #{registerPhone,jdbcType=VARCHAR}
+		<if test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
+			AND (  u.phone like '%${registerPhone}%' or o.register_phone like '%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
 		</if>
 		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
 			AND o.flight_num = #{flightNum,jdbcType=VARCHAR}

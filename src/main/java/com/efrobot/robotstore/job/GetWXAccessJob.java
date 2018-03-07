@@ -56,9 +56,9 @@ public class GetWXAccessJob {
 			List<Order> list = orderMapper.selectByParms(record);
 			for(Order order:list){
 				Date dt=new Date();
-				long cha = dt.getTime() - order.getCreateDate().getTime();
+				long cha = dt.getTime() - order.getNowTime().getTime();
 				double result = cha * 1.0 / (1000 * 60 * 60);
-				if (result >= 24) {
+				if (result >= 36) {
 					order.setOrderStatus(10);
 					order.setRemark("超过24小时未支付");
 					orderMapper.updateByPrimaryKeySelective(order);
@@ -66,40 +66,40 @@ public class GetWXAccessJob {
 					setHistory("取消未支付的订单", order.getOrderNo(), "超过24小时未支付");
 				}
 			}
-			Order record1 = new Order();//未确认取消
-			record1.setOrderStatus(2);
-			List<Order> list1 = orderMapper.selectByParms(record1);
-			for(Order order:list1){
-				Date dt=new Date();
-				long cha = dt.getTime() - order.getCreateDate().getTime();
-				double result = cha * 1.0 / (1000 * 60 * 60);
-				if (result >= 28) {
-					if(order.getOrderWxNo()!=null&&"".equals(order.getOrderWxNo())){
-						//退款
-						HttpHeaders headers = new HttpHeaders();
-						MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
-						headers.setContentType(type);
-						headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.put("out_trade_no",order.getOrderNo() );
-						BigDecimal bb=new BigDecimal("100");
-						BigDecimal total=bb.multiply(order.getPaidFee());
-//						jsonObject.put("total_fee", total.intValue());
-//						jsonObject.put("refund_fee", total.intValue());
-						jsonObject.put("total_fee", 1);
-						jsonObject.put("refund_fee", 1);
-						HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
-                        restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
-								String.class);
-                        
-						order.setRemark("超过24小时未确认,已经退款");
-						order.setOrderStatus(10);
-						orderMapper.updateByPrimaryKeySelective(order);
-						System.out.println("取消未确认的订单");
-						setHistory("取消未确认的订单", order.getOrderNo(), "超过24小时未确认,已经退款");
-					}
-				}
-			}
+//			Order record1 = new Order();//未确认取消
+//			record1.setOrderStatus(2);
+//			List<Order> list1 = orderMapper.selectByParms(record1);
+//			for(Order order:list1){
+//				Date dt=new Date();
+//				long cha = dt.getTime() - order.getNowTime().getTime();
+//				double result = cha * 1.0 / (1000 * 60 * 60);
+//				if (result >= 36) {
+//					if(order.getOrderWxNo()!=null&&"".equals(order.getOrderWxNo())){
+//						//退款
+//						HttpHeaders headers = new HttpHeaders();
+//						MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+//						headers.setContentType(type);
+//						headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+//						JSONObject jsonObject = new JSONObject();
+//						jsonObject.put("out_trade_no",order.getOrderNo() );
+//						BigDecimal bb=new BigDecimal("100");
+//						BigDecimal total=bb.multiply(order.getPaidFee());
+////						jsonObject.put("total_fee", total.intValue());
+////						jsonObject.put("refund_fee", total.intValue());
+//						jsonObject.put("total_fee", 1);
+//						jsonObject.put("refund_fee", 1);
+//						HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
+//                        restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
+//								String.class);
+//                        
+//						order.setRemark("超过24小时未确认,已经退款");
+//						order.setOrderStatus(10);
+//						orderMapper.updateByPrimaryKeySelective(order);
+//						System.out.println("取消未确认的订单");
+//						setHistory("取消未确认的订单", order.getOrderNo(), "超过24小时未确认,已经退款");
+//					}
+//				}
+//			}
 		} catch (Exception e) {
 
 			e.printStackTrace();

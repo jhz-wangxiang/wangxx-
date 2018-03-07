@@ -95,11 +95,11 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}else if ("5".equals(order.getExp2())) {// 区域
 			if ("YEAR".equals(order.getExp1())) {
-				list = orderMapper.getOrderAreaDay(order);
+				list = orderMapper.getOrderAreaYear(order);
 			} else if ("MON".equals(order.getExp1())) {
-				list = orderMapper.getOrderAreaDay(order);
+				list = orderMapper.getOrderAreaMon(order);
 			} else if ("WEEK".equals(order.getExp1())) {
-				list = orderMapper.getOrderAreaDay(order);
+				list = orderMapper.getOrderAreaWeek(order);
 			} else if ("DAY".equals(order.getExp1())) {
 				list = orderMapper.getOrderAreaDay(order);
 			}
@@ -115,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}else if ("7".equals(order.getExp2())) {// hangb
 			if ("YEAR".equals(order.getExp1())) {
-				list = orderMapper.getOrderFlightNumDay(order);
+				list = orderMapper.getOrderFlightNumYear(order);
 			} else if ("MON".equals(order.getExp1())) {
 				list = orderMapper.getOrderFlightNumMon(order);
 			} else if ("WEEK".equals(order.getExp1())) {

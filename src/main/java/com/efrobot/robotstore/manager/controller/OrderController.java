@@ -132,6 +132,7 @@ public class OrderController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
 		String datestr = sdf.format(new Date());
+		datestr=datestr.substring(2, 8);
 		if ("".equals(record.getNowTimeStr()) || null == record.getNowTimeStr()) {
 			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
 		}
@@ -172,8 +173,8 @@ public class OrderController {
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
 		// 异常处理
-		record.setOrderStatus(1);// 支付变成2
-		record.setPayStatus("未支付");
+		record.setOrderStatus(2);// 支付变成2
+		record.setPayStatus("已支付");
 		record.setCreateDate(new Date());
 //		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
@@ -204,15 +205,15 @@ public class OrderController {
 		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
 		String idStr=record.getId().toString();
-		if(idStr.length()==1){
-			idStr="000"+idStr;
-		}
-		if(idStr.length()==2){
-			idStr="00"+idStr;
-		}
-		if(idStr.length()==3){
-			idStr="0"+idStr;
-		}
+//		if(idStr.length()==1){
+//			idStr="000"+idStr;
+//		}
+//		if(idStr.length()==2){
+//			idStr="00"+idStr;
+//		}
+//		if(idStr.length()==3){
+//			idStr="0"+idStr;
+//		}
 		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
 		+ idStr;
 		record.setOrderNo(orderNo);
@@ -239,6 +240,7 @@ public class OrderController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat mmdd = new SimpleDateFormat("MMdd");
 		String datestr = sdf.format(new Date());
+		datestr=datestr.substring(2, 8);
 		if ("".equals(record.getNowTimeStr()) || null == record.getNowTimeStr()) {
 			return CommonUtil.resultMsg("FAIL", "航班日期不能为空 ");
 		}
@@ -282,8 +284,8 @@ public class OrderController {
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
 		// 异常处理
-		record.setOrderStatus(1);// 支付变成2
-		record.setPayStatus("未支付");
+		record.setOrderStatus(2);// 支付变成2
+		record.setPayStatus("已支付");
 		record.setCreateDate(new Date());
 //		record.setOrderNo(orderNo);
 		record.setSingleWay("柜台");
@@ -313,15 +315,15 @@ public class OrderController {
 		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.insertSelective(record);
 		String idStr=record.getId().toString();
-		if(idStr.length()==1){
-			idStr="000"+idStr;
-		}
-		if(idStr.length()==2){
-			idStr="00"+idStr;
-		}
-		if(idStr.length()==3){
-			idStr="0"+idStr;
-		}
+//		if(idStr.length()==1){
+//			idStr="000"+idStr;
+//		}
+//		if(idStr.length()==2){
+//			idStr="00"+idStr;
+//		}
+//		if(idStr.length()==3){
+//			idStr="0"+idStr;
+//		}
 		String orderNo = zm + datestr + mmdd.format(record.getNowTime()) + record.getFlightNum()
 		+ idStr;
 		record.setOrderNo(orderNo);
@@ -348,6 +350,32 @@ public class OrderController {
 	@ResponseBody
 	public Map<String, Object> updateOrder(Order record) throws Exception {
 		int result = -1;
+		User user=new User();
+		user.setId(record.getUserId());
+		user.setName(record.getName());
+		user.setPhone(record.getPhone());
+		result = userService.updateByPrimaryKeySelective(user);
+		
+		float c = 10;
+		float a = 10;
+		int p = 100;
+		if (null != record.getChannelId()) {// 渠道
+			Channel ch = new Channel();
+			ch.setId(record.getChannelId());
+			List<Channel> listch = orderService.getChannel(ch);
+			c = listch.get(0).getDiscount().longValue();
+		}
+		if (null != record.getAreaId()) {// 區域
+			Area ar = new Area();
+			ar.setId(record.getAreaId());
+			List<Area> listch = areaService.selectByParms(ar);
+			a = listch.get(0).getDiscount().longValue();
+			p = listch.get(0).getPrice();
+		}
+		int num = Integer.parseInt(record.getBaggageNum());
+		float paid = (float) ((p + (num - 1) * p * 0.1 * a) * 0.1 * c);
+		record.setTotalFee(new BigDecimal(num * p));
+		record.setPaidFee(new BigDecimal(paid));
 		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -383,6 +411,7 @@ public class OrderController {
 		} else {
 			return CommonUtil.resultMsg("FAIL", "已经签收完结");
 		}
+		record.setRemark(order2.getRemark()+":"+record.getRemark());
 		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -417,9 +446,10 @@ public class OrderController {
 	public Map<String, Object> updateOrderCancel(Order record) throws Exception {
 		int result = -1;
 		Order order2 = orderService.selectByPrimaryKey(record.getId());
-		// if (order2.getOrderStatus() < 2) {
-		record.setOrderStatus(10);
-		result = orderService.updateByPrimaryKeySelective(record);
+		if (order2.getOrderStatus() == 2) {
+			 record.setRemark(order2.getRemark()+":"+"线下退款");
+			 record.setPayStatus("已退款");
+		 }
 		setHistory(status_order.get("订单取消"), order2.getOrderNo(), record.getCancelReason());
 		if(order2.getOrderWxNo()!=null&&!"".equals(order2.getOrderWxNo())){
 			HttpHeaders headers = new HttpHeaders();
@@ -437,7 +467,11 @@ public class OrderController {
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
 	        restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
 					String.class);
+	        record.setPayStatus("已退款");
+	        record.setRemark(order2.getRemark()+":"+"公众号原路返回");
 		}
+		record.setOrderStatus(10);
+		result = orderService.updateByPrimaryKeySelective(record);
 		// } else {
 		// return CommonUtil.resultMsg("FAIL", "现在的状态不可以取消订单");
 		// }
@@ -897,7 +931,7 @@ public class OrderController {
 			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
 				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
 					break;
-				Row row = sheet.createRow((k + 3));// 创建1行l'
+				Row row = sheet.createRow((k + 1));// 创建1行l'
 				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
 				Count order = (Count) fieldData.get((i - 1) * SPLIT_COUNT + k);
 				
@@ -923,27 +957,28 @@ public class OrderController {
 	
 
 	public static void main(String[] args) {
+		String datestr="20180512";
+		datestr=datestr.substring(2, 8);
 		
-		
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH");
-
-		String time = sdf2.format(new Date()) + " " + "10";
-
-		try {
-			Date t = sdf2.parse(time);
-			Date n = new Date();
-			long between = t.getTime() - n.getTime();
-
-			if (between < (24 * 3600000) || between > 0) {
-				System.out.print(sdf2.format(new Date()));
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.print(datestr);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//
+//		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd HH");
+//
+//		String time = sdf2.format(new Date()) + " " + "10";
+//
+//		try {
+//			Date t = sdf2.parse(time);
+//			Date n = new Date();
+//			long between = t.getTime() - n.getTime();
+//
+//			if (between < (24 * 3600000) || between > 0) {
+//				System.out.print(sdf2.format(new Date()));
+//			}
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 }
