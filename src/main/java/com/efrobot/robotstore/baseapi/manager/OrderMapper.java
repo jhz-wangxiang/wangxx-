@@ -22,6 +22,8 @@ public interface OrderMapper {
     
     List<Order> selectByParms(Order record);
     
+    List<Order> selectByOrder(Order record);
+    
     List<Count> getOrderCountDay(Order record);
     
     List<Count> getOrderCountWeek(Order record);

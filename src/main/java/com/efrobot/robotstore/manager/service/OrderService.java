@@ -14,6 +14,10 @@ import com.efrobot.robotstore.util.PageInfo;
 public interface OrderService {
 	public PageInfo<Order> getOrderListPage(Order order, Integer pageNum, Integer pageSize)
 			throws Exception;
+	
+	public PageInfo<Order> selectByOrder(Order order, Integer pageNum, Integer pageSize)
+			throws Exception;
+	
 	public PageInfo<Count> getOrderCount(Order order, Integer pageNum, Integer pageSize)
 			throws Exception;
 	

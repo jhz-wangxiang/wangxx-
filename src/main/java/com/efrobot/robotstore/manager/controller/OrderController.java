@@ -99,6 +99,22 @@ public class OrderController {
 		jsonObject = JSONObject.parseObject(result);
 		return jsonObject;
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/selectByOrder")
+	@ResponseBody
+	public JSONObject selectByOrder(Order record, Integer pageNumber, Integer pageSize) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<Order> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		rows = orderService.selectByOrder(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
+		
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
 
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getPrintListPage")
@@ -668,7 +684,52 @@ public class OrderController {
 		jsonObject = JSONObject.parseObject(result);
 		return jsonObject;
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping(value = "/getOrderExls")
+	@ResponseBody
+	public JSONObject getOrderExls(Order record, Integer pageNumber, Integer pageSize,HttpSession session) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		PageInfo<Order> rows = null;
+		JSONObject obj = new JSONObject();
+		String result = "";
+		record.setExp2("1");
+		session.setAttribute("Order", record);
+		rows = orderService.getOrderListPage(record, pageNumber, pageSize);
+		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
+				SerializerFeature.WriteNullStringAsEmpty);
 
+		jsonObject = JSONObject.parseObject(result);
+		return jsonObject;
+	}
+	/**
+	 * @方法名: exportOrderLLogis
+	 * @功能描述: 导出物流信息订单信息xml
+	 * @param ids
+	 * @return
+	 * @作者 wxx
+	 * @日期 2016年7月14日
+	 */
+	@RequestMapping(value = "/exportOrderExls")
+	public void exportOrderExls(HttpServletResponse res, HttpSession session) throws Exception {
+		OutputStream os = res.getOutputStream();
+		List<Order> list = null;
+		Order order = (Order) session.getAttribute("Order");
+		
+		list = orderService.selectByParms(order);
+
+		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
+		res.setHeader("Content-disposition",
+				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
+		res.setContentType("application/msexcel");
+		createOrderExlsWorkbook(list, os,order);
+		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
+		// } catch (Exception e) {
+		// //LOG.error(e.getMessage(), e);
+		// return CommonUtil.resultMsg("FAIL", "导出失败");
+		// }
+	}
+	
 	/**
 	 * @方法名: exportOrderLLogis
 	 * @功能描述: 导出物流信息订单信息xml
@@ -682,7 +743,7 @@ public class OrderController {
 		OutputStream os = res.getOutputStream();
 		List<Count> list = null;
 		list = orderService.getOrderCountAll(record);
-
+		
 		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
 		res.setHeader("Content-disposition",
 				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
@@ -754,6 +815,108 @@ public class OrderController {
 	 * 
 	 * @return XSSFWorkbook
 	 */
+	public static void createOrderExlsWorkbook(List<Order> fieldData, OutputStream os,Order record) throws Exception {
+		String pathfile = OrderController.class.getResource("/xls/总表.xlsx").getPath();
+		workBook = new XSSFWorkbook(new FileInputStream(new File(pathfile)));
+		int sheetNum = 0; // 指定sheet的页数
+		int rows = 0;
+		if (fieldData != null && fieldData.size() > 0) {
+			rows = fieldData.size();// 总的记录数
+			if (rows % SPLIT_COUNT == 0) {
+				sheetNum = rows / SPLIT_COUNT;
+			} else {
+				sheetNum = rows / SPLIT_COUNT + 1;
+			}
+		} else {
+			Sheet sheet0 = workBook.getSheet("Sheet" + 1);// 使用workbook对象创建sheet对象
+		}
+		for (int i = 1; i <= sheetNum; i++) {// 循环2个sheet的值
+			Sheet sheet = workBook.getSheet("Sheet" + i);
+			// 分页处理excel的数据，遍历所有的结果
+			Row row1 = sheet.createRow(0);// 创建1行l'
+			Cell cell1 = row1.createCell(1);//
+			if(record.getCreateDateStart() == null||"".equals(record.getCreateDateStart())){
+				cell1.setCellValue("");
+			}else{
+				cell1.setCellValue(
+						record.getCreateDateStart() == null ? "" : record.getCreateDateStart());
+			}
+			cell1 = row1.createCell(3);//
+			if(record.getCreateDateEnd() == null||"".equals(record.getCreateDateEnd())){
+				cell1.setCellValue("");
+			}else{
+				cell1.setCellValue(
+						record.getCreateDateEnd() == null ? "" : record.getCreateDateEnd());
+			}
+			
+			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
+				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
+					break;
+				Row row = sheet.createRow((k + 1));// 创建1行l'
+				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
+				Order order = (Order) fieldData.get((i - 1) * SPLIT_COUNT + k);
+
+				Cell cell = row.createCell(0);//
+				cell.setCellValue(
+						order.getOrderNo() == null ? "" : order.getOrderNo());
+
+				cell = row.createCell(1);// 
+				String orderDateStr = new SimpleDateFormat("yyyy/MM/dd")
+						.format((order.getCreateDate() == null ? "" : order.getCreateDate()));
+				cell.setCellValue(orderDateStr);
+				
+				cell = row.createCell(2);
+				String orderDateStr2 = new SimpleDateFormat("yyyy/MM/dd")
+						.format((order.getNowTime() == null ? "" : order.getNowTime()));
+				cell.setCellValue(orderDateStr2);
+
+				cell = row.createCell(3);// 
+				cell.setCellValue(
+						order.getFlightNum() == null ? "" : order.getFlightNum());
+				
+				cell = row.createCell(4);// 
+				cell.setCellValue(
+						order.getRegisterName() == null ? "" : order.getRegisterName());
+				cell = row.createCell(5);// 
+				cell.setCellValue(
+						order.getRegisterPhone() == null ? "" : order.getRegisterPhone());
+				
+				cell = row.createCell(6);// 
+				cell.setCellValue(
+						order.getButton() == null ? "" : order.getButton());
+				
+				cell = row.createCell(7);// 
+				cell.setCellValue(
+						order.getPayStatus() == null ? "" : order.getPayStatus());
+				
+				cell = row.createCell(8);// 
+				cell.setCellValue(
+						order.getPayType() == null ? "" : order.getPayType());
+				
+				cell = row.createCell(9);// 
+				cell.setCellValue(
+						order.getArea() == null ? "" : order.getArea());
+				
+				cell = row.createCell(10);// 
+				cell.setCellValue(
+						order.getChannel() == null ? "" : order.getChannel());
+				cell = row.createCell(11);// 
+				cell.setCellValue(
+						order.getOperator() == null ? "" : order.getOperator());
+				
+				cell = row.createCell(12);// 
+				cell.setCellValue(
+						order.getPaidFee() == null ? "" : order.getPaidFee().toString());
+			}
+		}
+		workBook.write(os);// 将excel中的数据写到输出流中，用于文件的输出
+		os.close();
+	}
+	/**
+	 * 创建订单信息XSSFWorkbook对象
+	 * 
+	 * @return XSSFWorkbook
+	 */
 	public static void createOrderWorkbook(List<Order> fieldData, OutputStream os) throws Exception {
 		String pathfile = OrderController.class.getResource("/xls/机场运输交接表.xlsx").getPath();
 		workBook = new XSSFWorkbook(new FileInputStream(new File(pathfile)));
@@ -782,14 +945,14 @@ public class OrderController {
 				k2=k;
 				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
 				Order order = (Order) fieldData.get((i - 1) * SPLIT_COUNT + k);
-
+				
 				Cell cell = row.createCell(0);//
 				cell.setCellValue(k+1);
-
+				
 				cell = row.createCell(1);// 
 				cell.setCellValue(
 						order.getConsignee() == null ? "" : order.getConsignee());
-
+				
 				cell = row.createCell(2);// 
 				cell.setCellValue(
 						order.getConsigneePhone() == null ? "" : order.getConsigneePhone());

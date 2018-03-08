@@ -717,6 +717,99 @@
 		ORDER BY
 		o.create_date desc
 	</select>
+	<select id="selectByOrder" resultMap="BaseResultMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
+		SELECT
+		o.*,
+		u.name,
+		u.phone,
+		c.channel,
+		s.describe,
+		s.button
+		FROM
+		orders o
+		LEFT JOIN channel c ON o.channel_id = c.id
+		LEFT JOIN USER u ON
+		o.user_id = u.id
+		LEFT JOIN order_status s ON o.order_status = s.status
+		where 1=1
+		<if test="id != null">
+			AND o.id=#{id,jdbcType=INTEGER}
+		</if>
+		<if test="orderNo != null and !orderNo.isEmpty() and orderNo != ''">
+			AND o.order_no like '%${orderNo}%'
+		</if>
+		<if test="name != null and !name.isEmpty() and name != ''">
+			AND u.name = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="phone != null and !phone.isEmpty() and phone != ''">
+			AND ( u.phone like '%${phone}%' or o.register_phone like '%${phone}%' or o.consignee_phone like '%${phone}%'  )
+		</if>
+		<if
+			test="registerName != null and !registerName.isEmpty() and registerName != ''">
+			AND o.register_name = #{registerName,jdbcType=VARCHAR}
+		</if>
+		<if test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
+			AND (  u.phone like '%${registerPhone}%' or o.register_phone like '%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
+		</if>
+		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
+			AND o.flight_num = #{flightNum,jdbcType=VARCHAR}
+		</if>
+		<if test="userId != null">
+			AND o.user_id = #{userId,jdbcType=INTEGER}
+		</if>
+		<if test="channelId != null">
+			AND o.channel_id = #{channelId,jdbcType=INTEGER}
+		</if>
+		<if
+			test="abnormalStatus != null and !abnormalStatus.isEmpty() and abnormalStatus != ''">
+			AND o.abnormal_status = #{abnormalStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="orderStatus != null">
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="payStatus != null and !payStatus.isEmpty() and payStatus != ''">
+			AND o.pay_status = #{payStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="nowTimeEnd != null and nowTimeEnd != ''">
+			  <![CDATA[
+             and o.now_time <= DATE_FORMAT(#{nowTimeEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="nowTimeStart != null and nowTimeStart != ''">
+			  <![CDATA[
+             and o.now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
+            ]]>
+		</if>
+		<if test="list != null">
+			and o.id IN
+			<foreach collection="list" index="index" open="(" close=")"
+				separator="," item="snss">
+				#{snss,jdbcType=INTEGER}
+			</foreach>
+		</if>
+		<if test="listStatus != null">
+			and o.order_status IN
+			<foreach collection="listStatus" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=INTEGER}
+			</foreach>
+		</if>
+		<if test="exp1 == 'YEAR'">
+			AND DATE_FORMAT(o.create_date, '%Y') = #{time,jdbcType=VARCHAR}
+		</if>
+		<if test="exp1 == 'MON'">
+			AND DATE_FORMAT(o.create_date, '%Y%m') = #{time,jdbcType=VARCHAR}
+		</if>
+		<if test="exp1 == 'WEEK'">
+			AND DATE_FORMAT(o.create_date, '%Y%u') = #{time,jdbcType=VARCHAR}
+		</if>
+		<if test="exp1 == 'DAY'">
+			AND DATE_FORMAT(o.create_date, '%Y%m%d') = #{time,jdbcType=VARCHAR}
+		</if>
+		ORDER BY
+		o.create_date desc
+	</select>
 
 	<select id="getOrderCountDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
@@ -736,6 +829,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time
@@ -759,6 +855,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time
 	</select>
@@ -781,6 +880,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time
 	</select>
@@ -802,6 +904,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time
@@ -826,6 +931,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -852,6 +960,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -877,6 +988,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -900,6 +1014,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -926,6 +1043,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -950,6 +1070,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -976,6 +1099,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -999,6 +1125,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1024,6 +1153,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1047,6 +1179,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1072,6 +1207,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1096,6 +1234,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1125,6 +1266,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1152,6 +1296,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1181,6 +1328,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1209,6 +1359,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1234,6 +1387,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1261,6 +1417,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1286,6 +1445,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1313,6 +1475,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1336,6 +1501,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1361,6 +1529,9 @@
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
 		GROUP BY
 		time,
 		name
@@ -1384,6 +1555,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,
@@ -1409,6 +1583,9 @@
 			  <![CDATA[
              and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
+		</if>
+		<if test="orderStatus != null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER}
 		</if>
 		GROUP BY
 		time,

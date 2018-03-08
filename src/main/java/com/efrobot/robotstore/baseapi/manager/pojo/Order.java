@@ -143,7 +143,17 @@ public class Order implements Serializable {
     
     private List<String> listStatus;
     
-    public String getCreateDateStart() {
+    private String time;
+    
+    public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getCreateDateStart() {
 		return createDateStart;
 	}
 

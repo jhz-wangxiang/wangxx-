@@ -59,7 +59,7 @@
 	                            </div>
 	                        </div>
 	                        <div class="col-xs-12 col-sm-6 col-md-4 mb-10">
-	                            <label class="form-label col-xs-4 col-sm-4">乘机人手机号：</label>
+	                            <label class="form-label col-xs-4 col-sm-4">手机号：</label>
 	                            <div class="formControls col-xs-8 col-sm-8">
 	                                <input type="text" class="input-text" value="" placeholder="" id="" name="phone">
 	                            </div>

@@ -48,6 +48,13 @@ public class OrderServiceImpl implements OrderService {
 		PageInfo<Order> page = new PageInfo<Order>(list);
 		return page;
 	}
+	@Override
+	public PageInfo<Order> selectByOrder(Order order, Integer pageNum, Integer pageSize) throws Exception {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Order> list = orderMapper.selectByOrder(order);
+		PageInfo<Order> page = new PageInfo<Order>(list);
+		return page;
+	}
 
 	@Override
 	public PageInfo<Count> getOrderCount(Order order, Integer pageNum, Integer pageSize) throws Exception {
