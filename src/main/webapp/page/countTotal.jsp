@@ -199,8 +199,8 @@
 			payStatus:$("select[name='payStatus']").val()==""?null:$("select[name='payStatus']").val(),
 			flightNum:Common.ltrim($("input[name='flightNum']").val()),
 			registerPhone:Common.ltrim($("input[name='phone']").val()),
-			nowTimeStart:Common.ltrim($("input[name='nowTimeStart']").val()),
-			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
+      createDateStart:Common.ltrim($("input[name='nowTimeStart']").val()),
+      createDateEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
 			start:start
 		}
 		tableIns.reload({
