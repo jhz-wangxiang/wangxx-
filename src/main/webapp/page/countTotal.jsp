@@ -107,6 +107,7 @@
                     
                     <div class='row cl text-c'>
                     	<button name="" id="" class="btn btn-success radius" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
+                    	<a name="" id="" class="btn btn-success radius" type="button" href="<%=basePath%>v1/order/exportOrderExls"><i class="Hui-iconfont Hui-iconfont-search2"></i>导出</a>
                     </div>
             </form>
             <div class="mt-20">
