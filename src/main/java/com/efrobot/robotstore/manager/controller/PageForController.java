@@ -90,4 +90,9 @@ public class PageForController {
 		request.setAttribute("navName", "统计管理");
 		return "count";
 	}
+	@RequestMapping(value = "/countTotal")
+	public String countTotal(HttpServletRequest request) {
+		request.setAttribute("navName", "总表统计");
+		return "countTotal";
+	}
 }

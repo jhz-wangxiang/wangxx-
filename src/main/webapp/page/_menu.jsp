@@ -83,6 +83,7 @@ System.out.println(munuId);
 			<dd <c:if test="${param.classify=='count'}">style="display: block;"</c:if>>
 				<ul>
 					<%if(munuId.contains("11")){%><li <c:if test="${param.level=='count_list'}">class="current"</c:if>><a href="<%=basePath%>v1/page/count" title="统计管理">统计管理</a></li><%} %>
+					<%if(munuId.contains("11")){%><li <c:if test="${param.level=='count_total'}">class="current"</c:if>><a href="<%=basePath%>v1/page/countTotal" title="总表统计">总表统计</a></li><%} %>
 				</ul>
 			</dd>
 		</dl>
