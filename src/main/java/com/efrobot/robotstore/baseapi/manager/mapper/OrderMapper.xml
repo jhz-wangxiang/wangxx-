@@ -753,7 +753,19 @@
 			AND (  u.phone like '%${registerPhone}%' or o.register_phone like '%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
 		</if>
 		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
-			AND o.flight_num = #{flightNum,jdbcType=VARCHAR}
+			AND o.flight_num like '%${flightNum}%'
+		</if>
+		<if test="area != null and !area.isEmpty() and area != ''">
+			AND o.area like '%${area}%'
+		</if>
+		<if test="channel != null and !channel.isEmpty() and channel != ''">
+			AND c.channel like '%${channel}%'
+		</if>
+		<if test="operator != null and !operator.isEmpty() and operator != ''">
+			AND o.operator = #{operator,jdbcType=VARCHAR}
+		</if>
+		<if test="payType != null and !payType.isEmpty() and payType != ''">
+			AND o.payType = #{payType,jdbcType=VARCHAR}
 		</if>
 		<if test="userId != null">
 			AND o.user_id = #{userId,jdbcType=INTEGER}

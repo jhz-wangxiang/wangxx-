@@ -776,11 +776,6 @@ public class OrderController {
 				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
 		res.setContentType("application/msexcel");
 		createOrderWorkbook(list, os);
-		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
-		// } catch (Exception e) {
-		// //LOG.error(e.getMessage(), e);
-		// return CommonUtil.resultMsg("FAIL", "导出失败");
-		// }
 	}
 	/**
 	 * @方法名: exportOrderLLogis
@@ -803,11 +798,6 @@ public class OrderController {
 				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
 		res.setContentType("application/msexcel");
 		createSendGoogsWorkbook(list, os);
-		// return CommonUtil.resultMsg("SUCCESS", "导出成功");
-		// } catch (Exception e) {
-		// //LOG.error(e.getMessage(), e);
-		// return CommonUtil.resultMsg("FAIL", "导出失败");
-		// }
 	}
 
 	/**
