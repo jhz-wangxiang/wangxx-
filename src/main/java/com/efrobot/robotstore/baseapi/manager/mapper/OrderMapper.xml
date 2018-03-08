@@ -756,13 +756,18 @@
 			AND o.flight_num like '%${flightNum}%'
 		</if>
 		<if test="area != null and !area.isEmpty() and area != ''">
+		<if test="area == '1'.toString()">
+			AND o.area is null
+		</if>
+		<if test="area != '1'.toString()">
 			AND o.area like '%${area}%'
 		</if>
+		</if>
 		<if test="channel != null and !channel.isEmpty() and channel != ''">
-		<if test="channel == '1'">
+		<if test="channel == '1'.toString()">
 			AND c.channel is null
 		</if>
-		<if test="channel != '1'">
+		<if test="channel != '1'.toString()">
 			AND c.channel like '%${channel}%'
 		</if>
 		</if>
@@ -770,7 +775,12 @@
 			AND o.operator = #{operator,jdbcType=VARCHAR}
 		</if>
 		<if test="payType != null and !payType.isEmpty() and payType != ''">
-			AND o.payType = #{payType,jdbcType=VARCHAR}
+		<if test="payType == '1'.toString()">
+			AND o.pay_type is null
+		</if>
+		<if test="payType != '1'.toString()">
+			AND o.pay_type like '%${payType}%'
+		</if>
 		</if>
 		<if test="userId != null">
 			AND o.user_id = #{userId,jdbcType=INTEGER}
@@ -1262,15 +1272,13 @@
 	<select id="getOrderAreaDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		area.area name,
+		area name,
 		DATE_FORMAT(create_date, '%Y%m%d') time,
 		count(*)
 		count,
 		sum(paid_fee) price
 		FROM
-		orders ors
-		LEFT JOIN
-		area area ON ors.area_id = area.id
+		orders
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
@@ -1293,15 +1301,13 @@
 	<select id="getOrderAreaWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		area.area name,
+		area name,
 		DATE_FORMAT(create_date, '%Y%u') time,
 		count(*)
 		count,
 		sum(paid_fee) price
 		FROM
-		orders ors
-		LEFT JOIN
-		area area ON ors.area_id = area.id
+		orders
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
@@ -1324,15 +1330,13 @@
 	<select id="getOrderAreaMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		area.area name,
+		area name,
 		DATE_FORMAT(create_date, '%Y%m') time,
 		count(*)
 		count,
 		sum(paid_fee) price
 		FROM
-		orders ors
-		LEFT JOIN
-		area area ON ors.area_id = area.id
+		orders
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
@@ -1355,15 +1359,13 @@
 	<select id="getOrderAreaYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		area.area name,
+		area name,
 		DATE_FORMAT(create_date, '%Y') time,
 		count(*)
 		count,
 		sum(paid_fee) price
 		FROM
-		orders ors
-		LEFT JOIN
-		area area ON ors.area_id = area.id
+		orders
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">

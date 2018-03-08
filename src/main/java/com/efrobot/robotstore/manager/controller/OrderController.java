@@ -108,6 +108,21 @@ public class OrderController {
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
 		String result = "";
+		if("3".equals(record.getExp2())){
+			if(record.getPayType()==null||"".equals(record.getPayType())){
+				record.setPayType("1");
+			}
+		}
+		if("5".equals(record.getExp2())){
+			if(record.getArea()==null||"".equals(record.getArea())){
+				record.setArea("1");
+			}
+		}
+		if("6".equals(record.getExp2())){
+			if(record.getChannel()==null||"".equals(record.getChannel())){
+				record.setChannel("1");
+			}
+		}
 		rows = orderService.selectByOrder(record, pageNumber, pageSize);
 		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullStringAsEmpty);
