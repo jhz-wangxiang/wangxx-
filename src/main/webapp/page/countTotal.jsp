@@ -123,21 +123,22 @@
 <script type="text/javascript">
     var colArr = [
         {field:"orderNo",title:"订单编号",align:"center",minWidth:"250"},
+        {field:"createDate",title:"下单日期",align:"center",minWidth:"150",templet:function(d){
+        	return Common.getLocalDate(d.createDate)
+        }},
+        {field:"nowTime",title:"航班日期",align:"center",minWidth:"150",templet:function(d){
+        	return Common.getLocalDate(d.nowTime)
+        }},
+        {field:"flightNum",title:"航班号",align:"center",minWidth:"50"},
         {field:"registerName",title:"乘机人",align:"center",minWidth:"90"},
         {field:"registerPhone",title:"联系电话",align:"center",minWidth:"150"},
         {field:"describe",title:"订单状态",align:"center",minWidth:"100"},
-        {field:"exp1",title:"是否派送",align:"center",minWidth:"100"},
-        {field:"exp2",title:"派送人",align:"center",minWidth:"100"},
-        {field:"channel",title:"客户渠道",align:"center",minWidth:"90"},
-        {field:"createDate",title:"下单时间",align:"center",minWidth:"150",templet:function(d){
-        	return Common.getLocalDate(d.createDate)
-        }},
-        {field:"consignee",title:"收货人",align:"center",minWidth:"50"},
-        {field:"totalFee",title:"服务费",align:"center",minWidth:"10"},
-        {field:"abnormalStatus",title:"异常状态",align:"center",minWidth:"90"},
-        {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
-        {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
-       {field:"remark",title:"备注",align:"center",minWidth:"100"},
+        {field:"payStatus",title:"支付状态",align:"center",minWidth:"100"},
+        {field:"payType",title:"支付方式",align:"center",minWidth:"100"},
+        {field:"area",title:"运输区域",align:"center",minWidth:"100"},
+        {field:"channel",title:"订单渠道",align:"center",minWidth:"90"},
+        {field:"operator",title:"创建人",align:"center",minWidth:"100"},
+        {field:"paidFee",title:"服务费",align:"center",minWidth:"10"},
     ];
     var basePath = "<%=basePath %>";
     var pageNumber = 1;

@@ -831,18 +831,20 @@ public class OrderController {
 				cell1.setCellValue(
 						record.getCreateDateStart() == null ? "" : record.getCreateDateStart());
 			}
+			cell1 = row1.createCell(2);//
+			cell1.setCellValue("至");
 			cell1 = row1.createCell(3);//
 			if(record.getCreateDateEnd() == null||"".equals(record.getCreateDateEnd())){
 				cell1.setCellValue("");
 			}else{
 				cell1.setCellValue(
-						record.getCreateDateEnd() == null ? "" : record.getCreateDateEnd());
+						record.getCreateDateEnd() == null ? "" : record.getCreateDateEnd().substring(0, 10));
 			}
 			
 			for (int k = 0; k < (rows < SPLIT_COUNT ? rows : SPLIT_COUNT); k++) {
 				if (((i - 1) * SPLIT_COUNT + k) >= rows) // 如果数据超出总的记录数的时候，就退出循环
 					break;
-				Row row = sheet.createRow((k + 1));// 创建1行l'
+				Row row = sheet.createRow((k + 2));// 创建1行l'
 				// 分页处理，获取每页的结果集，并将数据内容放入excel单元格
 				Order order = (Order) fieldData.get((i - 1) * SPLIT_COUNT + k);
 
@@ -873,7 +875,7 @@ public class OrderController {
 				
 				cell = row.createCell(6);// 
 				cell.setCellValue(
-						order.getButton() == null ? "" : order.getButton());
+						order.getDescribe() == null ? "" : order.getDescribe());
 				
 				cell = row.createCell(7);// 
 				cell.setCellValue(

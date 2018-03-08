@@ -165,7 +165,7 @@
         	return Common.getLocalDate(d.createDate)
         }},
         {field:"consignee",title:"收货人",align:"center",minWidth:"50"},
-        {field:"totalFee",title:"服务费",align:"center",minWidth:"10"},
+        {field:"paidFee",title:"服务费",align:"center",minWidth:"10"},
         {field:"abnormalStatus",title:"异常状态",align:"center",minWidth:"90"},
         {field:"abnormaReason",title:"异常原因",align:"center",minWidth:"100"},
         {field:"cancelReason",title:"取消原因",align:"center",minWidth:"100"},
