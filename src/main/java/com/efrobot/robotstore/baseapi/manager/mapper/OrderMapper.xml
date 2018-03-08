@@ -761,6 +761,9 @@
 		<if test="channel != null and !channel.isEmpty() and channel != ''">
 			AND c.channel like '%${channel}%'
 		</if>
+		<if test="channel == '1'">
+			AND c.channel is null
+		</if>
 		<if test="operator != null and !operator.isEmpty() and operator != ''">
 			AND o.operator = #{operator,jdbcType=VARCHAR}
 		</if>
