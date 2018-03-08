@@ -759,7 +759,12 @@
 			AND o.area like '%${area}%'
 		</if>
 		<if test="channel != null and !channel.isEmpty() and channel != ''">
+		<if test="channel == '1'">
+			AND c.channel is null
+		</if>
+		<if test="channel != '1'">
 			AND c.channel like '%${channel}%'
+		</if>
 		</if>
 		<if test="operator != null and !operator.isEmpty() and operator != ''">
 			AND o.operator = #{operator,jdbcType=VARCHAR}
