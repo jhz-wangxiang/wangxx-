@@ -59,7 +59,7 @@
 		<result column="area" property="area" jdbcType="VARCHAR" />
 		<result column="exp1" property="exp1" jdbcType="VARCHAR" />
 		<result column="exp2" property="exp2" jdbcType="VARCHAR" />
-
+        <result column="compay" property="compay" jdbcType="VARCHAR" />
 		<result column="delivery_time" property="deliveryTime"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -641,13 +641,15 @@
 		u.phone,
 		c.channel,
 		s.describe,
-		s.button
+		s.button,
+        f.compay
 		FROM
 		orders o
 		LEFT JOIN channel c ON o.channel_id = c.id
 		LEFT JOIN USER u ON
 		o.user_id = u.id
 		LEFT JOIN order_status s ON o.order_status = s.status
+        LEFT JOIN  flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="id != null">
 			AND o.id=#{id,jdbcType=INTEGER}
@@ -657,6 +659,9 @@
 		</if>
 		<if test="name != null and !name.isEmpty() and name != ''">
 			AND u.name = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="compay != null and !compay.isEmpty() and compay != ''">
+			AND f.compay = #{compay,jdbcType=VARCHAR}
 		</if>
 		<if test="phone != null and !phone.isEmpty() and phone != ''">
 			AND ( u.phone like '%${phone}%' or o.register_phone like '%${phone}%' or o.consignee_phone like '%${phone}%'  )
@@ -712,6 +717,13 @@
 			<foreach collection="listStatus" index="index" open="("
 				close=")" separator="," item="snss">
 				#{snss,jdbcType=INTEGER}
+			</foreach>
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
 			</foreach>
 		</if>
 		ORDER BY

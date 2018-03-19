@@ -30,6 +30,8 @@ public class Order implements Serializable {
     private String phone;//注册用户手机
 
     private String flightNum;//航班号
+    
+    private String compay;//航班号
 
     private Date nowTime;//航班时间
     
@@ -143,9 +145,27 @@ public class Order implements Serializable {
     
     private List<String> listStatus;
     
+    private List<String> compayList;
+    
     private String time;
     
-    public String getTime() {
+    public List<String> getCompayList() {
+		return compayList;
+	}
+
+	public void setCompayList(List<String> compayList) {
+		this.compayList = compayList;
+	}
+
+	public String getCompay() {
+		return compay;
+	}
+
+	public void setCompay(String compay) {
+		this.compay = compay;
+	}
+
+	public String getTime() {
 		return time;
 	}
 

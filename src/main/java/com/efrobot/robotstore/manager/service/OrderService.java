@@ -46,6 +46,8 @@ public interface OrderService {
 	
 	public List<FlightNum> getFlightNum(FlightNum record);
 	
+	public List<FlightNum> getFlightNumByCompay(FlightNum record);
+	
 	public  Order selectByPrimaryKey(Integer id);
 	
 	public  int updateByPrimaryKeySelective(OrderStatusRecord record);

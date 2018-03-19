@@ -268,6 +268,10 @@ public class OrderServiceImpl implements OrderService {
 	public List<FlightNum> getFlightNum(FlightNum record) {
 		return flightNumMapper.getFlightNum(record);
 	}
+	@Override
+	public List<FlightNum> getFlightNumByCompay(FlightNum record) {
+		return flightNumMapper.getFlightNumByCompay(record);
+	}
 
 	@Override
 	public Order selectByPrimaryKey(Integer id) {

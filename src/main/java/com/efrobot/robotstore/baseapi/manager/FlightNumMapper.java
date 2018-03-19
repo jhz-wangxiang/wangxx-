@@ -16,6 +16,8 @@ public interface FlightNumMapper {
     FlightNum selectByPrimaryKey(Integer id);
     
     List<FlightNum> getFlightNum(FlightNum record);
+    
+    List<FlightNum> getFlightNumByCompay(FlightNum record);
 
     int updateByPrimaryKeySelective(FlightNum record);
 

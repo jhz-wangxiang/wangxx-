@@ -77,14 +77,14 @@
         {field:"time",title:"时间",align:"center"},
         {field:"name",title:"名称",align:"center"},
         {field:"count",title:"数量",align:"center",templet:function(d){
-        	return '<a href="javascript:orderData(\''+d.time+'\',\''+d.name+'\');" class="orderFun">'+d.count+'</a>';
+        	return '<a href="javascript:orderData(\''+d.time+'\',\''+d.name+'\');" class="orderFun" style="color:#0000FF">'+d.count+'</a>';
         }},
         {field:"price",title:"总金额",align:"center"},
     ];
     var colArr1 = [
         {field:"time",title:"时间",align:"center"},
         {field:"count",title:"数量",align:"center",templet:function(d){
-        	return '<a href="javascript:orderData(\''+d.time+'\');" class="orderFun">'+d.count+'</a>';
+        	return '<a href="javascript:orderData(\''+d.time+'\');" class="orderFun" style="color:#0000FF">'+d.count+'</a>';
         }},
         {field:"price",title:"总金额",align:"center"},
     ];

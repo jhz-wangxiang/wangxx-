@@ -85,6 +85,14 @@ public class OrderController {
 	@RequestMapping(value = "/getOrderListPage")
 	@ResponseBody
 	public JSONObject getOrderListPage(Order record, Integer pageNumber, Integer pageSize) throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		record.setCompayList(Arrays.asList(compay.split(",")));
 		JSONObject jsonObject = new JSONObject();
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
@@ -442,7 +450,11 @@ public class OrderController {
 		} else {
 			return CommonUtil.resultMsg("FAIL", "已经签收完结");
 		}
-		record.setRemark(order2.getRemark()+":"+record.getRemark());
+		if(order2.getRemark()==null||"".equals(order2.getRemark())){
+			record.setRemark(record.getRemark());
+        }else{
+        	record.setRemark(order2.getRemark()+":"+record.getRemark());
+        }
 		result = orderService.updateByPrimaryKeySelective(record);
 		if (result == 0) {
 			return CommonUtil.resultMsg("FAIL", "未找到可编辑的信息");
@@ -478,7 +490,11 @@ public class OrderController {
 		int result = -1;
 		Order order2 = orderService.selectByPrimaryKey(record.getId());
 		if (order2.getOrderStatus() == 2) {
-			 record.setRemark(order2.getRemark()+":"+"线下退款");
+			if(order2.getRemark()==null||"".equals(order2.getRemark())){
+				record.setRemark("线下退款");
+	        }else{
+	        	record.setRemark(order2.getRemark()+":"+"线下退款");
+	        }
 			 record.setPayStatus("已退款");
 		 }
 		setHistory(status_order.get("订单取消"), order2.getOrderNo(), record.getCancelReason());
@@ -491,15 +507,19 @@ public class OrderController {
 			jsonObject.put("out_trade_no",order2.getOrderNo() );
 			BigDecimal bb=new BigDecimal("100");
 			BigDecimal total=bb.multiply(order2.getPaidFee());
-			jsonObject.put("total_fee", 1);
-			jsonObject.put("refund_fee", 1);
-//			jsonObject.put("total_fee", total.intValue());
-//			jsonObject.put("refund_fee", total.intValue());
+//			jsonObject.put("total_fee", 1);
+//			jsonObject.put("refund_fee", 1);
+			jsonObject.put("total_fee", total.intValue());
+			jsonObject.put("refund_fee", total.intValue());
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObject.toString(), headers);
 	        restTemplate.postForObject("http://ajtservice.com/v1/area/refund", formEntity,
 					String.class);
 	        record.setPayStatus("已退款");
-	        record.setRemark(order2.getRemark()+":"+"公众号原路返回");
+	        if(order2.getRemark()==null||"".equals(order2.getRemark())){
+	        	record.setRemark("公众号原路返回");
+	        }else{
+	        	record.setRemark(order2.getRemark()+":"+"公众号原路返回");
+	        }
 		}
 		record.setOrderStatus(10);
 		result = orderService.updateByPrimaryKeySelective(record);
@@ -564,6 +584,13 @@ public class OrderController {
 	@ResponseBody
 	public List<FlightNum> getFlightNum(FlightNum record) throws Exception {
 		List<FlightNum> list = orderService.getFlightNum(record);
+		return list;
+	}
+	
+	@RequestMapping(value = "/getFlightNumByCompay", method = RequestMethod.POST)
+	@ResponseBody
+	public List<FlightNum> getFlightNumByCompay(FlightNum record) throws Exception {
+		List<FlightNum> list = orderService.getFlightNumByCompay(record);
 		return list;
 	}
 

@@ -199,6 +199,13 @@
 		<include refid="Base_Column_List" />
 		from flight_num
 	</select>
+	<select id="getFlightNumByCompay" resultMap="BaseResultMap"
+		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.FlightNum">
+		select
+		<include refid="Base_Column_List" />
+		from flight_num
+		GROUP BY compay
+	</select>
 	<select id="selectByParms" resultMap="BaseResultMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.FlightNum">
 		select
