@@ -214,8 +214,9 @@
 	}
 	var addRole = function(){
 		var status = getStatus();
+		var getFlightNumByCompay = getFlightNumByCompayFun();
 		var html = [];
-		var exp2 = [] , exp1 = [],statusQx = [] , menuId = [];
+		var exp2 = [] , exp1 = [],statusQx = [] , menuId = [] , buttonQx = [];
 		html.push('<div class="pd-20"><form class="layui-form" action="">');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">角色名称：</label>');
 		html.push('<div class="layui-input-block"><input type="text" name="add_roleName" autocomplete="off" class="layui-input" lay-verify="required"></div></div>');
@@ -230,8 +231,14 @@
 		for(var i = 0 ;i<menuArr.length;i++){
 			html.push('<input type="checkbox" lay-filter="exp1" value="'+menuArr[i].menuId+'" title="'+menuArr[i].exp1+'" lay-skin="primary" />');
 		}
-		html.push('</div></div><div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyRole">确认</button></div>');
-		html.push('</form></div>');
+		html.push('</div></div>');
+		html.push('<div class="layui-form-item"><label class="layui-form-label">航站楼：</label>');
+		html.push('<div class="layui-input-block">');
+		for(var i=0;i<getFlightNumByCompay.length;i++){  
+			buttonQx.indexOf(getFlightNumByCompay[i].compay+"") === -1 ? html.push('<input type="checkbox" lay-filter="compay" value="'+getFlightNumByCompay[i].compay+'" title="'+getFlightNumByCompay[i].compay+'" lay-skin="primary" />') : html.push('<input type="checkbox" lay-filter="compay" value="'+getFlightNumByCompay[i].compay+'" title="'+getFlightNumByCompay[i].compay+'" lay-skin="primary" checked />');
+        } 
+		html.push('</div></div>');
+		html.push('<div class="layui-layer-btn"><button class="btn btn-primary radius" lay-submit="" lay-filter="modifyRole">确认</button></div></form></div>');
 		layui.use(['form','layer'],function(){
 			var form = layui.form;
 			layui.layer.open({
@@ -250,6 +257,9 @@
 			    		Common.filter_repeat(exp1,data.elem.title);
 			    		Common.filter_repeat(menuId,data.value);
 				    });
+			    	form.on('checkbox(compay)', function(data){
+			    		Common.filter_repeat(buttonQx,data.value);
+				    });
 			    	form.on('submit(modifyRole)', function(data){
 			    		  if(statusQx.length==0 || menuId.length==0){
 			        		  layui.layer.msg('勾选项不能为空',{icon: 5,time:1000});
@@ -259,7 +269,8 @@
 			    			statusQx :statusQx.join(","),
 			    			exp2:exp2.join(","),
 			    			exp1:exp1.join(","),
-			    			menuId:menuId.join(",")
+			    			menuId:menuId.join(","),
+			    			buttonQx:buttonQx.join(",")
 			    		  };
 			        	  for(var d in data.field){
 			        		  fd[d.replace("add_","")] = data.field[d];
