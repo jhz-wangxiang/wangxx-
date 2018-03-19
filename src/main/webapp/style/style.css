@@ -84,3 +84,4 @@ border: 1px solid #eeeeee;
 .layui-form-item .layui-input-inline{margin-right: 2px !important;}
 
 body .print_{box-shadow: 1px 1px 50px rgba(0,0,0,0);}
+.layui-form-select .layui-input{ padding-right:30px !important; text-overflow:ellipsis;}

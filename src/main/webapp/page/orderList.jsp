@@ -104,7 +104,16 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="row cl">
+                    	<div class="col-xs-12 col-sm-6 col-md-4 mb-10">
+                            <label class="form-label col-xs-4 col-sm-4">航站楼：</label>
+                            <div class="formControls col-xs-8 col-sm-8">
+								<select name="compay" class="select">
+									<option value="">请选择</option>
+								</select>
+                            </div>
+                        </div>
+                    </div>
                     <div class='row cl text-c'>
                     	<button name="" id="" class="btn btn-success radius" type="button" onclick="searchTable()"><i class="Hui-iconfont Hui-iconfont-search2"></i>查询</button>
                     	<button name="" id="" class="btn btn-primary radius" type="button" onclick="print()"><i class="Hui-iconfont Hui-iconfont-dayinji"></i>打印运输交接单</button>
@@ -220,6 +229,26 @@
                 alert('查询异常');
             }
         });
+        $.ajax({
+        	url:basePath+"v1/order/getFlightNumByCompay",
+        	type : 'POST',
+            async : false,
+            datatype : 'json',
+            success : function(data) {
+            	var json = JSON.parse(data);
+                if(json){
+                    var programme_sel=[];
+                    programme_sel.push('<option value="" selected>请选择</option>')
+                    for(var i=0,len=json.length;i<len;i++){
+                        programme_sel.push('<option value="'+json[i].id+'">'+json[i].compay+'</option>')
+                    }
+                    $("select[name='compay']").html(programme_sel.join(' '));
+                }
+            },
+            error : function() {
+                alert('查询异常');
+            }
+        })
     }
     var zfzt = function(obj,id){
     	$.ajax({
@@ -330,6 +359,7 @@
 			registerPhone:Common.ltrim($("input[name='phone']").val()),
 			nowTimeStart:Common.ltrim($("input[name='nowTimeStart']").val()),
 			nowTimeEnd:Common.ltrim($("input[name='nowTimeEnd']").val()),
+			compay:$("select[name='compay']").val()==""?null:$("select[name='compay']").find("option:selected").text(),
 			start:start
 		}
 		tableIns.reload({
