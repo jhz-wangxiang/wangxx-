@@ -59,7 +59,7 @@
 		<result column="area" property="area" jdbcType="VARCHAR" />
 		<result column="exp1" property="exp1" jdbcType="VARCHAR" />
 		<result column="exp2" property="exp2" jdbcType="VARCHAR" />
-        <result column="compay" property="compay" jdbcType="VARCHAR" />
+		<result column="compay" property="compay" jdbcType="VARCHAR" />
 		<result column="delivery_time" property="deliveryTime"
 			jdbcType="TIMESTAMP" />
 	</resultMap>
@@ -642,14 +642,16 @@
 		c.channel,
 		s.describe,
 		s.button,
-        f.compay
+		f.compay
 		FROM
 		orders o
 		LEFT JOIN channel c ON o.channel_id = c.id
-		LEFT JOIN USER u ON
+		LEFT JOIN USER u
+		ON
 		o.user_id = u.id
-		LEFT JOIN order_status s ON o.order_status = s.status
-        LEFT JOIN  flight_num f ON o.flight_num = f.flight_num
+		LEFT JOIN order_status s ON o.order_status =
+		s.status
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="id != null">
 			AND o.id=#{id,jdbcType=INTEGER}
@@ -664,14 +666,17 @@
 			AND f.compay = #{compay,jdbcType=VARCHAR}
 		</if>
 		<if test="phone != null and !phone.isEmpty() and phone != ''">
-			AND ( u.phone like '%${phone}%' or o.register_phone like '%${phone}%' or o.consignee_phone like '%${phone}%'  )
+			AND ( u.phone like '%${phone}%' or o.register_phone like
+			'%${phone}%' or o.consignee_phone like '%${phone}%' )
 		</if>
 		<if
 			test="registerName != null and !registerName.isEmpty() and registerName != ''">
 			AND o.register_name = #{registerName,jdbcType=VARCHAR}
 		</if>
-		<if test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
-			AND (  u.phone like '%${registerPhone}%' or o.register_phone like '%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
+		<if
+			test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
+			AND ( u.phone like '%${registerPhone}%' or o.register_phone like
+			'%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
 		</if>
 		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
 			AND o.flight_num = #{flightNum,jdbcType=VARCHAR}
@@ -744,6 +749,7 @@
 		LEFT JOIN USER u ON
 		o.user_id = u.id
 		LEFT JOIN order_status s ON o.order_status = s.status
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="id != null">
 			AND o.id=#{id,jdbcType=INTEGER}
@@ -755,44 +761,47 @@
 			AND u.name = #{name,jdbcType=VARCHAR}
 		</if>
 		<if test="phone != null and !phone.isEmpty() and phone != ''">
-			AND ( u.phone like '%${phone}%' or o.register_phone like '%${phone}%' or o.consignee_phone like '%${phone}%'  )
+			AND ( u.phone like '%${phone}%' or o.register_phone like
+			'%${phone}%' or o.consignee_phone like '%${phone}%' )
 		</if>
 		<if
 			test="registerName != null and !registerName.isEmpty() and registerName != ''">
 			AND o.register_name = #{registerName,jdbcType=VARCHAR}
 		</if>
-		<if test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
-			AND (  u.phone like '%${registerPhone}%' or o.register_phone like '%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
+		<if
+			test="registerPhone != null and !registerPhone.isEmpty() and registerPhone != ''">
+			AND ( u.phone like '%${registerPhone}%' or o.register_phone like
+			'%${registerPhone}%' or o.consignee_phone like '%${registerPhone}%' )
 		</if>
 		<if test="flightNum != null and !flightNum.isEmpty() and flightNum != ''">
 			AND o.flight_num like '%${flightNum}%'
 		</if>
 		<if test="area != null and !area.isEmpty() and area != ''">
-		<if test="area == '1'.toString()">
-			AND o.area is null
-		</if>
-		<if test="area != '1'.toString()">
-			AND o.area like '%${area}%'
-		</if>
+			<if test="area == '1'.toString()">
+				AND o.area is null
+			</if>
+			<if test="area != '1'.toString()">
+				AND o.area like '%${area}%'
+			</if>
 		</if>
 		<if test="channel != null and !channel.isEmpty() and channel != ''">
-		<if test="channel == '1'.toString()">
-			AND c.channel is null
-		</if>
-		<if test="channel != '1'.toString()">
-			AND c.channel like '%${channel}%'
-		</if>
+			<if test="channel == '1'.toString()">
+				AND c.channel is null
+			</if>
+			<if test="channel != '1'.toString()">
+				AND c.channel like '%${channel}%'
+			</if>
 		</if>
 		<if test="operator != null and !operator.isEmpty() and operator != ''">
 			AND o.operator = #{operator,jdbcType=VARCHAR}
 		</if>
 		<if test="payType != null and !payType.isEmpty() and payType != ''">
-		<if test="payType == '1'.toString()">
-			AND o.pay_type is null
-		</if>
-		<if test="payType != '1'.toString()">
-			AND o.pay_type like '%${payType}%'
-		</if>
+			<if test="payType == '1'.toString()">
+				AND o.pay_type is null
+			</if>
+			<if test="payType != '1'.toString()">
+				AND o.pay_type like '%${payType}%'
+			</if>
 		</if>
 		<if test="userId != null">
 			AND o.user_id = #{userId,jdbcType=INTEGER}
@@ -834,17 +843,28 @@
 				#{snss,jdbcType=INTEGER}
 			</foreach>
 		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
+		</if>
 		<if test="exp1 == 'YEAR'">
-			AND DATE_FORMAT(o.create_date, '%Y') = #{time,jdbcType=VARCHAR}
+			AND DATE_FORMAT(o.create_date, '%Y') =
+			#{time,jdbcType=VARCHAR}
 		</if>
 		<if test="exp1 == 'MON'">
-			AND DATE_FORMAT(o.create_date, '%Y%m') = #{time,jdbcType=VARCHAR}
+			AND DATE_FORMAT(o.create_date, '%Y%m') =
+			#{time,jdbcType=VARCHAR}
 		</if>
 		<if test="exp1 == 'WEEK'">
-			AND DATE_FORMAT(o.create_date, '%Y%u') = #{time,jdbcType=VARCHAR}
+			AND DATE_FORMAT(o.create_date, '%Y%u') =
+			#{time,jdbcType=VARCHAR}
 		</if>
 		<if test="exp1 == 'DAY'">
-			AND DATE_FORMAT(o.create_date, '%Y%m%d') = #{time,jdbcType=VARCHAR}
+			AND DATE_FORMAT(o.create_date, '%Y%m%d') =
+			#{time,jdbcType=VARCHAR}
 		</if>
 		ORDER BY
 		o.create_date desc
@@ -853,24 +873,32 @@
 	<select id="getOrderCountDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') time,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		WHERE 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time
@@ -878,24 +906,32 @@
 	<select id="getOrderCountWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') time,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		WHERE 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time
@@ -903,24 +939,32 @@
 	<select id="getOrderCountYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') time,
+		DATE_FORMAT(o.create_date, '%Y') time,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		WHERE 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time
@@ -928,24 +972,32 @@
 	<select id="getOrderCountMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') time,
+		DATE_FORMAT(o.create_date, '%Y%m') time,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		WHERE 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time
@@ -953,26 +1005,34 @@
 	<select id="getOrderStaffDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') time,
-		operator name,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
+		o.operator name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -981,26 +1041,34 @@
 	<select id="getOrderStaffWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') time,
-		operator name,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
+		o.operator name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1009,26 +1077,34 @@
 	<select id="getOrderStaffMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') time,
-		operator name,
+		DATE_FORMAT(o.create_date, '%Y%m') time,
+		o.operator name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1037,25 +1113,34 @@
 	<select id="getOrderStaffYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') time,
-		operator name,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y') time,
+		o.operator name,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1064,26 +1149,34 @@
 	<select id="getOrderPayTypeDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') time,
-		pay_type name,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
+		o.pay_type name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1092,26 +1185,34 @@
 	<select id="getOrderPayTypeWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') time,
-		pay_type name,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
+		o.pay_type name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1120,26 +1221,34 @@
 	<select id="getOrderPayTypeMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') time,
-		pay_type name,
+		DATE_FORMAT(o.create_date, '%Y%m') time,
+		o.pay_type name,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1148,25 +1257,34 @@
 	<select id="getOrderPayTypeYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') time,
-		pay_type name,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y') time,
+		o.pay_type name,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1175,25 +1293,33 @@
 	<select id="getOrderFlightYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') time,
-		left(flight_num, 2) name,
+		DATE_FORMAT(o.create_date, '%Y') time,
+		left(o.flight_num, 2) name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1202,25 +1328,33 @@
 	<select id="getOrderFlightMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') time,
-		left(flight_num, 2) name,
+		DATE_FORMAT(o.create_date, '%Y%m') time,
+		left(o.flight_num, 2) name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1229,25 +1363,33 @@
 	<select id="getOrderFlightWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') time,
-		left(flight_num, 2) name,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
+		left(o.flight_num, 2) name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1256,26 +1398,34 @@
 	<select id="getOrderFlightDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') time,
-		left(flight_num, 2)
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
+		left(o.flight_num, 2)
 		name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1285,26 +1435,34 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area name,
-		DATE_FORMAT(create_date, '%Y%m%d') time,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1314,26 +1472,34 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area name,
-		DATE_FORMAT(create_date, '%Y%u') time,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1343,26 +1509,34 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area name,
-		DATE_FORMAT(create_date, '%Y%m') time,
+		DATE_FORMAT(o.create_date, '%Y%m') time,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1372,26 +1546,34 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		area name,
-		DATE_FORMAT(create_date, '%Y') time,
+		DATE_FORMAT(o.create_date, '%Y') time,
 		count(*)
 		count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where
 		1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1401,26 +1583,35 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%m%d') time,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders ors
+		orders o
 		LEFT JOIN
-		channel ch ON ors.channel_id = ch.id
+		channel ch ON
+		o.channel_id = ch.id
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1430,26 +1621,36 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%u') time,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y%u') time,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders ors
+		orders o
 		LEFT JOIN
-		channel ch ON ors.channel_id = ch.id
+		channel ch ON
+		o.channel_id = ch.id
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1459,26 +1660,36 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y%m') time,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y%m') time,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders ors
+		orders o
 		LEFT JOIN
-		channel ch ON ors.channel_id = ch.id
+		channel ch ON
+		o.channel_id = ch.id
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1488,26 +1699,36 @@
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
 		ch.channel name,
-		DATE_FORMAT(create_date, '%Y') time,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y') time,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders ors
+		orders o
 		LEFT JOIN
-		channel ch ON ors.channel_id = ch.id
+		channel ch ON
+		o.channel_id = ch.id
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1516,25 +1737,34 @@
 	<select id="getOrderFlightNumYear" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y') time,
-		flight_num name,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y') time,
+		o.flight_num name,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1543,25 +1773,34 @@
 	<select id="getOrderFlightNumMon" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m') time,
-		flight_num name,
-		count(*) count,
-		sum(paid_fee) price
+		DATE_FORMAT(o.create_date, '%Y%m') time,
+		o.flight_num name,
+		count(*)
+		count,
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1570,25 +1809,33 @@
 	<select id="getOrderFlightNumWeek" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%u') time,
-		flight_num name,
+		DATE_FORMAT(o.create_date, '%Y%u') time,
+		o.flight_num name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,
@@ -1597,26 +1844,33 @@
 	<select id="getOrderFlightNumDay" resultMap="BaseCountMap"
 		parameterType="com.efrobot.robotstore.baseapi.manager.pojo.Order">
 		SELECT
-		DATE_FORMAT(create_date, '%Y%m%d') time,
-		flight_num
-		name,
+		DATE_FORMAT(o.create_date, '%Y%m%d') time,
+		o.flight_num name,
 		count(*) count,
-		sum(paid_fee) price
+		sum(o.paid_fee) price
 		FROM
-		orders
+		orders o
+		LEFT JOIN flight_num f ON o.flight_num = f.flight_num
 		where 1=1
 		<if test="createDateEnd != null and createDateEnd != ''">
 			  <![CDATA[
-             and create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
               ]]>
 		</if>
 		<if test="createDateStart != null and createDateStart != ''">
 			  <![CDATA[
-             and create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
             ]]>
 		</if>
 		<if test="orderStatus != null">
-			AND order_status = #{orderStatus,jdbcType=INTEGER}
+			AND o.order_status = #{orderStatus,jdbcType=INTEGER}
+		</if>
+		<if test="compayList != null">
+			and f.compay IN
+			<foreach collection="compayList" index="index" open="("
+				close=")" separator="," item="snss">
+				#{snss,jdbcType=VARCHAR}
+			</foreach>
 		</if>
 		GROUP BY
 		time,

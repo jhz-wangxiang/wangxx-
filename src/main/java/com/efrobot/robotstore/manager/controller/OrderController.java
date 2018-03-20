@@ -112,6 +112,14 @@ public class OrderController {
 	@RequestMapping(value = "/selectByOrder")
 	@ResponseBody
 	public JSONObject selectByOrder(Order record, Integer pageNumber, Integer pageSize) throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		record.setCompayList(Arrays.asList(compay.split(",")));
 		JSONObject jsonObject = new JSONObject();
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
@@ -719,6 +727,15 @@ public class OrderController {
 		if (null != record.getIds() && !"".equals(record.getIds())) {
 			record.setListStatus(Arrays.asList(record.getIds().split(",")));
 		}
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		record.setCompayList(Arrays.asList(compay.split(",")));
+		
 		rows = orderService.getOrderCount(record, pageNumber, pageSize);
 		result = obj.toJSONString(rows, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullStringAsEmpty);
@@ -731,6 +748,14 @@ public class OrderController {
 	@RequestMapping(value = "/getOrderExls")
 	@ResponseBody
 	public JSONObject getOrderExls(Order record, Integer pageNumber, Integer pageSize,HttpSession session) throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+		Session session2 = subject.getSession();
+		SysUser sysUser = (SysUser) session2.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		record.setCompayList(Arrays.asList(compay.split(",")));
 		JSONObject jsonObject = new JSONObject();
 		PageInfo<Order> rows = null;
 		JSONObject obj = new JSONObject();
@@ -757,7 +782,14 @@ public class OrderController {
 		OutputStream os = res.getOutputStream();
 		List<Order> list = null;
 		Order order = (Order) session.getAttribute("Order");
-		
+		Subject subject = SecurityUtils.getSubject();
+		Session session2 = subject.getSession();
+		SysUser sysUser = (SysUser) session2.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		order.setCompayList(Arrays.asList(compay.split(",")));
 		list = orderService.selectByParms(order);
 
 		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
@@ -782,10 +814,17 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "/exportCount")
 	public void exportCount(Order record, HttpServletResponse res, HttpSession session) throws Exception {
+		Subject subject = SecurityUtils.getSubject();
+		Session session2 = subject.getSession();
+		SysUser sysUser = (SysUser) session2.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		record.setCompayList(Arrays.asList(compay.split(",")));
 		OutputStream os = res.getOutputStream();
 		List<Count> list = null;
 		list = orderService.getOrderCountAll(record);
-		
 		String filename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()).toString();
 		res.setHeader("Content-disposition",
 				"attachment; filename=" + new String(filename.getBytes("GB2312"), "iso8859_1") + ".xlsx");
