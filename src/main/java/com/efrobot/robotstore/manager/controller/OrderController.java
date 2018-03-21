@@ -192,7 +192,6 @@ public class OrderController {
 		if (list.size() == 0) {
 			return CommonUtil.resultMsg("FAIL", "对不起，你航班的目的地还未开通此项服务。 ");
 		}
-
 		FlightNum flightNum = list.get(0);
 		// if (record.getNowTime().getTime() < flightNum.getEndTime().getTime()
 		// && record.getNowTime().getTime() >
@@ -219,6 +218,15 @@ public class OrderController {
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		if(!compay.contains(flightNum.getCompay())){
+			return CommonUtil.resultMsg("FAIL", "对不起，你没有此航站楼:"+flightNum.getCompay()+"的权限。");
+		}
+		
 		// 异常处理
 		record.setOrderStatus(2);// 支付变成2
 		record.setPayStatus("已支付");
@@ -330,6 +338,14 @@ public class OrderController {
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
+		String compay=sysUser.getButtonQx();
+		if(compay==null||"".equals(compay)){
+			compay="1";
+		}
+		if(!compay.contains(flightNum.getCompay())){
+			return CommonUtil.resultMsg("FAIL", "对不起，你没有此航站楼:"+flightNum.getCompay()+"的权限。");
+		}
+		
 		// 异常处理
 		record.setOrderStatus(2);// 支付变成2
 		record.setPayStatus("已支付");

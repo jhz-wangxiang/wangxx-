@@ -110,17 +110,17 @@ public class SysUserController {
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		SysUser sysUser = (SysUser) session.getAttribute(Const.SESSION_USER);
-		if (!passWordNew.equals(passWordNewAg)) {
-			return CommonUtil.resultMsg("FAIL", "新密码输入不一致");
-		}
-		passWordOld = md5.getMD5String(passWordOld);
+//		if (!passWordNew.equals(passWordNewAg)) {
+//			return CommonUtil.resultMsg("FAIL", "新密码输入不一致");
+//		}
+//		passWordOld = md5.getMD5String(passWordOld);
 		// 校验登陆用户名密码
 		if (null == sysUser.getId()) {
 			return CommonUtil.resultMsg("FAIL", "用户id不能为空");
 		}
-		if (!passWordOld.equals(sysUser.getPassword())) {
-			return CommonUtil.resultMsg("FAIL", "密码输入错误");
-		}
+//		if (!passWordOld.equals(sysUser.getPassword())) {
+//			return CommonUtil.resultMsg("FAIL", "密码输入错误");
+//		}
 		sysUser.setPassword(passWordNew);
 		int flag = sysUserService.updateByPrimaryKeySelective(sysUser);
 		if (flag <= 0) {
