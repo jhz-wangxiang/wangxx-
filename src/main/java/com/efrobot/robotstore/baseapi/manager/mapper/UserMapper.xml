@@ -180,11 +180,11 @@
 	<if test="id != null">
 		and us.id=#{id,jdbcType=INTEGER}
 	</if>
-	<if test="name != null and !name.isEmpty()">
+	<if test="phone != null and !phone.isEmpty()">
 		AND us.phone = #{phone,jdbcType=VARCHAR}
 	</if>
-	<if test="name != null and !name.isEmpty()">
-		AND us.name = #{name,jdbcType=VARCHAR}
+	<if test="nickname != null and !nickname.isEmpty()">
+		AND us.name = #{nickname,jdbcType=VARCHAR}
 	</if>
 	<if test="channelId != null">
 		AND us.channel_id = #{channelId,jdbcType=INTEGER}

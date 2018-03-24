@@ -22,9 +22,9 @@ function getskincookie(){
 function myselfinfo(){
     var html = [];
     html.push('<div class="pd-20 cl"><form class="layui-form" id="user_pwd">');
-//    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">原始密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordOld" lay-verify="required"></div></div>');
+    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">原始密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordOld" lay-verify="required"></div></div>');
     html.push('<div class="mb-10 cl"><h5 class="col-sm-3">输入新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordNew" lay-verify="required"></div></div>');
-//    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">确认新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordNewAg" lay-verify="required"></div></div>');
+    html.push('<div class="mb-10 cl"><h5 class="col-sm-3">确认新密码</h5><div class="col-sm-7"><input type="password" class="input-text" id="" name="passWordNewAg" lay-verify="required"></div></div>');
     html.push('<div class="mb-10 cl text-c"><button type="button" class="btn btn-primary radius" id="pwd_btn" lay-submit="" lay-filter="user_pwd">确认</button></form></div>');
     html.push('</div>');
     layui.use(['form','layer'],function(){

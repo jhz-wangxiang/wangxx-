@@ -316,12 +316,12 @@
 	var modifyPwd = function(id){
 		var html = [];
 		html.push('<div class="pd-20"><form class="layui-form" id="staff_pwd">');
-		html.push('<div class="layui-form-item"><label class="layui-form-label">原密码</label>');
-		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWord" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
+		//html.push('<div class="layui-form-item"><label class="layui-form-label">原密码</label>');
+		//html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWord" lay-verify="required" autocomplete="off" class="layui-input"></div></div>');
 		html.push('<div class="layui-form-item"><label class="layui-form-label">新密码</label>');
 		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWordNew" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
-		html.push('<div class="layui-form-item"><label class="layui-form-label">确认新密码</label>');
-		html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWordNewAg" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
+		//html.push('<div class="layui-form-item"><label class="layui-form-label">确认新密码</label>');
+		//html.push('<div class="layui-input-block"><input type="password" name="staff_pwd_passWordNewAg" autocomplete="off" lay-verify="required" class="layui-input"></div></div>');
 		html.push('<div class="layui-layer-btn layui-layer-btn-"><button class="btn btn-primary radius" lay-submit="" lay-filter="staff_pwd">确认</button></div>');
 		html.push('</form></div>');
 		layui.use(['form','layer'],function(){
