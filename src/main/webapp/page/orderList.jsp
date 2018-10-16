@@ -388,7 +388,7 @@
     	}
     	var h = [];
     	var ind = 1;
-		h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
+		h.push('<table class="table table-border table-bordered radius" style="width:1000px">');
 		h.push('<tbody class="text-c">');
 		h.push('<tr><td colspan="8">行李运输交接单</td></tr>');
 		h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td><td>时间：</td><td></td></tr>');
@@ -455,7 +455,7 @@
                                           layer.close(index);
                                           var h = [];
                                           var ind = 1;
-                                          h.push('<table class="table table-border table-bordered radius" style="width:700px;">');
+                                          h.push('<table class="table table-border table-bordered radius" style="width:1000px;">');
                                           h.push('<tbody class="text-c">');
                                           h.push('<tr><td colspan="6">送货表</td></tr>');
                                           h.push('<tr><td>填表人：</td><td colspan="2"></td><td>日期：</td><td colspan="2"></td></tr>');

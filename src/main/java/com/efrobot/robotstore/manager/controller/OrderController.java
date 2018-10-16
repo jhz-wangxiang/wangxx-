@@ -1139,10 +1139,10 @@ public class OrderController {
 				}
 				cell.setCellValue(address);
 				
-				cell = row.createCell(6);// 
+				cell = row.createCell(4);// 
 				cell.setCellValue(
 						order.getBaggageNo() == null ? "" : order.getBaggageNo());
-				cell = row.createCell(7);// 
+				cell = row.createCell(5);// 
 				cell.setCellValue(
 						order.getRemark() == null ? "" : order.getRemark());
 				

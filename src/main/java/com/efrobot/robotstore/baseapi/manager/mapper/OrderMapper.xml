@@ -710,6 +710,17 @@
              and o.now_time >= DATE_FORMAT(#{nowTimeStart}, '%Y/%m/%d')
             ]]>
 		</if>
+		
+		<if test="createDateEnd != null and createDateEnd != ''">
+			  <![CDATA[
+             and o.create_date <= DATE_FORMAT(#{createDateEnd}, '%Y/%m/%d %H:%i:%S')
+              ]]>
+		</if>
+		<if test="createDateStart != null and createDateStart != ''">
+			  <![CDATA[
+             and o.create_date >= DATE_FORMAT(#{createDateStart}, '%Y/%m/%d')
+            ]]>
+		</if>
 		<if test="list != null">
 			and o.id IN
 			<foreach collection="list" index="index" open="(" close=")"

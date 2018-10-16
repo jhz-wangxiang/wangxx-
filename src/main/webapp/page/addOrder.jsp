@@ -263,7 +263,7 @@
         	$("#adres").hide();
             return false;
         }
-        var tel = /^[1][3,4,5,7,8][0-9]{9}$/;
+        var tel = /^[1][1,2,3,4,5,6,7,8,9,0][0-9]{9}$/;
         if(!tel.test($(thisobj).val())){
             layer.alert('电话号码格式不正确',{
                 title: '提示信息'
